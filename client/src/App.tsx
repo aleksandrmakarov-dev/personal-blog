@@ -1,7 +1,10 @@
-import "./App.css";
+import QueryProvider from "./providers/QueryProvider";
+import { Router } from "./providers/RouterProvider";
 
-function App() {
-  return <div>Hello!</div>;
+export default function App() {
+  return (
+    <QueryProvider>
+      <Router />
+    </QueryProvider>
+  );
 }
-
-export default App;
