@@ -4,7 +4,7 @@ export const Routing = {
   signUp: "/sign-up",
   posts: {
     index: "/posts",
-    details: (id: string) => `/posts/${id}`,
+    details: (slug: string) => `/posts/${slug}`,
     edit: (id: string) => `/posts/${id}/edit`,
   },
   aboutMe: "/about-me",

@@ -19,12 +19,12 @@ const NavLinks = [
 
 export default function Navbar() {
   return (
-    <nav className="border-b border-gray-200">
+    <nav className="border-b border-gray-200 bg-white">
       <div className="mx-auto max-w-screen-2xl">
-        <div className="py-2.5 px-10">
+        <div className="py-3 px-10">
           <div className="flex items-center justify-between">
             <div>
-              <a href="/" className="flex gap-2 items-center text-blue-600">
+              <a href="/" className="flex gap-2 items-center text-primary-600">
                 <ComputerTwoToneIcon />
                 <h1 className="font-bold">Code Journeys</h1>
               </a>
@@ -35,9 +35,9 @@ export default function Navbar() {
                   <li key={link}>
                     <NavLink
                       className={({ isActive, isPending }) =>
-                        cn("text-gray-800 hover:underline", {
-                          "text-blue-600 underline": isActive,
-                          "text-gray-600": isPending,
+                        cn("text-foreground-primary hover:underline", {
+                          "text-primary-600 underline": isActive,
+                          "text-foreground-secondary": isPending,
                         })
                       }
                       to={link}

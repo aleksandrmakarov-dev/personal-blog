@@ -1,4 +1,6 @@
 export interface PostCardDTO {
+  id: string;
+  slug: string;
   title: string;
   description: string;
   image?: string;
@@ -6,6 +8,11 @@ export interface PostCardDTO {
   updated?: Date;
   likes: number;
   user: { name: string };
-  tags: { name: string }[];
+  tags: TagDTO[];
   comments: number;
+}
+
+export interface TagDTO {
+  id: string;
+  name: string;
 }

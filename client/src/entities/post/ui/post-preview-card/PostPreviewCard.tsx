@@ -1,5 +1,8 @@
 import { Link } from "react-router-dom";
-import { PostCardDTO, formatDate } from "../../../../shared/lib";
+import { PostCardDTO, Routing, formatDate } from "../../../../shared/lib";
+import { Avatar, Chip, IconButton } from "@mui/material";
+import FavoriteBorderRoundedIcon from "@mui/icons-material/FavoriteBorderRounded";
+import PanoramaIcon from "@mui/icons-material/Panorama";
 
 interface PostPreviewCardProps {
   post: PostCardDTO;
@@ -10,40 +13,86 @@ export function PostPreviewCard({ post }: PostPreviewCardProps) {
     title,
     image,
     user,
-    comments,
     created,
     description,
     likes,
     updated,
     tags,
+    slug,
   } = post;
   return (
-    <article className="max-w-2xl border-b border-gray-200">
-      <div className="py-5">
+    <article className="border-b border-gray-200">
+      <div className="py-5 ">
         <div className="flex">
-          <div className="w-24 h-24 rounded-md overflow-clip mr-6">
+          <div className="w-24 h-24 rounded-md overflow-clip mr-6 shrink-0">
             {image ? (
               <img
                 className="object-cover object-center w-full h-full"
                 src={image}
               />
             ) : (
-              <div className="w-full h-full bg-blue-100 flex items-center justify-center">
-                <span className="text-blue-400 font-semibold">Image</span>
+              <div className="w-full h-full bg-primary-100 flex items-center justify-center">
+                <PanoramaIcon
+                  className="text-primary-400"
+                  sx={{ fontSize: 40 }}
+                />
               </div>
             )}
           </div>
-          <div>
-            <p className="text-xs uppercase text-gray-600 mb-1">
-              — <span>{formatDate(created)}</span>{" "}
-              {updated && <span>(upd. {formatDate(updated)})</span>}
-            </p>
+          <div className="w-full">
+            <div className="flex gap-2 items-center">
+              <div className="flex items-center">
+                <Avatar
+                  className="mr-2"
+                  alt={user.name}
+                  sx={{ width: 20, height: 20 }}
+                />
+                <Link
+                  className="text-sm font-semibold text-foreground-secondary hover:text-foreground-primary"
+                  to="/"
+                >
+                  {user.name}
+                </Link>
+              </div>
+              <span className="text-foreground-secondary">•</span>
+              <p className="text-xs uppercase text-foreground-secondary">
+                <span>{formatDate(created)}</span>{" "}
+                {updated && <span>(Edit {formatDate(updated)})</span>}
+              </p>
+            </div>
             <h3 className="text-lg font-semibold mb-1">
-              <Link className="hover:underline hover:text-blue-600" to="/">
+              <Link
+                className="hover:underline text-foreground-primary hover:text-primary-600"
+                to={Routing.posts.details(slug)}
+              >
                 {title}
               </Link>
             </h3>
-            <p className="text-sm">{description}</p>
+            <p className="text-sm mb-2 text-foreground-primary">
+              {description}
+            </p>
+            <div className="flex items-center gap-1">
+              <div className="flex gap-1 w-full">
+                {tags.map((tag) => (
+                  <Chip
+                    sx={{ fontSize: "0.875rem" }}
+                    key={tag.id}
+                    label={tag.name}
+                    variant="filled"
+                    size="small"
+                    color="default"
+                  />
+                ))}
+              </div>
+              <div className="flex items-center gap-1">
+                <IconButton size="small" color="primary">
+                  <FavoriteBorderRoundedIcon sx={{ fontSize: 20 }} />
+                </IconButton>
+                <p className="text-sm font-semibold text-foreground-secondary">
+                  {likes}
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>

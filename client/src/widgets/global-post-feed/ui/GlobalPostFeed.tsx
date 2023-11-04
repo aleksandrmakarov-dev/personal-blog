@@ -8,7 +8,7 @@ export function GlobalPostFeed() {
       isError={false}
       isSuccess={true}
       posts={mockPosts}
-      renderPost={(post) => <PostPreviewCard post={post} />}
+      renderPost={(post) => <PostPreviewCard key={post.id} post={post} />}
     />
   );
 }
