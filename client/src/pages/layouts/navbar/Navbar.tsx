@@ -1,7 +1,7 @@
 import ComputerTwoToneIcon from "@mui/icons-material/ComputerTwoTone";
 import { NavLink } from "react-router-dom";
 import { Routing, cn } from "../../../shared/lib";
-import DrawIcon from "@mui/icons-material/Draw";
+import EditNoteIcon from "@mui/icons-material/EditNote";
 import { UserProfileMenu } from "../../../widgets/user-profile-menu/ui/UserProfileMenu";
 
 type NavLinkType = {
@@ -28,6 +28,14 @@ const NavLinks: NavLinkType[] = [
 export default function Navbar() {
   const isAuth = true;
 
+  const navLinkStyling = ({ isActive, isPending }: any) =>
+    cn("flex items-center gap-1", {
+      "text-primary-600 underline": isActive,
+      "text-foreground-secondary": isPending,
+      "text-foreground-secondary hover:text-foreground-primary hover:underline":
+        !isActive && !isPending,
+    });
+
   return (
     <nav className="border-b border-gray-200 bg-white">
       <div className="mx-auto max-w-screen-2xl">
@@ -42,35 +50,15 @@ export default function Navbar() {
             <div className="flex items-center gap-x-14">
               <div className="flex gap-x-5">
                 {NavLinks.map(({ name, route }) => (
-                  <NavLink
-                    key={route}
-                    className={({ isActive, isPending }) =>
-                      cn("text-foreground-primary hover:underline", {
-                        "text-primary-600 underline": isActive,
-                        "text-foreground-secondary": isPending,
-                      })
-                    }
-                    to={route}
-                  >
+                  <NavLink key={route} className={navLinkStyling} to={route}>
                     {name}
                   </NavLink>
                 ))}
               </div>
               {isAuth && (
                 <div className="flex gap-x-5">
-                  <NavLink
-                    className={({ isActive, isPending }) =>
-                      cn(
-                        "text-foreground-secondary hover:text-foreground-primary hover:underline flex items-center gap-2",
-                        {
-                          "text-primary-600 underline": isActive,
-                          "text-foreground-secondary": isPending,
-                        }
-                      )
-                    }
-                    to="/posts/new"
-                  >
-                    <DrawIcon fontSize="medium" /> <span>Write</span>
+                  <NavLink className={navLinkStyling} to="/posts/new">
+                    <EditNoteIcon fontSize="medium" /> <span>Write</span>
                   </NavLink>
                   <UserProfileMenu />
                 </div>

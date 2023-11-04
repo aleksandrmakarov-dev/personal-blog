@@ -1,5 +1,6 @@
 import { PostCardDTO } from ".";
 import { Profile } from "../../entities/profile";
+import { PostDTO } from "./types";
 
 export const mockPosts: PostCardDTO[] = [
   {
@@ -203,4 +204,26 @@ export const mockProfile: Profile = {
   name: "Alice Smith",
   email: "alice.smith@example.com",
   bio: "I'm a software engineer and aspiring blogger. I love coding and writing about programming.",
+};
+
+export const mockPost: PostDTO = {
+  id: "1a2b3c4d",
+  slug: "sample-article",
+  title: "The Impact of Renewable Energy on Climate Change",
+  description:
+    "Explore the role of renewable energy sources in combating climate change and reducing carbon emissions.",
+  body: "Renewable energy sources, such as solar, wind, and hydropower, have gained significant attention and adoption in recent years. These sustainable sources of energy offer a promising solution to combat climate change by reducing carbon emissions and decreasing our dependence on fossil fuels.\n\n**Solar Power**\n\nSolar power harnesses the energy of the sun to generate electricity. It involves the use of photovoltaic cells to convert sunlight into electrical energy. Solar panels are commonly installed on rooftops and in solar farms to capture the sun's energy.\n\n*Wind Power*\n\nWind turbines capture the power of the wind and convert it into electricity. This renewable energy source is clean and abundant, making it a key contributor to reducing greenhouse gas emissions.\n\n***Hydropower***\n\nHydropower, also known as hydroelectric power, utilizes the force of flowing water to generate clean energy. It often involves the construction of dams and reservoirs to control water flow and maximize energy production.\n\nThe transition to renewable energy is not only environmentally friendly but also economically viable, as it creates jobs and reduces our reliance on finite fossil fuel resources.\n\n*Benefits of Renewable Energy*\n\n- Reduced greenhouse gas emissions.\n- Lower energy costs in the long run.\n- Job creation in the green energy sector.\n- Energy independence for countries.\n\n*Challenges and Future Prospects*\n\n1. Intermittency of renewable sources.\n2. Energy storage solutions.\n3. Policy and infrastructure development.\n\nGovernments and organizations worldwide are investing in renewable energy projects, setting ambitious goals for a greener future. It is clear that renewable energy plays a vital role in the fight against climate change, with the potential to transform our energy landscape and mitigate the environmental challenges we face today.",
+  image: "https://example.com/sample-image.jpg",
+  created: new Date("2023-11-04T12:00:00Z"),
+  updated: new Date("2023-11-04T14:30:00Z"),
+  likes: 87,
+  user: {
+    name: "John Doe",
+  },
+  tags: [
+    { id: "1", name: "Renewable Energy" },
+    { id: "2", name: "Climate Change" },
+    { id: "3", name: "Sustainability" },
+  ],
+  comments: 42,
 };

@@ -1,8 +1,9 @@
-export interface PostCardDTO {
+export interface PostDTO {
   id: string;
   slug: string;
   title: string;
   description: string;
+  body: string;
   image?: string;
   created: Date;
   updated?: Date;
@@ -11,6 +12,8 @@ export interface PostCardDTO {
   tags: TagDTO[];
   comments: number;
 }
+
+export interface PostCardDTO extends Omit<PostDTO, "body"> {}
 
 export interface TagDTO {
   id: string;
