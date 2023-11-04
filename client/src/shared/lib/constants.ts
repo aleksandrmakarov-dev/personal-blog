@@ -1,4 +1,5 @@
 import { PostCardDTO } from ".";
+import { Profile } from "../../entities/profile";
 
 export const mockPosts: PostCardDTO[] = [
   {
@@ -12,7 +13,7 @@ export const mockPosts: PostCardDTO[] = [
     updated: new Date(2023, 9, 3, 15, 30, 0),
     likes: 42,
     user: {
-      name: "alice",
+      name: "Alice Smith",
     },
     tags: [
       { id: "1", name: "programming" },
@@ -30,7 +31,7 @@ export const mockPosts: PostCardDTO[] = [
     updated: new Date(2023, 8, 18, 14, 45, 0),
     likes: 30,
     user: {
-      name: "bob",
+      name: "Bob Johnson",
     },
     tags: [
       { id: "3", name: "web development" },
@@ -48,7 +49,7 @@ export const mockPosts: PostCardDTO[] = [
     updated: new Date(2023, 7, 25, 16, 10, 0),
     likes: 55,
     user: {
-      name: "charlie",
+      name: "Charlie Brown",
     },
     tags: [
       { id: "5", name: "machine learning" },
@@ -66,7 +67,7 @@ export const mockPosts: PostCardDTO[] = [
     updated: new Date(2023, 6, 9, 10, 20, 0),
     likes: 63,
     user: {
-      name: "david",
+      name: "David Miller",
     },
     tags: [
       { id: "7", name: "cooking" },
@@ -84,7 +85,7 @@ export const mockPosts: PostCardDTO[] = [
     updated: new Date(2023, 5, 15, 12, 30, 0),
     likes: 48,
     user: {
-      name: "eve",
+      name: "Eve Jackson",
     },
     tags: [
       { id: "9", name: "travel" },
@@ -102,7 +103,7 @@ export const mockPosts: PostCardDTO[] = [
     updated: new Date(2023, 5, 30, 17, 0, 0),
     likes: 72,
     user: {
-      name: "frank",
+      name: "Frank Clar",
     },
     tags: [
       { id: "11", name: "photography" },
@@ -120,7 +121,7 @@ export const mockPosts: PostCardDTO[] = [
     updated: new Date(2023, 4, 12, 14, 15, 0),
     likes: 37,
     user: {
-      name: "grace",
+      name: "Grace Lee",
     },
     tags: [
       { id: "13", name: "hiking" },
@@ -138,7 +139,7 @@ export const mockPosts: PostCardDTO[] = [
     updated: new Date(2023, 3, 20, 10, 40, 0),
     likes: 50,
     user: {
-      name: "henry",
+      name: "Henry Ford",
     },
     tags: [
       { id: "15", name: "gaming" },
@@ -157,7 +158,7 @@ export const mockPosts: PostCardDTO[] = [
     updated: new Date(2023, 3, 2, 16, 50, 0),
     likes: 44,
     user: {
-      name: "ivy",
+      name: "Ive Fisher",
     },
     tags: [
       { id: "17", name: "art" },
@@ -175,7 +176,7 @@ export const mockPosts: PostCardDTO[] = [
     updated: new Date(2023, 0, 13, 13, 20, 0),
     likes: 60,
     user: {
-      name: "jack",
+      name: "Jack Black",
     },
     tags: [
       { id: "19", name: "technology" },
@@ -196,3 +197,10 @@ export const mockTags = [
   { id: "tag9", name: "Music" },
   { id: "tag10", name: "Sports" },
 ];
+
+export const mockProfile: Profile = {
+  image: "https://i.pravatar.cc/300",
+  name: "Alice Smith",
+  email: "alice.smith@example.com",
+  bio: "I'm a software engineer and aspiring blogger. I love coding and writing about programming.",
+};

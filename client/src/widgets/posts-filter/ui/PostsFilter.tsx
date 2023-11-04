@@ -1,6 +1,6 @@
 import { Button, Input, InputLabel, Select, TextField } from "@mui/material";
 
-export function PostFilter() {
+export function PostsFilter() {
   return (
     <div>
       <h5 className="mb-2 font-semibold">Filter</h5>

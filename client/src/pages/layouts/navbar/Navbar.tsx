@@ -1,27 +1,37 @@
 import ComputerTwoToneIcon from "@mui/icons-material/ComputerTwoTone";
 import { NavLink } from "react-router-dom";
 import { Routing, cn } from "../../../shared/lib";
+import DrawIcon from "@mui/icons-material/Draw";
+import { UserProfileMenu } from "../../../widgets/user-profile-menu/ui/UserProfileMenu";
 
-const NavLinks = [
+type NavLinkType = {
+  name: string;
+  route: string;
+  icon?: React.ReactNode;
+};
+
+const NavLinks: NavLinkType[] = [
   {
     name: "Home",
-    link: Routing.root,
+    route: Routing.root,
   },
   {
     name: "Posts",
-    link: Routing.posts.index,
+    route: Routing.posts.index,
   },
   {
     name: "About Me",
-    link: Routing.aboutMe,
+    route: Routing.aboutMe,
   },
 ];
 
 export default function Navbar() {
+  const isAuth = true;
+
   return (
     <nav className="border-b border-gray-200 bg-white">
       <div className="mx-auto max-w-screen-2xl">
-        <div className="py-3 px-10">
+        <div className="py-2 px-10">
           <div className="flex items-center justify-between">
             <div>
               <a href="/" className="flex gap-2 items-center text-primary-600">
@@ -29,24 +39,42 @@ export default function Navbar() {
                 <h1 className="font-bold">Code Journeys</h1>
               </a>
             </div>
-            <div>
-              <ul className="flex gap-5">
-                {NavLinks.map(({ name, link }) => (
-                  <li key={link}>
-                    <NavLink
-                      className={({ isActive, isPending }) =>
-                        cn("text-foreground-primary hover:underline", {
+            <div className="flex items-center gap-x-14">
+              <div className="flex gap-x-5">
+                {NavLinks.map(({ name, route }) => (
+                  <NavLink
+                    key={route}
+                    className={({ isActive, isPending }) =>
+                      cn("text-foreground-primary hover:underline", {
+                        "text-primary-600 underline": isActive,
+                        "text-foreground-secondary": isPending,
+                      })
+                    }
+                    to={route}
+                  >
+                    {name}
+                  </NavLink>
+                ))}
+              </div>
+              {isAuth && (
+                <div className="flex gap-x-5">
+                  <NavLink
+                    className={({ isActive, isPending }) =>
+                      cn(
+                        "text-foreground-secondary hover:text-foreground-primary hover:underline flex items-center gap-2",
+                        {
                           "text-primary-600 underline": isActive,
                           "text-foreground-secondary": isPending,
-                        })
-                      }
-                      to={link}
-                    >
-                      {name}
-                    </NavLink>
-                  </li>
-                ))}
-              </ul>
+                        }
+                      )
+                    }
+                    to="/posts/new"
+                  >
+                    <DrawIcon fontSize="medium" /> <span>Write</span>
+                  </NavLink>
+                  <UserProfileMenu />
+                </div>
+              )}
             </div>
           </div>
         </div>

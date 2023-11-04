@@ -1,7 +1,7 @@
 import { Divider, Tab, Tabs } from "@mui/material";
 import { GlobalPostFeed } from "../../widgets/global-post-feed";
 import { PopularTopics } from "../../widgets/popular-topics";
-import { PostFilter } from "../../widgets/post-filter";
+import { PostsFilter } from "../../widgets/posts-filter";
 import { useState } from "react";
 import PublicRoundedIcon from "@mui/icons-material/PublicRounded";
 import PersonRoundedIcon from "@mui/icons-material/PersonRounded";
@@ -38,7 +38,7 @@ export default function PostsPage() {
       <div className="border-l border-gray-200 px-5 flex flex-col gap-y-5 sticky top-3 left-0 h-screen">
         <PopularTopics />
         <Divider />
-        <PostFilter />
+        <PostsFilter />
       </div>
     </div>
   );

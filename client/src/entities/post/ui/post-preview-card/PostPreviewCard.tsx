@@ -3,6 +3,7 @@ import { PostCardDTO, Routing, formatDate } from "../../../../shared/lib";
 import { Avatar, Chip, IconButton } from "@mui/material";
 import FavoriteBorderRoundedIcon from "@mui/icons-material/FavoriteBorderRounded";
 import PanoramaIcon from "@mui/icons-material/Panorama";
+import { stringAvatar, stringToColor } from "../../../../shared/lib/utils";
 
 interface PostPreviewCardProps {
   post: PostCardDTO;
@@ -20,6 +21,9 @@ export function PostPreviewCard({ post }: PostPreviewCardProps) {
     tags,
     slug,
   } = post;
+  const initials = stringAvatar(user.name);
+  const color = stringToColor(user.name);
+
   return (
     <article className="border-b border-gray-200">
       <div className="py-5 ">
@@ -45,7 +49,8 @@ export function PostPreviewCard({ post }: PostPreviewCardProps) {
                 <Avatar
                   className="mr-2"
                   alt={user.name}
-                  sx={{ width: 20, height: 20 }}
+                  children={initials}
+                  sx={{ width: 24, height: 24, fontSize: 10, bgcolor: color }}
                 />
                 <Link
                   className="text-sm font-semibold text-foreground-secondary hover:text-foreground-primary"
