@@ -1,18 +1,17 @@
-import { Button, Input, InputLabel, Select, TextField } from "@mui/material";
+import { Button, InputLabel, Select, TextField } from "@mui/material";
+import FormField from "../../../shared/ui/form-field/FormField";
 
 export function PostsFilter() {
   return (
     <div>
       <h5 className="mb-2 font-semibold">Filter</h5>
       <form className="flex flex-col gap-3">
-        <div>
-          <InputLabel sx={{ fontSize: 14 }}>Search</InputLabel>
+        <FormField label="Search" labelFontSize={14}>
           <TextField size="small" fullWidth variant="standard" />
-        </div>
-        <div>
-          <InputLabel sx={{ fontSize: 14 }}>Order by</InputLabel>
+        </FormField>
+        <FormField label="Order by" labelFontSize={14}>
           <Select size="small" fullWidth variant="standard"></Select>
-        </div>
+        </FormField>
         <Button variant="contained" size="small" disableElevation fullWidth>
           Filter
         </Button>

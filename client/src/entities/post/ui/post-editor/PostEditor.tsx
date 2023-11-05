@@ -5,6 +5,7 @@ import { z } from "zod";
 import FormField from "../../../../shared/ui/form-field/FormField";
 import { mockTags } from "../../../../shared/lib/constants";
 import TagSelect from "../../../../shared/ui/tag-select/TagSelect";
+import MarkdownEditor from "../../../../shared/ui/markdown-editor/MarkdownEditor";
 
 interface PostEditorProps {
   post?: EditorPostSchemaType;
@@ -80,14 +81,7 @@ export function PostEditor(props: PostEditorProps) {
         name="body"
         render={({ field, fieldState: { error } }) => (
           <FormField label="Body" error={error}>
-            <TextField
-              size="small"
-              fullWidth
-              variant="standard"
-              {...field}
-              multiline
-              rows={25}
-            />
+            <MarkdownEditor {...field} rows={25} />
           </FormField>
         )}
       />
