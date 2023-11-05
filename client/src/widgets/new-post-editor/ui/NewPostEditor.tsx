@@ -4,7 +4,7 @@ import { mockPost } from "../../../shared/lib/constants";
 export function NewPostEditor() {
   return (
     <PostEditor
-      post={{ ...mockPost, tags: mockPost.tags.map((tag) => tag.name) }}
+      post={{ ...mockPost }}
       onSubmit={(values) => console.log(values)}
       isLoading={false}
       isError={false}

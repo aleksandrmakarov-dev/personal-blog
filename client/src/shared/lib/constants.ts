@@ -220,10 +220,6 @@ export const mockPost: PostDTO = {
   user: {
     name: "John Doe",
   },
-  tags: [
-    { id: "1", name: "Renewable Energy" },
-    { id: "2", name: "Climate Change" },
-    { id: "3", name: "Sustainability" },
-  ],
+  tags: [mockTags[0], mockTags[1], mockTags[2]],
   comments: 42,
 };

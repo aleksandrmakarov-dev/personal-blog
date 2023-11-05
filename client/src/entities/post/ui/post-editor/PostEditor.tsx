@@ -1,7 +1,10 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button, FormHelperText, InputLabel, TextField } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
+import FormField from "../../../../shared/ui/form-field/FormField";
+import { mockTags } from "../../../../shared/lib/constants";
+import TagSelect from "../../../../shared/ui/tag-select/TagSelect";
 
 interface PostEditorProps {
   post?: EditorPostSchemaType;
@@ -16,7 +19,14 @@ const editorPostSchema = z.object({
   description: z.string().min(1).max(150),
   body: z.string().min(1),
   image: z.string().url().optional(),
-  tags: z.array(z.string()).optional(),
+  tags: z
+    .array(
+      z.object({
+        id: z.string(),
+        name: z.string(),
+      })
+    )
+    .optional(),
 });
 
 type EditorPostSchemaType = z.infer<typeof editorPostSchema>;
@@ -44,21 +54,16 @@ export function PostEditor(props: PostEditorProps) {
         control={control}
         name="title"
         render={({ field, fieldState: { error } }) => (
-          <div>
-            <InputLabel>Title</InputLabel>
+          <FormField label="Title" error={error}>
             <TextField size="small" fullWidth variant="standard" {...field} />
-            <FormHelperText error={error !== undefined}>
-              {error?.message}
-            </FormHelperText>
-          </div>
+          </FormField>
         )}
       />
       <Controller
         control={control}
         name="description"
         render={({ field, fieldState: { error } }) => (
-          <div>
-            <InputLabel>Description</InputLabel>
+          <FormField label="Description" error={error}>
             <TextField
               size="small"
               fullWidth
@@ -67,18 +72,14 @@ export function PostEditor(props: PostEditorProps) {
               multiline
               rows={3}
             />
-            <FormHelperText error={error !== undefined}>
-              {error?.message}
-            </FormHelperText>
-          </div>
+          </FormField>
         )}
       />
       <Controller
         control={control}
         name="body"
         render={({ field, fieldState: { error } }) => (
-          <div>
-            <InputLabel>Body</InputLabel>
+          <FormField label="Body" error={error}>
             <TextField
               size="small"
               fullWidth
@@ -87,12 +88,23 @@ export function PostEditor(props: PostEditorProps) {
               multiline
               rows={25}
             />
-            <FormHelperText error={error !== undefined}>
-              {error?.message}
-            </FormHelperText>
-          </div>
+          </FormField>
         )}
       />
+      <Controller
+        control={control}
+        name="tags"
+        render={({ field: { ref, ...props }, fieldState: { error } }) => (
+          <FormField label="Tags" error={error}>
+            <TagSelect
+              options={mockTags}
+              isLoading={false}
+              limit={5}
+              {...props}
+            />
+          </FormField>
+        )}
+      ></Controller>
       <Button
         className="self-start"
         type="submit"
