@@ -1,6 +1,21 @@
-import { Tab, Tabs, TextField } from "@mui/material";
+import { Divider, Tab, Tabs, TextField } from "@mui/material";
 import React, { useState } from "react";
 import Markdown from "react-markdown";
+import {
+  A,
+  Blockquote,
+  Code,
+  H1,
+  H2,
+  H3,
+  H4,
+  H5,
+  H6,
+  Img,
+  Ol,
+  P,
+  Ul,
+} from "./components";
 
 interface MarkdownEditorProps {
   value: string;
@@ -22,10 +37,11 @@ const MarkdownEditor: React.ForwardRefRenderFunction<
 
   return (
     <>
-      <Tabs className="mb-3" value={index} onChange={(_, v) => setIndex(v)}>
+      <Tabs value={index} onChange={(_, v) => setIndex(v)}>
         <Tab value={0} label="Write" />
         <Tab value={1} label="Preview changes" />
       </Tabs>
+      <Divider />
       {index === 0 && (
         <TextField
           size="small"
@@ -39,7 +55,29 @@ const MarkdownEditor: React.ForwardRefRenderFunction<
         />
       )}
       {index === 1 && (
-        <Markdown className={"h-[575px] overflow-auto"}>{props.value}</Markdown>
+        <>
+          <Markdown
+            className={"h-[575px] overflow-auto"}
+            components={{
+              h1: H1,
+              h2: H2,
+              h3: H3,
+              h4: H4,
+              h5: H5,
+              h6: H6,
+              blockquote: Blockquote,
+              ul: Ul,
+              ol: Ol,
+              a: A,
+              code: Code,
+              img: Img,
+              p: P,
+            }}
+          >
+            {props.value}
+          </Markdown>
+          <Divider />
+        </>
       )}
     </>
   );
