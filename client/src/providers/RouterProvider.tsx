@@ -7,7 +7,6 @@ import {
 import { Suspense, lazy } from "react";
 import { Routing } from "../shared/lib";
 import { MainLayout, AuthLayout } from "../pages/layouts";
-import { LoginPage } from "../pages/login/LoginPage";
 
 const HomePage = lazy(() => import("../pages/home/HomePage"));
 const PostsPage = lazy(() => import("../pages/posts/PostsPage"));
@@ -16,6 +15,8 @@ const PostPage = lazy(() => import("../pages/post/PostPage"));
 const PostEditorPage = lazy(
   () => import("../pages/post-editor/PostEditorPage")
 );
+const SignInPage = lazy(() => import("../pages/auth/sign-in/SignInPage"));
+const SignUpPage = lazy(() => import("../pages/auth/sign-up/SignUpPage"));
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -29,11 +30,11 @@ const router = createBrowserRouter(
         </Route>
         <Route path={Routing.aboutMe} element={<AboutMePage />} />
       </Route>
-      <Route path={Routing.root} element={<AuthLayout/>}>
-        <Route path={Routing.auth.signIn} element={<LoginPage/>}/>
+      <Route path={Routing.root} element={<AuthLayout />}>
+        <Route path={Routing.auth.signIn} element={<SignInPage />} />
+        <Route path={Routing.auth.signUp} element={<SignUpPage />} />
       </Route>
     </>
-
   )
 );
 

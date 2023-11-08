@@ -1,6 +1,7 @@
 import { Settings, Logout } from "@mui/icons-material";
 import {
   Avatar,
+  Button,
   Divider,
   IconButton,
   ListItemIcon,
@@ -9,16 +10,18 @@ import {
   MenuItem,
 } from "@mui/material";
 import { useState } from "react";
-import { mockProfile } from "../../../shared/lib/constants";
 import { stringAvatar, stringToColor } from "../../../shared/lib/utils";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import { CurrentUser } from "../../../providers/AuthProvider";
+import { Routing } from "../../../shared/lib";
 
-export function UserProfileMenu() {
+interface UserProfileMenuProps {
+  currentUser?: CurrentUser;
+}
+
+export function UserProfileMenu(props: UserProfileMenuProps) {
+  const { currentUser } = props;
   const [anchorEl, setAnchorEl] = useState(null);
-
-  const { name, email, bio, image } = mockProfile;
-  const initials = stringAvatar(name);
-  const color = stringToColor(name);
 
   const open = Boolean(anchorEl);
   const handleClick = (event: any) => {
@@ -28,11 +31,31 @@ export function UserProfileMenu() {
     setAnchorEl(null);
   };
 
+  if (!currentUser) {
+    return (
+      <div className="flex gap-x-2">
+        <Button href={Routing.auth.signIn} size="small">
+          Sign In
+        </Button>
+        <Button
+          href={Routing.auth.signUp}
+          size="small"
+          variant="contained"
+          disableElevation
+        >
+          Sign Up
+        </Button>
+      </div>
+    );
+  }
+
+  const color = stringToColor(currentUser.name);
+
   return (
     <>
       <IconButton onClick={handleClick} size="small">
         <Avatar
-          children={initials}
+          children={stringAvatar(currentUser.name)}
           sx={{
             width: 32,
             height: 32,
@@ -82,7 +105,10 @@ export function UserProfileMenu() {
           <ListItemIcon>
             <AccountCircleIcon fontSize="small" />
           </ListItemIcon>
-          <ListItemText primary={name} secondary={email} />
+          <ListItemText
+            primary={currentUser.name}
+            secondary={currentUser.email}
+          />
         </MenuItem>
         <Divider />
         <MenuItem onClick={handleClose}>

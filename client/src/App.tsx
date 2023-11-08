@@ -3,6 +3,7 @@ import QueryProvider from "./providers/QueryProvider";
 import { Router } from "./providers/RouterProvider";
 
 export default function App() {
+  const { palette } = createTheme();
   const theme = createTheme({
     palette: {
       primary: {
@@ -18,6 +19,16 @@ export default function App() {
         "800": "#1e40af",
         "900": "#1e3a8a",
       },
+      github: palette.augmentColor({
+        color: {
+          main: "#333",
+        },
+      }),
+      google: palette.augmentColor({
+        color: {
+          main: "#6b7280",
+        },
+      }),
     },
   });
 

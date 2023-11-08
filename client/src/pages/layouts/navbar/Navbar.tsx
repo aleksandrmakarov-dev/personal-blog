@@ -3,6 +3,7 @@ import { NavLink } from "react-router-dom";
 import { Routing, cn } from "../../../shared/lib";
 import EditNoteIcon from "@mui/icons-material/EditNote";
 import { UserProfileMenu } from "../../../widgets/user-profile-menu/ui/UserProfileMenu";
+import { useAuth } from "../../../providers/AuthProvider";
 
 type NavLinkType = {
   name: string;
@@ -26,7 +27,8 @@ const NavLinks: NavLinkType[] = [
 ];
 
 export default function Navbar() {
-  const isAuth = true;
+  const { currentUser } = useAuth();
+  const isAuth = !!currentUser;
 
   const navLinkStyling = ({ isActive, isPending }: any) =>
     cn("flex items-center gap-1", {
@@ -55,14 +57,12 @@ export default function Navbar() {
                   </NavLink>
                 ))}
               </div>
-              {isAuth && (
-                <div className="flex gap-x-5">
-                  <NavLink className={navLinkStyling} to="/posts/new">
-                    <EditNoteIcon fontSize="medium" /> <span>Write</span>
-                  </NavLink>
-                  <UserProfileMenu />
-                </div>
-              )}
+              <div className="flex gap-x-5">
+                <NavLink className={navLinkStyling} to="/posts/new">
+                  <EditNoteIcon fontSize="medium" /> <span>Write</span>
+                </NavLink>
+                <UserProfileMenu />
+              </div>
             </div>
           </div>
         </div>

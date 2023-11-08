@@ -3,6 +3,7 @@ export const A = (props: any) => {
   return (
     <a
       className="text-primary-600 hover:text-primary-800 underline"
+      target="_blank"
       {...other}
     />
   );
