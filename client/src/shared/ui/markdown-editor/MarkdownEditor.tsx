@@ -1,7 +1,7 @@
-import { Divider, Tab, Tabs, TextField } from "@mui/material";
-import React, { useRef, useState } from "react";
-import MarkdownPreview from "./MarkdownPreview";
-import MarkdownEdit from "./MarkdownEdit";
+import { Tab, Tabs } from "@mui/material";
+import React, { useState } from "react";
+import MarkdownPreview from "./markdown-preview/MarkdownPreview";
+import MarkdownEdit from "./markdown-edit/MarkdownEdit";
 
 interface MarkdownEditorProps {
   value: string;
@@ -16,8 +16,8 @@ interface MarkdownEditorProps {
 const MarkdownEditor: React.ForwardRefRenderFunction<
   HTMLInputElement,
   MarkdownEditorProps
-> = (props, ref) => {
-  const { onChange, value, ...other } = props;
+> = (props) => {
+  const { onChange, value } = props;
   const [index, setIndex] = useState<number>(0);
 
   return (
