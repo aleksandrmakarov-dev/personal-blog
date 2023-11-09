@@ -22,7 +22,7 @@ interface UserProfileMenuProps {
 export function UserProfileMenu(props: UserProfileMenuProps) {
   const { currentUser } = props;
   const [anchorEl, setAnchorEl] = useState(null);
-  const {signOut} = useAuth();
+  const { signOut } = useAuth();
 
   const open = Boolean(anchorEl);
   const handleClick = (event: any) => {
@@ -35,12 +35,12 @@ export function UserProfileMenu(props: UserProfileMenuProps) {
   const onSignOutClick = () => {
     signOut();
     handleClose();
-  }
+  };
 
   if (!currentUser) {
     return (
       <div className="flex gap-x-2">
-        <Button href={Routing.auth.signIn} size="small">
+        <Button href={Routing.auth.signIn} size="small" variant="outlined">
           Sign In
         </Button>
         <Button
@@ -125,7 +125,7 @@ export function UserProfileMenu(props: UserProfileMenuProps) {
         </MenuItem>
         <MenuItem onClick={onSignOutClick}>
           <ListItemIcon>
-            <Logout fontSize="small"/>
+            <Logout fontSize="small" />
           </ListItemIcon>
           <ListItemText>Sign out</ListItemText>
         </MenuItem>

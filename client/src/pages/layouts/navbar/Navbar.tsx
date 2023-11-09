@@ -60,9 +60,11 @@ export default function Navbar() {
                 ))}
               </div>
               <div className="flex gap-x-3">
-                <NavLink className={navLinkStyling} to="/posts/new">
-                  <EditNoteIcon fontSize="medium" /> <span>Write</span>
-                </NavLink>
+                {isAuth && (
+                  <NavLink className={navLinkStyling} to="/posts/new">
+                    <EditNoteIcon fontSize="medium" /> <span>Write</span>
+                  </NavLink>
+                )}
                 <UserProfileMenu currentUser={currentUser} />
               </div>
             </div>

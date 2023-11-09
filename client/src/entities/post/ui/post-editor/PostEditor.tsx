@@ -5,7 +5,7 @@ import { z } from "zod";
 import FormField from "../../../../shared/ui/form-field/FormField";
 import { mockTags } from "../../../../shared/lib/constants";
 import TagSelect from "../../../../shared/ui/tag-select/TagSelect";
-import MarkdownEditor from "../../../../shared/ui/markdown-editor/MarkdownEditor";
+import MarkdownEditor from "../../../../shared/ui/markdown/markdown-editor/MarkdownEditor";
 
 interface PostEditorProps {
   post?: EditorPostSchemaType;

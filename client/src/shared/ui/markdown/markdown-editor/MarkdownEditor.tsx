@@ -1,7 +1,7 @@
 import { Tab, Tabs } from "@mui/material";
 import React, { useState } from "react";
-import MarkdownPreview from "./markdown-preview/MarkdownPreview";
-import MarkdownEdit from "./markdown-edit/MarkdownEdit";
+import MarkdownEdit from "../markdown-edit/MarkdownEdit";
+import MarkdownPreview from "../markdown-preview/MarkdownPreview";
 
 interface MarkdownEditorProps {
   value: string;

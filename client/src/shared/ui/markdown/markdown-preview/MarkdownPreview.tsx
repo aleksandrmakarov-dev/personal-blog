@@ -1,7 +1,23 @@
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { HTMLAttributes } from "react";
-import { A, Blockquote, Code, H1, H2, H3, H4, H5, H6, Img, Ol, P, Ul } from "../components";
+import {
+  A,
+  Blockquote,
+  Code,
+  H1,
+  H2,
+  H3,
+  H4,
+  H5,
+  H6,
+  Img,
+  Ol,
+  P,
+  Ul,
+} from "../components";
+import rehypeSlug from "rehype-slug";
+import rehypeAutolinkHeadings from "rehype-autolink-headings";
 
 interface MarkdownPreviewProps extends HTMLAttributes<HTMLDivElement> {
   value: string;
@@ -14,6 +30,7 @@ const MarkdownPreview: React.FC<MarkdownPreviewProps> = (props) => {
     <Markdown
       {...other}
       remarkPlugins={[remarkGfm]}
+      rehypePlugins={[rehypeSlug, rehypeAutolinkHeadings]}
       components={{
         h1: H1,
         h2: H2,
