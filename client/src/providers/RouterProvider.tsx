@@ -7,6 +7,8 @@ import {
 import { Suspense, lazy } from "react";
 import { Routing } from "../shared/lib";
 import { MainLayout, AuthLayout } from "../pages/layouts";
+import FullPageWrapper from "../shared/ui/fullpage-wrapper/FullPageWrapper";
+import { CircularProgress } from "@mui/material";
 
 const HomePage = lazy(() => import("../pages/home/HomePage"));
 const PostsPage = lazy(() => import("../pages/posts/PostsPage"));
@@ -40,7 +42,13 @@ const router = createBrowserRouter(
 
 export function Router() {
   return (
-    <Suspense fallback={<p>Loading...</p>}>
+    <Suspense fallback={
+      <FullPageWrapper>
+        <div className="flex flex-col items-center justify-center text-center">
+          <CircularProgress className="mb-2"/>
+          <p className="text-xl">Loading...</p>
+        </div>
+      </FullPageWrapper>}>
       <RouterProvider router={router} />
     </Suspense>
   );

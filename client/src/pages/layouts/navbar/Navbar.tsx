@@ -59,7 +59,7 @@ export default function Navbar() {
                   </NavLink>
                 ))}
               </div>
-              <div className="flex gap-x-5">
+              <div className="flex gap-x-3">
                 <NavLink className={navLinkStyling} to="/posts/new">
                   <EditNoteIcon fontSize="medium" /> <span>Write</span>
                 </NavLink>

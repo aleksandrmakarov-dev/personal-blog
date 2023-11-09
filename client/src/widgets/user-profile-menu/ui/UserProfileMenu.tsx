@@ -12,7 +12,7 @@ import {
 import { useState } from "react";
 import { stringAvatar, stringToColor } from "../../../shared/lib/utils";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import { CurrentUser } from "../../../providers/AuthProvider";
+import { CurrentUser, useAuth } from "../../../providers/AuthProvider";
 import { Routing } from "../../../shared/lib";
 
 interface UserProfileMenuProps {
@@ -22,6 +22,7 @@ interface UserProfileMenuProps {
 export function UserProfileMenu(props: UserProfileMenuProps) {
   const { currentUser } = props;
   const [anchorEl, setAnchorEl] = useState(null);
+  const {signOut} = useAuth();
 
   const open = Boolean(anchorEl);
   const handleClick = (event: any) => {
@@ -30,6 +31,11 @@ export function UserProfileMenu(props: UserProfileMenuProps) {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const onSignOutClick = () => {
+    signOut();
+    handleClose();
+  }
 
   if (!currentUser) {
     return (
@@ -117,11 +123,11 @@ export function UserProfileMenu(props: UserProfileMenuProps) {
           </ListItemIcon>
           <ListItemText>Settings</ListItemText>
         </MenuItem>
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={onSignOutClick}>
           <ListItemIcon>
-            <Logout fontSize="small" />
+            <Logout fontSize="small"/>
           </ListItemIcon>
-          <ListItemText>Logout</ListItemText>
+          <ListItemText>Sign out</ListItemText>
         </MenuItem>
       </Menu>
     </>
