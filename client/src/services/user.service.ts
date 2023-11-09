@@ -1,6 +1,9 @@
 import axios from "axios";
 import { User } from "../entities/user/api/userApi";
-import { SignInWithPasswordDto } from "../shared/api/Api";
+import {
+  SignInWithPasswordDto,
+  SignUpWithPasswordDto,
+} from "../shared/api/Api";
 import { sleep } from "../shared/lib/utils";
 
 const baseUrl = "/api/users";
@@ -28,6 +31,9 @@ const UserService = {
       name: "Aleksandr Makarov",
       id: "1",
     };
+  },
+  signUpWithPassword: async (params: SignUpWithPasswordDto): Promise<void> => {
+    await sleep(5000);
   },
 };
 

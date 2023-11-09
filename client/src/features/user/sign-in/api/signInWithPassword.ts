@@ -18,11 +18,11 @@ type UseSignInUserWithPasswordOptions = Omit<
   "mutationFn" | "mutationKey"
 >;
 
-export const UseSignInUserWithPassword = (
+export const useSignInUserWithPassword = (
   options?: UseSignInUserWithPasswordOptions
 ) => {
   return useMutation({
-    mutationKey: userKeys.mutation.login(),
+    mutationKey: userKeys.mutation.signIn(),
     mutationFn: async (values: SignInWithPasswordDto) => {
       return await UserService.signInWithPassword(values);
     },

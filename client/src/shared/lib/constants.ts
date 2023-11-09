@@ -14,6 +14,7 @@ export const mockPosts: PostCardDTO[] = [
     updated: new Date(2023, 9, 3, 15, 30, 0),
     likes: 42,
     user: {
+      id: "1",
       name: "Alice Smith",
     },
     tags: [
@@ -32,6 +33,7 @@ export const mockPosts: PostCardDTO[] = [
     updated: new Date(2023, 8, 18, 14, 45, 0),
     likes: 30,
     user: {
+      id: "2",
       name: "Bob Johnson",
     },
     tags: [
@@ -50,6 +52,7 @@ export const mockPosts: PostCardDTO[] = [
     updated: new Date(2023, 7, 25, 16, 10, 0),
     likes: 55,
     user: {
+      id: "3",
       name: "Charlie Brown",
     },
     tags: [
@@ -68,6 +71,7 @@ export const mockPosts: PostCardDTO[] = [
     updated: new Date(2023, 6, 9, 10, 20, 0),
     likes: 63,
     user: {
+      id: "4",
       name: "David Miller",
     },
     tags: [
@@ -86,6 +90,7 @@ export const mockPosts: PostCardDTO[] = [
     updated: new Date(2023, 5, 15, 12, 30, 0),
     likes: 48,
     user: {
+      id: "5",
       name: "Eve Jackson",
     },
     tags: [
@@ -104,6 +109,7 @@ export const mockPosts: PostCardDTO[] = [
     updated: new Date(2023, 5, 30, 17, 0, 0),
     likes: 72,
     user: {
+      id: "6",
       name: "Frank Clar",
     },
     tags: [
@@ -122,6 +128,7 @@ export const mockPosts: PostCardDTO[] = [
     updated: new Date(2023, 4, 12, 14, 15, 0),
     likes: 37,
     user: {
+      id: "7",
       name: "Grace Lee",
     },
     tags: [
@@ -140,6 +147,7 @@ export const mockPosts: PostCardDTO[] = [
     updated: new Date(2023, 3, 20, 10, 40, 0),
     likes: 50,
     user: {
+      id: "8",
       name: "Henry Ford",
     },
     tags: [
@@ -159,6 +167,7 @@ export const mockPosts: PostCardDTO[] = [
     updated: new Date(2023, 3, 2, 16, 50, 0),
     likes: 44,
     user: {
+      id: "9",
       name: "Ive Fisher",
     },
     tags: [
@@ -177,6 +186,7 @@ export const mockPosts: PostCardDTO[] = [
     updated: new Date(2023, 0, 13, 13, 20, 0),
     likes: 60,
     user: {
+      id: "10",
       name: "Jack Black",
     },
     tags: [
@@ -218,6 +228,7 @@ export const mockPost: PostDTO = {
   updated: new Date("2023-11-04T14:30:00Z"),
   likes: 87,
   user: {
+    id: "11",
     name: "John Doe",
   },
   tags: [mockTags[0], mockTags[1], mockTags[2]],

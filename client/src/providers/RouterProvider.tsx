@@ -19,18 +19,22 @@ const PostEditorPage = lazy(
 );
 const SignInPage = lazy(() => import("../pages/auth/sign-in/SignInPage"));
 const SignUpPage = lazy(() => import("../pages/auth/sign-up/SignUpPage"));
+const UserPage = lazy(() => import("../pages/user/UserPage"));
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
       <Route path={Routing.root} element={<MainLayout />}>
         <Route index element={<HomePage />} />
-        <Route path={Routing.posts.index}>
+        <Route path={Routing.posts.root}>
           <Route index element={<PostsPage />} />
           <Route path="new" element={<PostEditorPage />} />
           <Route path=":slug" element={<PostPage />} />
         </Route>
         <Route path={Routing.aboutMe} element={<AboutMePage />} />
+        <Route path={Routing.users.root}>
+          <Route path=":userId" element={<UserPage />} />
+        </Route>
       </Route>
       <Route path={Routing.root} element={<AuthLayout />}>
         <Route path={Routing.auth.signIn} element={<SignInPage />} />
@@ -42,13 +46,16 @@ const router = createBrowserRouter(
 
 export function Router() {
   return (
-    <Suspense fallback={
-      <FullPageWrapper>
-        <div className="flex flex-col items-center justify-center text-center">
-          <CircularProgress className="mb-2"/>
-          <p className="text-xl">Loading...</p>
-        </div>
-      </FullPageWrapper>}>
+    <Suspense
+      fallback={
+        <FullPageWrapper>
+          <div className="flex flex-col items-center justify-center text-center">
+            <CircularProgress className="mb-2" />
+            <p className="text-xl">Loading...</p>
+          </div>
+        </FullPageWrapper>
+      }
+    >
       <RouterProvider router={router} />
     </Suspense>
   );

@@ -7,3 +7,8 @@ export interface SignInWithPasswordDto {
   email: string;
   password: string;
 }
+
+export interface SignUpWithPasswordDto {
+  email: string;
+  password: string;
+}

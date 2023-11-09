@@ -1,7 +1,6 @@
-import { Button, Checkbox, FormControlLabel, Input } from "@mui/material";
 import { NavLink } from "react-router-dom";
 import { Routing } from "../../../shared/lib";
-import FormField from "../../../shared/ui/form-field/FormField";
+import { UserSignUpForm } from "../../../entities/user";
 
 export default function SignUpPage() {
   return (
@@ -9,32 +8,7 @@ export default function SignUpPage() {
       <h5 className="text-3xl font-semibold text-center mb-5 text-foreground-primary">
         Create your account
       </h5>
-      <FormField label="Email address">
-        <Input fullWidth size="small" type="email" />
-      </FormField>
-      <FormField label="Password">
-        <Input type="password" fullWidth size="small" />
-      </FormField>
-      <FormField label="Confirm password">
-        <Input type="password" fullWidth size="small" />
-      </FormField>
-      <FormControlLabel
-        control={<Checkbox />}
-        label={
-          <p>
-            I accept{" "}
-            <NavLink
-              className="text-primary-600 hover:underline hover:text-primary-800"
-              to={"/"}
-            >
-              Terms and Conditions
-            </NavLink>
-          </p>
-        }
-      />
-      <Button variant="contained" disableElevation>
-        Create account
-      </Button>
+      <UserSignUpForm />
       <p className="text-center text-foreground-primary">
         Already have an account?{" "}
         <NavLink

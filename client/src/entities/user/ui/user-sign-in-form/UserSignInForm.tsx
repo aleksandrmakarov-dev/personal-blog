@@ -5,7 +5,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { z } from "zod";
 import { Routing } from "../../../../shared/lib";
 import FormField from "../../../../shared/ui/form-field/FormField";
-import { UseSignInUserWithPassword } from "../../../../features/user";
+import { useSignInUserWithPassword } from "../../../../features/user";
 import { LoadingButton } from "@mui/lab";
 import { useAuth } from "../../../../providers/AuthProvider";
 
@@ -17,7 +17,7 @@ const formSchema = z.object({
 type FormType = z.infer<typeof formSchema>;
 
 export function UserSignInForm() {
-  const { mutateAsync, isPending } = UseSignInUserWithPassword();
+  const { mutateAsync, isPending } = useSignInUserWithPassword();
   const { signIn } = useAuth();
   const navigate = useNavigate();
 
@@ -44,6 +44,7 @@ export function UserSignInForm() {
       <Controller
         control={control}
         name="email"
+        disabled={isPending}
         render={({ field, fieldState: { error } }) => (
           <FormField label="Email address" error={error}>
             <Input {...field} fullWidth size="small" />
@@ -53,6 +54,7 @@ export function UserSignInForm() {
       <Controller
         control={control}
         name="password"
+        disabled={isPending}
         render={({ field, fieldState: { error } }) => (
           <FormField
             label="Password"

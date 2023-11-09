@@ -8,7 +8,7 @@ export interface PostDTO {
   created: Date;
   updated?: Date;
   likes: number;
-  user: { name: string };
+  user: { id: string; name: string };
   tags: TagDTO[];
   comments: number;
 }

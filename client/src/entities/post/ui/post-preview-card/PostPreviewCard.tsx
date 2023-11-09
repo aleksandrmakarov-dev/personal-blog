@@ -54,7 +54,7 @@ export function PostPreviewCard({ post }: PostPreviewCardProps) {
                 />
                 <Link
                   className="text-sm font-semibold text-foreground-secondary hover:text-foreground-primary"
-                  to="/"
+                  to={Routing.users.details(user.id)}
                 >
                   {user.name}
                 </Link>

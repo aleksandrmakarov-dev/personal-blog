@@ -16,8 +16,8 @@ export const userKeys = {
     currentUser: () => [...userKeys.user.root, "currentUser"],
   },
   mutation: {
-    login: () => [...userKeys.user.root, "login"],
-    logout: () => [...userKeys.user.root, "logout"],
+    signIn: () => [...userKeys.user.root, "sign-in"],
+    signUp: () => [...userKeys.user.root, "sign-up"],
     refresh: () => [...userKeys.user.root, "refresh"],
   },
 };
