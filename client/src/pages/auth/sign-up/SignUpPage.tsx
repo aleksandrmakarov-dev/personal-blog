@@ -1,11 +1,4 @@
-import { GitHub } from "@mui/icons-material";
-import {
-  Button,
-  Checkbox,
-  Divider,
-  FormControlLabel,
-  Input,
-} from "@mui/material";
+import { Button, Checkbox, FormControlLabel, Input } from "@mui/material";
 import { NavLink } from "react-router-dom";
 import { Routing } from "../../../shared/lib";
 import FormField from "../../../shared/ui/form-field/FormField";

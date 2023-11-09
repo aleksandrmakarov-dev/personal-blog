@@ -1,4 +1,4 @@
-import { Button, InputLabel, Select, TextField } from "@mui/material";
+import { Button, Select, TextField } from "@mui/material";
 import FormField from "../../../shared/ui/form-field/FormField";
 
 export function PostsFilter() {

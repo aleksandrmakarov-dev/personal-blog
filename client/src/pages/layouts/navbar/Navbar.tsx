@@ -30,6 +30,8 @@ export default function Navbar() {
   const { currentUser } = useAuth();
   const isAuth = !!currentUser;
 
+  console.log(currentUser);
+
   const navLinkStyling = ({ isActive, isPending }: any) =>
     cn("flex items-center gap-1", {
       "text-primary-600 underline": isActive,
@@ -61,7 +63,7 @@ export default function Navbar() {
                 <NavLink className={navLinkStyling} to="/posts/new">
                   <EditNoteIcon fontSize="medium" /> <span>Write</span>
                 </NavLink>
-                <UserProfileMenu />
+                <UserProfileMenu currentUser={currentUser} />
               </div>
             </div>
           </div>

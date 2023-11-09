@@ -9,11 +9,16 @@ export type CurrentUser = {
 
 export type AuthContextType = {
   currentUser?: CurrentUser;
-  signIn: (provider: string, data: any) => void;
+  isLoading: boolean;
+  isError?: string;
+  signIn: (user: CurrentUser) => void;
   signOut: () => void;
 };
 
 const defaultValue: AuthContextType = {
+  currentUser: undefined,
+  isLoading: false,
+  isError: undefined,
   signIn: () => {},
   signOut: () => {},
 };
@@ -31,13 +36,20 @@ export default function AuthProvider(props: PropsWithChildren<{}>) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isError, setIsError] = useState<string>();
 
-  const signIn = () => {};
+  const signIn = (user: CurrentUser) => {
+    setCurrentUser(user);
+  };
 
-  const signOut = () => {};
+  const signOut = () => {
+    setCurrentUser(undefined);
+  };
 
   return (
     <AuthContext.Provider
       value={{
+        currentUser: currentUser,
+        isLoading: isLoading,
+        isError: isError,
         signIn: signIn,
         signOut: signOut,
       }}

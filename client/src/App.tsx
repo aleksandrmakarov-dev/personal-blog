@@ -1,6 +1,7 @@
 import { ThemeProvider, createTheme } from "@mui/material";
 import QueryProvider from "./providers/QueryProvider";
 import { Router } from "./providers/RouterProvider";
+import AuthProvider from "./providers/AuthProvider";
 
 export default function App() {
   const { palette } = createTheme();
@@ -35,7 +36,9 @@ export default function App() {
   return (
     <ThemeProvider theme={theme}>
       <QueryProvider>
-        <Router />
+        <AuthProvider>
+          <Router />
+        </AuthProvider>
       </QueryProvider>
     </ThemeProvider>
   );
