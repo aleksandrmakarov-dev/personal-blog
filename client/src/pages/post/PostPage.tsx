@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import { mockPost } from "../../shared/lib/constants";
 import MarkdownPreview from "../../shared/ui/markdown/markdown-preview/MarkdownPreview";
 import { PostAuthor, PostImage } from "../../entities/post";
+import MarkdownToC from "../../shared/ui/markdown/markdown-toc/MarkdownToC";
 
 export default function PostPage() {
   const { slug } = useParams();
@@ -13,6 +14,7 @@ export default function PostPage() {
       <div className="grid grid-cols-[2fr_6fr] gap-x-5 items-start">
         <div className="sticky top-2 left-0">
           <h5>ToC</h5>
+          <MarkdownToC value={body}/>
         </div>
         <div>
           <h1 className="text-4xl font-bold text-foreground-primary my-8">{title}</h1>

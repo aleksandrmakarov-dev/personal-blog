@@ -24,7 +24,7 @@ export default function Footer(){
             <div className="flex items-center justify-between mx-auto max-w-screen-2xl">
                 <div className="flex items-center gap-3">
                     {socialMediaLinks.map(({icon,route})=>
-                        <NavLink className="text-foreground-secondary hover:text-foreground-primary" to={route}>
+                        <NavLink key={route} className="text-foreground-secondary hover:text-foreground-primary" to={route}>
                             {icon}
                         </NavLink>
                     )}

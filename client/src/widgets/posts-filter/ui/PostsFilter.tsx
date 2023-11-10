@@ -1,21 +1,21 @@
-import { Button, Select, TextField } from "@mui/material";
-import FormField from "../../../shared/ui/form-field/FormField";
+import { Button, MenuItem, Select, TextField } from "@mui/material";
 
 export function PostsFilter() {
   return (
-    <div>
-      <h5 className="mb-2 font-semibold">Filter</h5>
-      <form className="flex flex-col gap-3">
-        <FormField label="Search" labelFontSize={14}>
-          <TextField size="small" fullWidth variant="standard" />
-        </FormField>
-        <FormField label="Order by" labelFontSize={14}>
-          <Select size="small" fullWidth variant="standard"></Select>
-        </FormField>
-        <Button variant="contained" size="small" disableElevation fullWidth>
-          Filter
-        </Button>
-      </form>
-    </div>
+      <div className="my-3">
+        <form>
+          <div className="grid grid-cols-[7fr_3fr_auto] gap-5 items-center">
+            <TextField placeholder="Search" size="small" fullWidth variant="standard" />
+            <Select size="small" variant="standard" label="Order By">
+              <MenuItem value={10}>Ten</MenuItem>
+              <MenuItem value={20}>Twenty</MenuItem>
+              <MenuItem value={30}>Thirty</MenuItem>
+            </Select>
+            <Button variant="contained" size="small" disableElevation>
+              Filter
+            </Button>
+          </div>
+        </form>
+      </div>
   );
 }

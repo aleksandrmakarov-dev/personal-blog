@@ -1,13 +1,14 @@
 import { Divider, Tab, Tabs } from "@mui/material";
-import { GlobalPostFeed } from "../../widgets/global-post-feed";
 import { PopularTopics } from "../../widgets/popular-topics";
 import { PostsFilter } from "../../widgets/posts-filter";
-import { useState } from "react";
+import RouterPagination from "../../shared/ui/router-pagination/RouterPagination";
+import { GlobalPostFeed } from "../../widgets/global-post-feed";
 import PublicRoundedIcon from "@mui/icons-material/PublicRounded";
 import PersonRoundedIcon from "@mui/icons-material/PersonRounded";
-import RouterPagination from "../../shared/ui/router-pagination/RouterPagination";
+import { useState } from "react";
 
 export default function PostsPage() {
+
   const [tabIndex, setTabIndex] = useState<number>(0);
 
   const onTabIndexChange = (event: React.ChangeEvent<{}>, newValue: number) => {
@@ -16,7 +17,7 @@ export default function PostsPage() {
 
   return (
     <div className="grid grid-cols-[7fr_3fr] gap-x-14 items-start">
-      <div>
+      <div className="flex flex-col">
         <Tabs value={tabIndex} onChange={onTabIndexChange}>
           <Tab
             sx={{ minHeight: 48 }}
@@ -32,13 +33,13 @@ export default function PostsPage() {
           />
         </Tabs>
         <Divider />
-        <div className="mb-5  ">{tabIndex === 0 && <GlobalPostFeed />}</div>
+        <PostsFilter />
+        <GlobalPostFeed />
         <RouterPagination />
       </div>
       <div className="border-l border-gray-200 px-5 flex flex-col gap-y-5 sticky top-3 left-0 h-screen">
         <PopularTopics />
         <Divider />
-        <PostsFilter />
       </div>
     </div>
   );
