@@ -55,8 +55,6 @@ export function UserProfileMenu(props: UserProfileMenuProps) {
     );
   }
 
-  const color = stringToColor(currentUser.name);
-
   return (
     <>
       <IconButton onClick={handleClick} size="small">
@@ -66,7 +64,7 @@ export function UserProfileMenu(props: UserProfileMenuProps) {
             width: 32,
             height: 32,
             fontSize: 14,
-            bgcolor: color,
+            bgcolor: stringToColor(currentUser.name),
           }}
         />
       </IconButton>

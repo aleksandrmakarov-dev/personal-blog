@@ -30,8 +30,6 @@ export default function Navbar() {
   const { currentUser } = useAuth();
   const isAuth = !!currentUser;
 
-  console.log(currentUser);
-
   const navLinkStyling = ({ isActive, isPending }: any) =>
     cn("flex items-center gap-1", {
       "text-primary-600 underline": isActive,
@@ -43,7 +41,7 @@ export default function Navbar() {
   return (
     <nav className="border-b border-gray-200 bg-white">
       <div className="mx-auto max-w-screen-2xl">
-        <div className="py-2 px-10">
+        <div className="py-2.5 px-10">
           <div className="flex items-center justify-between">
             <div>
               <a href="/" className="flex gap-2 items-center text-primary-600">
