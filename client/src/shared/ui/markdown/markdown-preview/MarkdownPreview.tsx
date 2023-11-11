@@ -14,10 +14,14 @@ import {
   Img,
   Ol,
   P,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
   Ul,
 } from "../components";
 import rehypeSlug from "rehype-slug";
-import rehypeAutolinkHeadings from "rehype-autolink-headings";
 
 interface MarkdownPreviewProps extends HTMLAttributes<HTMLDivElement> {
   value: string;
@@ -29,8 +33,8 @@ const MarkdownPreview: React.FC<MarkdownPreviewProps> = (props) => {
   return (
     <Markdown
       {...other}
+      rehypePlugins={[rehypeSlug]}
       remarkPlugins={[remarkGfm]}
-      rehypePlugins={[rehypeSlug, rehypeAutolinkHeadings]}
       components={{
         h1: H1,
         h2: H2,
@@ -45,6 +49,12 @@ const MarkdownPreview: React.FC<MarkdownPreviewProps> = (props) => {
         code: Code,
         img: Img,
         p: P,
+        table: Table,
+        tbody: TableBody,
+        thead: TableHead,
+        tr: TableRow,
+        td: TableCell,
+        th: TableCell,
       }}
     >
       {value}

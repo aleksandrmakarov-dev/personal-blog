@@ -11,3 +11,4 @@ export { A } from "./A";
 export { Code } from "./Code";
 export { Img } from "./Img";
 export { P } from "./P";
+export { Table, TableHead, TableBody, TableRow, TableCell } from "./Table";

@@ -8,7 +8,6 @@ import PersonRoundedIcon from "@mui/icons-material/PersonRounded";
 import { useState } from "react";
 
 export default function PostsPage() {
-
   const [tabIndex, setTabIndex] = useState<number>(0);
 
   const onTabIndexChange = (event: React.ChangeEvent<{}>, newValue: number) => {
@@ -35,7 +34,7 @@ export default function PostsPage() {
         <Divider />
         <PostsFilter />
         <GlobalPostFeed />
-        <RouterPagination />
+        <RouterPagination className="mt-2.5" count={10} baseUrl={"/posts"} />
       </div>
       <div className="border-l border-gray-200 px-5 flex flex-col gap-y-5 sticky top-3 left-0 h-screen">
         <PopularTopics />
