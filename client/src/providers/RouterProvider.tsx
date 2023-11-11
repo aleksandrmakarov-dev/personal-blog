@@ -51,7 +51,8 @@ export function Router() {
         <FullPageWrapper>
           <div className="flex flex-col items-center justify-center text-center">
             <CircularProgress className="mb-2" />
-            <p className="text-xl">Loading...</p>
+            <p className="text-lg font-semibold">Please wait for a while</p>
+            <p>Loading page...</p>
           </div>
         </FullPageWrapper>
       }
