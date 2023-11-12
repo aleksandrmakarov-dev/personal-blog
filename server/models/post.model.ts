@@ -1,21 +1,20 @@
 import { InferSchemaType, Schema, model } from "mongoose";
 
 const PostSchema = new Schema({
-  parent: {
-    type: Schema.Types.ObjectId,
-    ref: "Post",
-  },
-  title: { String, required: true },
-  description: { String, required: true },
-  body: { String, required: true },
+  title: { type: String, trim: true, required: true },
+  description: { type: String, trim: true, required: true },
+  body: { type: String, trim: true, required: true },
   created: { type: Date, default: Date.now() },
   updated: { type: Date },
   image: { type: String },
   slug: { type: String, slug: "title", slugPaddingSize: 4, unique: true },
+  parent: {
+    type: Schema.Types.ObjectId,
+    ref: "Post",
+  },
   author: {
     type: Schema.Types.ObjectId,
     ref: "User",
-    required: true,
   },
   tags: [
     {

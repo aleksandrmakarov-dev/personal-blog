@@ -5,18 +5,16 @@ const CommentSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "Comment",
   },
-  body: { type: String, required: true },
+  body: { type: String, trim: true, required: true },
   created: { type: Date, default: Date.now() },
   updated: { type: Date },
   author: {
     type: Schema.Types.ObjectId,
     ref: "User",
-    required: true,
   },
   post: {
     type: Schema.Types.ObjectId,
     ref: "Post",
-    required: true,
   },
   children: [
     {

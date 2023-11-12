@@ -1,14 +1,14 @@
 import { InferSchemaType, Schema, model } from "mongoose";
 
 const UserSchema = new Schema({
-  name: { String },
-  bio: { String },
-  email: { String, required: true, unique: true },
-  image: { String },
-  passwordHash: { String, required: true },
-  emailVerified: { Boolean, default: false },
-  created: { Date, default: Date.now() },
-  updated: { Date },
+  name: { type: String, required: true },
+  bio: { type: String },
+  email: { type: String, required: true, unique: true },
+  image: { type: String },
+  passwordHash: { type: String, required: true },
+  emailVerified: { type: Boolean, default: false },
+  created: { type: Date, default: Date.now() },
+  updated: { type: Date },
   slug: { type: String, slug: "email", slugPaddingSize: 4, unique: true },
   roles: [
     {
@@ -45,11 +45,7 @@ UserSchema.set("toJSON", {
   },
 });
 
-UserSchema.methods.likePost = async function (post: Schema.Types.ObjectId) {};
-
-type User = InferSchemaType<typeof UserSchema> & {
-  likePost: (post: Schema.Types.ObjectId) => Promise<void>;
-};
+type User = InferSchemaType<typeof UserSchema>;
 
 const UserModel = model<User>("User", UserSchema);
 

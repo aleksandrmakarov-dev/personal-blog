@@ -4,11 +4,10 @@ const AccountSchema = new Schema({
   user: {
     type: Schema.Types.ObjectId,
     ref: "User",
-    required: true,
   },
   type: { type: String, required: true },
   provider: { type: String, required: true },
-  providerAccountId: { type: String },
+  providerAccountId: { type: String, required: true },
   refreshToken: { type: String, required: true },
   expiresAt: { type: Date, required: true },
   tokenType: { type: String, required: true },
