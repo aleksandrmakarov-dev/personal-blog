@@ -1,6 +1,5 @@
 import { UseQueryOptions, useQuery } from "@tanstack/react-query";
 import { GenericErrorModelDto } from "../../../shared/api/Api";
-import UserService from "../../../services/user.service";
 import { useAuth } from "../../../providers/AuthProvider";
 
 export interface User {
@@ -37,8 +36,12 @@ export const useRefreshUser = (options?: UseRefreshUserOptions) => {
   return useQuery({
     queryKey: userKeys.mutation.refresh(),
     queryFn: async () => {
-      const user = await UserService.refreshUser();
-      signIn({ ...user });
+      const user = {
+        email: "alexandr.makarov.2000@gmail.com",
+        id: "1",
+        name: "Alexandr Makarov",
+      };
+      signIn(user);
       return user;
     },
     ...options,
