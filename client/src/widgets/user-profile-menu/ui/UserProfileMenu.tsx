@@ -59,6 +59,7 @@ export function UserProfileMenu(props: UserProfileMenuProps) {
     <>
       <IconButton onClick={handleClick} size="small">
         <Avatar
+          src={currentUser.image}
           children={stringAvatar(currentUser.name)}
           sx={{
             width: 32,

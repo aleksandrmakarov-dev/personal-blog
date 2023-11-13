@@ -4,7 +4,7 @@ import {
   SignUpWithPasswordDto,
 } from "../../../../shared/api/Api";
 import { userKeys } from "../../../../entities/user/api/userApi";
-import UserService from "../../../../services/user.service";
+import UserService from "../../../../services/user/userService";
 
 type UseSignUpUserWithPasswordMutation = UseMutationOptions<
   any,

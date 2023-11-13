@@ -8,26 +8,26 @@ import React from "react";
 import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
 
+export type TagSelectOption = {
+  id: string;
+  name: string;
+};
+
 interface TagSelectProps {
-  options: Tag[];
+  options: TagSelectOption[];
   isLoading: boolean;
   isError?: boolean;
   limit?: number;
 
-  onChange: (tags: Tag[]) => void;
-  value?: Tag[];
+  onSelectTag: (tags: TagSelectOption[]) => void;
+  value?: TagSelectOption[];
   onBlur: (e: any) => void;
   disabled?: boolean;
   name: string;
 }
 
-type Tag = {
-  id: string;
-  name: string;
-};
-
 const TagSelect: React.FC<TagSelectProps> = (props) => {
-  const { options, limit, onChange, onBlur, value, name, disabled } = props;
+  const { options, limit, onSelectTag, onBlur, value, name, disabled } = props;
 
   return (
     <div>
@@ -39,7 +39,7 @@ const TagSelect: React.FC<TagSelectProps> = (props) => {
         getOptionLabel={(option) => option.name}
         onChange={(_, data) => {
           if (limit && data.length > limit) return;
-          onChange(data);
+          onSelectTag(data);
         }}
         onBlur={onBlur}
         value={value}

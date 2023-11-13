@@ -1,21 +1,21 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button, TextField } from "@mui/material";
+import { TextField } from "@mui/material";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 import FormField from "../../../../shared/ui/form-field/FormField";
-import { mockTags } from "../../../../shared/lib/constants";
-import TagSelect from "../../../../shared/ui/tag-select/TagSelect";
 import MarkdownEditor from "../../../../shared/ui/markdown/markdown-editor/MarkdownEditor";
+import { LoadingButton } from "@mui/lab";
+import { PostTagSelect } from "../../../../widgets/post-tag-select";
 
 interface PostEditorProps {
-  post?: EditorPostSchemaType;
-  onSubmit: (values: EditorPostSchemaType) => void;
+  post?: PostEditorSchemaType;
+  onSubmit: (values: PostEditorSchemaType) => void;
   isLoading: boolean;
   isError: boolean;
   error?: string;
 }
 
-const editorPostSchema = z.object({
+const postEditorSchema = z.object({
   title: z.string().min(1).max(100),
   description: z.string().min(1).max(150),
   body: z.string().min(1),
@@ -27,12 +27,12 @@ const editorPostSchema = z.object({
         name: z.string(),
       })
     )
-    .optional(),
+    .min(1),
 });
 
-type EditorPostSchemaType = z.infer<typeof editorPostSchema>;
+export type PostEditorSchemaType = z.infer<typeof postEditorSchema>;
 
-const initialPost: EditorPostSchemaType = {
+const initialPost: PostEditorSchemaType = {
   title: "",
   description: "",
   body: "",
@@ -41,10 +41,10 @@ const initialPost: EditorPostSchemaType = {
 };
 
 export function PostEditor(props: PostEditorProps) {
-  const { post, onSubmit } = props;
+  const { post, onSubmit, isLoading } = props;
 
-  const { control, handleSubmit } = useForm<EditorPostSchemaType>({
-    resolver: zodResolver(editorPostSchema),
+  const { control, handleSubmit } = useForm<PostEditorSchemaType>({
+    resolver: zodResolver(postEditorSchema),
     defaultValues: initialPost,
     values: post,
   });
@@ -53,6 +53,7 @@ export function PostEditor(props: PostEditorProps) {
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3">
       <Controller
         control={control}
+        disabled={isLoading}
         name="title"
         render={({ field, fieldState: { error } }) => (
           <FormField label="Title" error={error}>
@@ -62,6 +63,7 @@ export function PostEditor(props: PostEditorProps) {
       />
       <Controller
         control={control}
+        disabled={isLoading}
         name="description"
         render={({ field, fieldState: { error } }) => (
           <FormField label="Description" error={error}>
@@ -78,6 +80,17 @@ export function PostEditor(props: PostEditorProps) {
       />
       <Controller
         control={control}
+        disabled={isLoading}
+        name="image"
+        render={({ field, fieldState: { error } }) => (
+          <FormField label="Image" error={error}>
+            <TextField size="small" fullWidth variant="standard" {...field} />
+          </FormField>
+        )}
+      />
+      <Controller
+        control={control}
+        disabled={isLoading}
         name="body"
         render={({ field, fieldState: { error } }) => (
           <FormField label="Body" error={error}>
@@ -87,26 +100,26 @@ export function PostEditor(props: PostEditorProps) {
       />
       <Controller
         control={control}
+        disabled={isLoading}
         name="tags"
-        render={({ field: { ref, ...props }, fieldState: { error } }) => (
+        render={({
+          field: { onChange: onSelectTag, ref, ...other },
+          fieldState: { error },
+        }) => (
           <FormField label="Tags" error={error}>
-            <TagSelect
-              options={mockTags}
-              isLoading={false}
-              limit={5}
-              {...props}
-            />
+            <PostTagSelect onSelectTag={onSelectTag} {...other} />
           </FormField>
         )}
       ></Controller>
-      <Button
+      <LoadingButton
+        loading={isLoading}
         className="self-start"
         type="submit"
         variant="contained"
         disableElevation
       >
         Submit
-      </Button>
+      </LoadingButton>
     </form>
   );
 }

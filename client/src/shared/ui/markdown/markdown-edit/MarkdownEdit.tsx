@@ -5,10 +5,14 @@ import { vs } from "react-syntax-highlighter/dist/esm/styles/hljs";
 interface MarkdownEditProps {
   value: string;
   onChange: (value: string) => void;
+  disabled?: boolean;
 }
 
-const MarkdownEdit: React.FC<MarkdownEditProps> = (props) => {
-  const { value: markdownValue, onChange } = props;
+const MarkdownEdit: React.ForwardRefRenderFunction<
+  HTMLInputElement,
+  MarkdownEditProps
+> = (props, ref) => {
+  const { value: markdownValue, onChange, disabled } = props;
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const onKeyDown = (e: any) => {
@@ -109,10 +113,11 @@ const MarkdownEdit: React.FC<MarkdownEditProps> = (props) => {
           onKeyDown={onKeyDown}
           value={markdownValue}
           onChange={(e) => onChange(e.target.value)}
+          disabled={disabled}
         />
       </div>
     </div>
   );
 };
 
-export default MarkdownEdit;
+export default React.forwardRef(MarkdownEdit);

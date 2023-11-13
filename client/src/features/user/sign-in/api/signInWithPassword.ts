@@ -1,31 +1,20 @@
-import { UseMutationOptions, useMutation } from "@tanstack/react-query";
-import {
-  GenericErrorModelDto,
-  SignInWithPasswordDto,
-} from "../../../../shared/api/Api";
+import { useMutation } from "@tanstack/react-query";
 import { User, userKeys } from "../../../../entities/user/api/userApi";
-import UserService from "../../../../services/user.service";
+import userService, {
+  SignInWithPasswordDTO,
+} from "../../../../services/user/userService";
+import { GenericErrorModelDto } from "../../../../shared/lib/types";
 
-type UseSignInUserWithPasswordMutation = UseMutationOptions<
-  User,
-  GenericErrorModelDto,
-  SignInWithPasswordDto,
-  unknown
->;
-
-type UseSignInUserWithPasswordOptions = Omit<
-  UseSignInUserWithPasswordMutation,
-  "mutationFn" | "mutationKey"
->;
-
-export const useSignInUserWithPassword = (
-  options?: UseSignInUserWithPasswordOptions
-) => {
-  return useMutation({
-    mutationKey: userKeys.mutation.signIn(),
-    mutationFn: async (values: SignInWithPasswordDto) => {
-      return await UserService.signInWithPassword(values);
+export const useSignInUserWithPassword = () => {
+  return useMutation<
+    User,
+    GenericErrorModelDto,
+    SignInWithPasswordDTO,
+    unknown
+  >({
+    mutationKey: userKeys.mutation.signInWithPassword(),
+    mutationFn: async (credentials: SignInWithPasswordDTO) => {
+      return await userService.signInWithPassword(credentials);
     },
-    ...options,
   });
 };

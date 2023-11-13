@@ -26,9 +26,26 @@ async function getBySlug(req: Request, res: Response) {
 }
 
 // Add pagination
-async function getAll(_req: Request, res: Response) {
-  const foundPosts = await PostModel.find();
-  return Ok(res, foundPosts);
+async function getAll(req: Request, res: Response) {
+  console.log("params:", req.params);
+  const searchOptions = {
+    page: 1,
+    limit: 15,
+  };
+
+  const foundPosts = await PostModel.find(searchOptions, { body: 0 }).populate(
+    "author"
+  );
+  const countPosts = await PostModel.countDocuments(searchOptions);
+  const countPages = Math.ceil(countPosts / searchOptions.limit);
+  const pagedResult = {
+    items: foundPosts,
+    page: 1,
+    limit: 10,
+    totalItems: countPosts,
+    totalPages: countPages,
+  };
+  return Ok(res, pagedResult);
 }
 
 async function updateById(req: Request, res: Response) {

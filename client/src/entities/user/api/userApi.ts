@@ -1,6 +1,6 @@
 import { UseQueryOptions, useQuery } from "@tanstack/react-query";
-import { GenericErrorModelDto } from "../../../shared/api/Api";
 import { useAuth } from "../../../providers/AuthProvider";
+import { GenericErrorModelDto } from "../../../shared/lib/types";
 
 export interface User {
   id: string;
@@ -16,6 +16,7 @@ export const userKeys = {
   },
   mutation: {
     signIn: () => [...userKeys.user.root, "sign-in"],
+    signInWithPassword: () => [...userKeys.user.root, "sign-in-with-password"],
     signUp: () => [...userKeys.user.root, "sign-up"],
     refresh: () => [...userKeys.user.root, "refresh"],
   },

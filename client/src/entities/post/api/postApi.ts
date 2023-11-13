@@ -1,24 +1,11 @@
 import { UseQueryOptions, useQuery } from "@tanstack/react-query";
-import { Profile } from "../../profile/api/profileApi";
-import { GenericErrorModelDto } from "../../../shared/api/Api";
-
-export interface Post {
-  id: string;
-  slug: string;
-  title: string;
-  descritpion: string;
-  body: string;
-  image?: string;
-  created: Date;
-  updated?: Date;
-  author: Profile;
-  likes: number;
-  isLiked: boolean;
-  tags: string[];
-}
+import postService, {
+  PostPreviewDTO,
+} from "../../../services/post/postService";
+import { GenericErrorModelDto, PagedResponse } from "../../../shared/lib/types";
 
 export type QueryFilter = {
-  orderBy?: "latest" | "popular" | "oldest";
+  orderBy?: string;
   query?: string;
 };
 
@@ -64,9 +51,9 @@ export const postKeys = {
 };
 
 type UseGlobalFeedQuery = UseQueryOptions<
-  Post[],
+  PagedResponse<PostPreviewDTO>,
   GenericErrorModelDto,
-  GlobalFeedQuery,
+  PagedResponse<PostPreviewDTO>,
   unknown[]
 >;
 
@@ -79,7 +66,7 @@ export const useGlobalFeed = (
   return useQuery({
     queryKey: postKeys.posts.globalFeed.query(params),
     queryFn: async () => {
-      return [];
+      return await postService.getPosts(params);
     },
     ...options,
   });
