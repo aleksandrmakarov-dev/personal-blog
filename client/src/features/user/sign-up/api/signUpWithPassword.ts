@@ -2,23 +2,23 @@ import { userKeys } from "@/entities/user/api/userApi";
 import userService, {
   SignUpWithPasswordDTO,
 } from "@/services/user/userService";
-import { GenericErrorModelDto } from "@/shared/lib/types";
+import { GenericErrorModelDTO } from "@/shared/lib/types";
 import { UseMutationOptions, useMutation } from "@tanstack/react-query";
 
-type UseSignUpUserWithPasswordMutation = UseMutationOptions<
+type UseSignUpWithPasswordMutation = UseMutationOptions<
   any,
-  GenericErrorModelDto,
+  GenericErrorModelDTO,
   SignUpWithPasswordDTO,
   unknown
 >;
 
-type UseSignUpUserWithPasswordOptions = Omit<
-  UseSignUpUserWithPasswordMutation,
+type UseSignUpWithPasswordOptions = Omit<
+  UseSignUpWithPasswordMutation,
   "mutationFn" | "mutationKey"
 >;
 
-export const useSignUpUserWithPassword = (
-  options?: UseSignUpUserWithPasswordOptions
+export const useSignUpWithPassword = (
+  options?: UseSignUpWithPasswordOptions
 ) => {
   return useMutation({
     mutationKey: userKeys.mutation.signUp(),

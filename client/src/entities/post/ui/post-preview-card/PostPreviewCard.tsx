@@ -22,8 +22,6 @@ export function PostPreviewCard({ post }: PostPreviewCardProps) {
     tags,
     slug,
   } = post;
-  const initials = stringAvatar(user.name);
-  const color = stringToColor(user.name);
 
   return (
     <article className="border-b border-gray-200">
@@ -46,20 +44,27 @@ export function PostPreviewCard({ post }: PostPreviewCardProps) {
           </div>
           <div className="w-full">
             <div className="flex gap-2 items-center">
-              <div className="flex items-center">
-                <Avatar
-                  className="mr-2"
-                  alt={user.name}
-                  children={initials}
-                  sx={{ width: 24, height: 24, fontSize: 10, bgcolor: color }}
-                />
-                <Link
-                  className="text-sm font-semibold text-foreground-secondary hover:text-foreground-primary"
-                  to={Routing.users.details(user.id)}
-                >
-                  {user.name}
-                </Link>
-              </div>
+              {user && (
+                <div className="flex items-center">
+                  <Avatar
+                    className="mr-2"
+                    alt={user.name}
+                    children={stringAvatar(user.name)}
+                    sx={{
+                      width: 24,
+                      height: 24,
+                      fontSize: 10,
+                      bgcolor: stringToColor(user.name),
+                    }}
+                  />
+                  <Link
+                    className="text-sm font-semibold text-foreground-secondary hover:text-foreground-primary"
+                    to={Routing.users.details(user.id)}
+                  >
+                    {user.name}
+                  </Link>
+                </div>
+              )}
               <span className="text-foreground-secondary">•</span>
               <p className="text-xs uppercase text-foreground-secondary">
                 <span>{formatDate(created)}</span>{" "}

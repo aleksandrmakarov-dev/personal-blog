@@ -1,6 +1,5 @@
 import { TagEditorDialog, TagEditorSchemaType } from "@/entities/tag";
 import { useCreateTag } from "@/features/tag";
-import { useState } from "react";
 
 interface NewTagEditorDialogProps {
   trigger: JSX.Element;
@@ -9,14 +8,17 @@ interface NewTagEditorDialogProps {
 export function NewTagEditorDialog(props: NewTagEditorDialogProps) {
   const { trigger } = props;
 
-  const [open, setOpen] = useState<boolean>(false);
-
   const { mutate, isError, isPending, isSuccess } = useCreateTag();
 
-  const onSubmit = (values: TagEditorSchemaType) => {
+  const onSubmit = (
+    values: TagEditorSchemaType,
+    reset: () => void,
+    close: () => void
+  ) => {
     mutate(values, {
       onSuccess: () => {
-        setOpen(false);
+        reset();
+        close();
       },
     });
   };
@@ -25,8 +27,6 @@ export function NewTagEditorDialog(props: NewTagEditorDialogProps) {
     <TagEditorDialog
       trigger={trigger}
       title="Create tag"
-      open={open}
-      setOpen={setOpen}
       isError={isError}
       isLoading={isPending}
       isSuccess={isSuccess}

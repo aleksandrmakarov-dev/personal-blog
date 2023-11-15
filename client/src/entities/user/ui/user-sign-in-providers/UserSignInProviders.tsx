@@ -1,7 +1,17 @@
+import { useSignInWithGithub, useSignInWithGoogle } from "@/features/user";
+import { useAuth } from "@/providers/AuthProvider";
+import { Routing } from "@/shared/lib";
 import { GitHub } from "@mui/icons-material";
 import { Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 export function UserSignInProviders() {
+  const { mutate: githubMutate } = useSignInWithGithub();
+  const { mutate: googleMutate } = useSignInWithGoogle();
+
+  const { signIn } = useAuth();
+  const navigate = useNavigate();
+
   return (
     <div className="grid grid-cols-2 gap-2">
       <Button
@@ -33,6 +43,14 @@ export function UserSignInProviders() {
         variant="outlined"
         color="google"
         disableElevation
+        onClick={() =>
+          googleMutate(undefined, {
+            onSuccess: (data) => {
+              signIn(data);
+              navigate(Routing.root, { replace: true });
+            },
+          })
+        }
       >
         Google
       </Button>
@@ -41,6 +59,14 @@ export function UserSignInProviders() {
         variant="contained"
         color="github"
         disableElevation
+        onClick={() =>
+          githubMutate(undefined, {
+            onSuccess: (data) => {
+              signIn(data);
+              navigate(Routing.root, { replace: true });
+            },
+          })
+        }
       >
         Github
       </Button>

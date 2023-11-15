@@ -32,9 +32,9 @@ async function getList(_req: Request, res: Response) {
     limit: 15,
   };
 
-  const foundPosts = await PostModel.find(searchOptions, { body: 0 }).populate(
-    "author"
-  );
+  const foundPosts = await PostModel.find(searchOptions, { body: 0 })
+    .populate("author")
+    .populate("tags");
   const countPosts = await PostModel.countDocuments(searchOptions);
   const countPages = Math.ceil(countPosts / searchOptions.limit);
   const pagedResult = {

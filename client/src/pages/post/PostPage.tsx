@@ -1,5 +1,5 @@
 import { PostAuthor, PostImage } from "@/entities/post";
-import { mockPost } from "@/shared/lib/constants";
+import { usePost } from "@/entities/post/api/postApi";
 import MarkdownPreview from "@/shared/ui/markdown/markdown-preview/MarkdownPreview";
 import MarkdownToC from "@/shared/ui/markdown/markdown-toc/MarkdownToC";
 import { useParams } from "react-router-dom";
@@ -7,7 +7,17 @@ import { useParams } from "react-router-dom";
 export default function PostPage() {
   const { slug } = useParams();
 
-  const { title, description, image, body, user, created, updated } = mockPost;
+  const { data, isLoading, isError, error } = usePost(slug!);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError || !data) {
+    return <div>{error?.message}</div>;
+  }
+
+  const { author, created, updated, image, description, body } = data;
 
   return (
     <div>
@@ -20,11 +30,11 @@ export default function PostPage() {
         </div>
         <div>
           <h1 className="text-4xl font-bold text-foreground-primary my-8">
-            {title}
+            {data.title}
           </h1>
           <PostAuthor
-            id={user.id}
-            name={user.name}
+            id={author?.slug || "test-user"}
+            name={author?.name || "Test User"}
             readingTime={5}
             readingUnits="min"
             created={created}

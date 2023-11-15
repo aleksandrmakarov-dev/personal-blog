@@ -2,7 +2,7 @@ import { User } from "@/entities/user/api/userApi";
 
 export interface UserProfileDTO {
   slug: string;
-  username: string;
+  name: string;
   bio: string;
   image: string;
   following: boolean;
@@ -28,13 +28,35 @@ async function signInWithPassword(
   return user;
 }
 
+async function signInWithGoogle(): Promise<User> {
+  const user = {
+    id: "1",
+    slug: "test-user",
+    name: "Test User",
+    email: "test@example.com",
+  };
+
+  return user;
+}
+
+async function signInWithGithub(): Promise<User> {
+  const user = {
+    id: "1",
+    slug: "test-user",
+    name: "Test User",
+    email: "test@example.com",
+  };
+
+  return user;
+}
+
 export type SignUpWithPasswordDTO = {
   email: string;
   password: string;
 };
 
 async function signUpWithPassword(
-  credentiols: SignUpWithPasswordDTO
+  credentials: SignUpWithPasswordDTO
 ): Promise<void> {
   return;
 }
@@ -42,4 +64,6 @@ async function signUpWithPassword(
 export default {
   signInWithPassword,
   signUpWithPassword,
+  signInWithGoogle,
+  signInWithGithub,
 };

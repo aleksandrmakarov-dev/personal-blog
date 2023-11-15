@@ -1,22 +1,14 @@
 import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-} from "@mui/material";
-import {
   TagEditorBody,
   TagEditorSchemaType,
   tagEditorSchema,
 } from "../tag-editor-body/TagEditorBody";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { LoadingButton } from "@mui/lab";
-import React from "react";
+import { useState } from "react";
+import FormDialog from "@/shared/ui/form-dialog/FormDialog";
 
 interface TagEditorDialogProps {
-  open: boolean;
   trigger: JSX.Element;
   title: string;
   isLoading?: boolean;
@@ -24,8 +16,11 @@ interface TagEditorDialogProps {
   isSuccess?: boolean;
   tag?: TagEditorSchemaType;
 
-  setOpen: (open: boolean) => void;
-  onSubmit: (values: TagEditorSchemaType) => void;
+  onSubmit: (
+    values: TagEditorSchemaType,
+    reset: () => void,
+    close: () => void
+  ) => void;
 }
 
 const initialValues: TagEditorSchemaType = {
@@ -33,36 +28,29 @@ const initialValues: TagEditorSchemaType = {
 };
 
 export function TagEditorDialog(props: TagEditorDialogProps) {
-  const { title, onSubmit, isLoading, tag, trigger, open, setOpen } = props;
+  const { title, onSubmit, isLoading, tag, trigger } = props;
 
-  const { control, handleSubmit } = useForm<TagEditorSchemaType>({
+  const [open, setOpen] = useState<boolean>(false);
+
+  const { control, handleSubmit, reset } = useForm<TagEditorSchemaType>({
     resolver: zodResolver(tagEditorSchema),
     defaultValues: initialValues,
     values: tag,
   });
 
+  const close = () => setOpen(false);
+
   return (
-    <>
-      {React.cloneElement(trigger, { onClick: () => setOpen(true) })}
-      <Dialog open={open} fullWidth>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <DialogTitle>{title}</DialogTitle>
-          <DialogContent dividers>
-            <TagEditorBody control={control} isLoading={isLoading} />
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={() => setOpen(false)}>Cancel</Button>
-            <LoadingButton
-              loading={isLoading}
-              type="submit"
-              variant="contained"
-              disableElevation
-            >
-              Submit
-            </LoadingButton>
-          </DialogActions>
-        </form>
-      </Dialog>
-    </>
+    <FormDialog
+      title={title}
+      trigger={trigger}
+      open={open}
+      setOpen={setOpen}
+      reset={reset}
+      handleSubmit={handleSubmit((values) => onSubmit(values, reset, close))}
+      isLoading={isLoading}
+    >
+      <TagEditorBody control={control} isLoading={isLoading} />
+    </FormDialog>
   );
 }

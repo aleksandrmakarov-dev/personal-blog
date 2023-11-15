@@ -21,15 +21,15 @@ const RouterPagination = (props: RouterPaginationProps) => {
       <div className="flex items-center justify-between">
         <div>
           <p className="text-sm text-foreground-secondary">
-            Showing
+            Showing{" "}
             <span className="font-semibold text-foreground-primary">
-              {from}
+              {from}{" "}
             </span>
             to{" "}
-            <span className="font-semibold text-foreground-primary">{to}</span>
+            <span className="font-semibold text-foreground-primary">{to} </span>
             of{" "}
             <span className="font-semibold text-foreground-primary">
-              {totalItems}
+              {totalItems}{" "}
             </span>
             results
           </p>

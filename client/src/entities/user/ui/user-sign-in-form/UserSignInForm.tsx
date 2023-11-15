@@ -17,7 +17,7 @@ const formSchema = z.object({
 type FormType = z.infer<typeof formSchema>;
 
 export function UserSignInForm() {
-  const { mutateAsync, isPending } = useSignInUserWithPassword();
+  const { mutate, isPending } = useSignInUserWithPassword();
   const { signIn } = useAuth();
   const navigate = useNavigate();
 
@@ -30,13 +30,12 @@ export function UserSignInForm() {
   });
 
   const onSubmit = async (values: FormType) => {
-    try {
-      const user = await mutateAsync(values);
-      signIn(user);
-      navigate(Routing.root, { replace: true });
-    } catch (error) {
-      console.log(error);
-    }
+    mutate(values, {
+      onSuccess: (data) => {
+        signIn(data);
+        navigate(Routing.root, { replace: true });
+      },
+    });
   };
 
   return (

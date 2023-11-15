@@ -1,6 +1,6 @@
 import { UseQueryOptions, useQuery } from "@tanstack/react-query";
 import { useAuth } from "../../../providers/AuthProvider";
-import { GenericErrorModelDto } from "../../../shared/lib/types";
+import { GenericErrorModelDTO } from "../../../shared/lib/types";
 
 export interface User {
   id: string;
@@ -17,6 +17,8 @@ export const userKeys = {
   mutation: {
     signIn: () => [...userKeys.user.root, "sign-in"],
     signInWithPassword: () => [...userKeys.user.root, "sign-in-with-password"],
+    signInWithGoogle: () => [...userKeys.user.root, "sign-in-with-google"],
+    signInWithGithub: () => [...userKeys.user.root, "sign-in-with-github"],
     signUp: () => [...userKeys.user.root, "sign-up"],
     refresh: () => [...userKeys.user.root, "refresh"],
   },
@@ -24,7 +26,7 @@ export const userKeys = {
 
 type UseRefreshUserQuery = UseQueryOptions<
   User,
-  GenericErrorModelDto,
+  GenericErrorModelDTO,
   User,
   string[]
 >;

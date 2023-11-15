@@ -1,1 +1,1 @@
-export { useSignUpUserWithPassword } from "./api/signUpWithPassword";
+export { useSignUpWithPassword } from "./api/signUpWithPassword";

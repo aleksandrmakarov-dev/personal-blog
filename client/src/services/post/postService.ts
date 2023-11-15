@@ -47,7 +47,13 @@ async function createPost(post: CreatePostDTO): Promise<PostDTO> {
   return response.data;
 }
 
+async function getPostBySlug(slug: string): Promise<PostDTO> {
+  const response = await axios.get<PostDTO>(`/api/posts/slug/${slug}`);
+  return response.data;
+}
+
 export default {
   getPosts,
   createPost,
+  getPostBySlug,
 };

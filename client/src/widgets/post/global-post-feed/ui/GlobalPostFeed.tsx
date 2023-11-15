@@ -11,25 +11,23 @@ export function GlobalPostFeed() {
     query: string;
   }>();
 
-  const { data, isLoading, isError } = useGlobalFeed({
-    page: Number(page),
-    limit: Number(limit),
+  const { data, isLoading, isError, isSuccess } = useGlobalFeed({
+    page: Number(page ?? 1),
+    limit: Number(limit ?? 10),
     orderBy,
     query,
   });
-
-  console.log(data);
 
   return (
     <>
       <PostList
         isLoading={isLoading}
         isError={isError}
-        isSuccess={data !== undefined && data.items && !isError}
+        isSuccess={isSuccess && data !== undefined && data.items && !isError}
         posts={data?.items}
         renderPost={(post) => <PostPreviewCard key={post.id} post={post} />}
       />
-      {data && data.totalItems > 0 && (
+      {data && data.totalPages > 1 && (
         <RouterPagination
           className="mt-2.5"
           totalItems={data.totalItems}

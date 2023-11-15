@@ -69,3 +69,12 @@ export const useGlobalFeed = (
     ...options,
   });
 };
+
+export const usePost = (slug: string) => {
+  return useQuery({
+    queryKey: postKeys.post.slug(slug),
+    queryFn: async () => {
+      return await postService.getPostBySlug(slug);
+    },
+  });
+};

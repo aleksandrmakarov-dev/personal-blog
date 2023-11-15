@@ -7,6 +7,7 @@ import {
   PostEditorSchemaType,
   postEditorSchema,
 } from "../post-editor-body/PostEditorBody";
+import { useNavigate } from "react-router-dom";
 
 interface PostEditorProps {
   post?: PostEditorSchemaType;
@@ -27,6 +28,8 @@ const initialPost: PostEditorSchemaType = {
 export function PostEditor(props: PostEditorProps) {
   const { post, onSubmit, isLoading } = props;
 
+  const navigate = useNavigate();
+
   const { control, handleSubmit } = useForm<PostEditorSchemaType>({
     resolver: zodResolver(postEditorSchema),
     defaultValues: initialPost,
@@ -37,9 +40,7 @@ export function PostEditor(props: PostEditorProps) {
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
       <PostEditorBody control={control} isLoading={isLoading} />
       <div className="flex items-center justify-end gap-x-2">
-        <Button variant="outlined" disableElevation>
-          Cancel
-        </Button>
+        <Button onClick={() => navigate(-1)}>Cancel</Button>
         <LoadingButton
           loading={isLoading}
           className="self-start"

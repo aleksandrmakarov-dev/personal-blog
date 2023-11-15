@@ -4,7 +4,7 @@ import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoadingButton } from "@mui/lab";
-import { useSignUpUserWithPassword } from "@/features/user";
+import { useSignUpWithPassword } from "@/features/user";
 import { Routing } from "@/shared/lib";
 import FormField from "@/shared/ui/form-field/FormField";
 
@@ -20,7 +20,7 @@ const formSchema = z.object({
 type FormType = z.infer<typeof formSchema>;
 
 export function UserSignUpForm() {
-  const { mutateAsync, isPending } = useSignUpUserWithPassword();
+  const { mutate, isPending } = useSignUpWithPassword();
   const navigate = useNavigate();
 
   const { control, handleSubmit } = useForm<FormType>({
@@ -34,12 +34,11 @@ export function UserSignUpForm() {
   });
 
   const onSubmit = async (values: FormType) => {
-    try {
-      await mutateAsync(values);
-      navigate(Routing.root, { replace: true });
-    } catch (error) {
-      console.log(error);
-    }
+    mutate(values, {
+      onSuccess: () => {
+        navigate(Routing.root, { replace: true });
+      },
+    });
   };
 
   return (
