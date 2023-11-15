@@ -1,8 +1,6 @@
+import postService, { PostPreviewDTO } from "@/services/post/postService";
+import { PagedResponse, GenericErrorModelDTO } from "@/shared/lib/types";
 import { UseQueryOptions, useQuery } from "@tanstack/react-query";
-import postService, {
-  PostPreviewDTO,
-} from "../../../services/post/postService";
-import { GenericErrorModelDto, PagedResponse } from "../../../shared/lib/types";
 
 export type QueryFilter = {
   orderBy?: string;
@@ -52,7 +50,7 @@ export const postKeys = {
 
 type UseGlobalFeedQuery = UseQueryOptions<
   PagedResponse<PostPreviewDTO>,
-  GenericErrorModelDto,
+  GenericErrorModelDTO,
   PagedResponse<PostPreviewDTO>,
   unknown[]
 >;

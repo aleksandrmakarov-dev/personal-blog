@@ -3,7 +3,7 @@ import postController from "../controllers/post.controller";
 
 const router = Router();
 
-router.get("/", postController.getAll);
+router.get("/", postController.getList);
 router.post("/", postController.create);
 router.get("/slug/:identifier", postController.getBySlug);
 router.put("/id/:identifier", postController.updateById);

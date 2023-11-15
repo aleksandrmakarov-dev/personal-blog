@@ -1,4 +1,5 @@
 import { InferSchemaType, Schema, model } from "mongoose";
+const mongooseSlugUpdater = require("mongoose-slug-updater");
 
 const UserSchema = new Schema({
   name: { type: String, required: true },
@@ -35,6 +36,8 @@ const UserSchema = new Schema({
     },
   ],
 });
+
+UserSchema.plugin(mongooseSlugUpdater);
 
 UserSchema.set("toJSON", {
   transform: (_document, returnedObject) => {

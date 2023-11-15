@@ -5,21 +5,19 @@ import {
   createRoutesFromElements,
 } from "react-router-dom";
 import { Suspense, lazy } from "react";
-import { Routing } from "../shared/lib";
-import { MainLayout, AuthLayout } from "../pages/layouts";
-import FullPageWrapper from "../shared/ui/fullpage-wrapper/FullPageWrapper";
 import { CircularProgress } from "@mui/material";
+import { MainLayout, AuthLayout } from "@/pages/layouts";
+import { Routing } from "@/shared/lib";
+import FullPageWrapper from "@/shared/ui/fullpage-wrapper/FullPageWrapper";
 
-const HomePage = lazy(() => import("../pages/home/HomePage"));
-const PostsPage = lazy(() => import("../pages/posts/PostsPage"));
-const AboutMePage = lazy(() => import("../pages/about-me/AboutMePage"));
-const PostPage = lazy(() => import("../pages/post/PostPage"));
-const PostEditorPage = lazy(
-  () => import("../pages/post-editor/PostEditorPage")
-);
-const SignInPage = lazy(() => import("../pages/auth/sign-in/SignInPage"));
-const SignUpPage = lazy(() => import("../pages/auth/sign-up/SignUpPage"));
-const UserPage = lazy(() => import("../pages/user/UserPage"));
+const HomePage = lazy(() => import("@/pages/home/HomePage"));
+const PostsPage = lazy(() => import("@/pages/posts/PostsPage"));
+const AboutMePage = lazy(() => import("@/pages/about-me/AboutMePage"));
+const PostPage = lazy(() => import("@/pages/post/PostPage"));
+const PostEditorPage = lazy(() => import("@/pages/post-editor/PostEditorPage"));
+const SignInPage = lazy(() => import("@/pages/auth/sign-in/SignInPage"));
+const SignUpPage = lazy(() => import("@/pages/auth/sign-up/SignUpPage"));
+const UserPage = lazy(() => import("@/pages/user/UserPage"));
 
 const router = createBrowserRouter(
   createRoutesFromElements(

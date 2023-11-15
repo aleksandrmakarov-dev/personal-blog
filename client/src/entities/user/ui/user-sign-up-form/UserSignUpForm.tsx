@@ -1,12 +1,12 @@
 import { Input, FormControlLabel, Checkbox } from "@mui/material";
 import { NavLink, useNavigate } from "react-router-dom";
-import FormField from "../../../../shared/ui/form-field/FormField";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Routing } from "../../../../shared/lib";
-import { useSignUpUserWithPassword } from "../../../../features/user";
 import { LoadingButton } from "@mui/lab";
+import { useSignUpUserWithPassword } from "@/features/user";
+import { Routing } from "@/shared/lib";
+import FormField from "@/shared/ui/form-field/FormField";
 
 const formSchema = z.object({
   email: z.string().email(),

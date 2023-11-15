@@ -1,9 +1,9 @@
-import { useMutation } from "@tanstack/react-query";
-import { User, userKeys } from "../../../../entities/user/api/userApi";
+import { User, userKeys } from "@/entities/user/api/userApi";
 import userService, {
   SignInWithPasswordDTO,
-} from "../../../../services/user/userService";
-import { GenericErrorModelDto } from "../../../../shared/lib/types";
+} from "@/services/user/userService";
+import { GenericErrorModelDto } from "@/shared/lib/types";
+import { useMutation } from "@tanstack/react-query";
 
 export const useSignInUserWithPassword = () => {
   return useMutation<

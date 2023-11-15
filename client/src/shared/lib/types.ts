@@ -6,6 +6,6 @@ export interface PagedResponse<T> {
   totalPages: number;
 }
 
-export interface GenericErrorModelDto {
+export interface GenericErrorModelDTO {
   message: string;
 }

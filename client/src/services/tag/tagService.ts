@@ -12,6 +12,16 @@ async function getTags(): Promise<TagDTO[]> {
   return response.data;
 }
 
+export interface CreateTagDTO {
+  name: string;
+}
+
+async function createTag(tag: CreateTagDTO): Promise<TagDTO> {
+  const response = await axios.post<TagDTO>("/api/tags", tag);
+  return response.data;
+}
+
 export default {
   getTags,
+  createTag,
 };

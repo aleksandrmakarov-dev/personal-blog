@@ -3,11 +3,11 @@ import { Input } from "@mui/material";
 import { Controller, useForm } from "react-hook-form";
 import { NavLink, useNavigate } from "react-router-dom";
 import { z } from "zod";
-import { Routing } from "../../../../shared/lib";
-import FormField from "../../../../shared/ui/form-field/FormField";
-import { useSignInUserWithPassword } from "../../../../features/user";
 import { LoadingButton } from "@mui/lab";
-import { useAuth } from "../../../../providers/AuthProvider";
+import { useSignInUserWithPassword } from "@/features/user";
+import { useAuth } from "@/providers/AuthProvider";
+import { Routing } from "@/shared/lib";
+import FormField from "@/shared/ui/form-field/FormField";
 
 const formSchema = z.object({
   email: z.string().email(),

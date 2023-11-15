@@ -26,8 +26,7 @@ async function getBySlug(req: Request, res: Response) {
 }
 
 // Add pagination
-async function getAll(req: Request, res: Response) {
-  console.log("params:", req.params);
+async function getList(_req: Request, res: Response) {
   const searchOptions = {
     page: 1,
     limit: 15,
@@ -73,4 +72,4 @@ async function deleteById(req: Request, res: Response) {
   return NoContent(res);
 }
 
-export default { create, getBySlug, getAll, updateById, deleteById };
+export default { create, getBySlug, getList, updateById, deleteById };

@@ -1,17 +1,22 @@
+import tagService, { TagDTO } from "@/services/tag/tagService";
+import { GenericErrorModelDTO } from "@/shared/lib/types";
 import { UseQueryOptions, useQuery } from "@tanstack/react-query";
-import { GenericErrorModelDto } from "../../../shared/lib/types";
-import tagService, { TagDTO } from "../../../services/tag/tagService";
 
 export const tagKeys = {
   tags: {
     root: ["tags"],
     query: () => [...tagKeys.tags.root, "query"],
   },
+  mutations: {
+    create: () => [...tagKeys.tags.root, "create"],
+    update: () => [...tagKeys.tags.root, "update"],
+    delete: () => [...tagKeys.tags.root, "delete"],
+  },
 };
 
 type UseTagsQuery = UseQueryOptions<
   TagDTO[],
-  GenericErrorModelDto,
+  GenericErrorModelDTO,
   TagDTO[],
   unknown[]
 >;

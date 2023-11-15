@@ -1,4 +1,5 @@
 import { InferSchemaType, Schema, model } from "mongoose";
+const mongooseSlugUpdater = require("mongoose-slug-updater");
 
 const TagSchema = new Schema({
   name: { type: String, required: true },
@@ -6,6 +7,8 @@ const TagSchema = new Schema({
   created: { type: Date, default: Date.now() },
   updated: { type: Date },
 });
+
+TagSchema.plugin(mongooseSlugUpdater);
 
 TagSchema.set("toJSON", {
   transform: (_document, returnedObject) => {

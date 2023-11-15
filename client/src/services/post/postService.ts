@@ -1,12 +1,12 @@
+import { PagedResponse } from "@/shared/lib/types";
 import axios from "axios";
-import { PagedResponse } from "../../shared/lib/types";
 import { UserProfileDTO } from "../user/userService";
 
 export interface PostPreviewDTO {
   id: string;
   slug: string;
   title: string;
-  descritpion: string;
+  description: string;
   image?: string;
   created: Date;
   updated?: Date;

@@ -1,4 +1,4 @@
-import { NewPostEditor } from "../../widgets/new-post-editor";
+import { NewPostEditor } from "@/widgets/post";
 
 interface PostEditorPageProps {
   edit?: boolean;

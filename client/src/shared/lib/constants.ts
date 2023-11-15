@@ -1,6 +1,7 @@
+import { Profile } from "@/entities/profile/api/profileApi";
 import { PostCardDTO } from ".";
-import { Profile } from "../../entities/profile";
-import { PostDTO } from "./types";
+import { PostDTO } from "@/services/post/postService";
+import { TagDTO } from "@/services/tag/tagService";
 
 export const mockPosts: PostCardDTO[] = [
   {
@@ -196,17 +197,17 @@ export const mockPosts: PostCardDTO[] = [
     comments: 13,
   },
 ];
-export const mockTags = [
-  { id: "tag1", name: "Technology" },
-  { id: "tag2", name: "Food & Cooking" },
-  { id: "tag3", name: "Travel" },
-  { id: "tag4", name: "Health & Fitness" },
-  { id: "tag5", name: "Science" },
-  { id: "tag6", name: "Fashion" },
-  { id: "tag7", name: "Business" },
-  { id: "tag8", name: "Art & Design" },
-  { id: "tag9", name: "Music" },
-  { id: "tag10", name: "Sports" },
+export const mockTags: TagDTO[] = [
+  { id: "tag1", name: "Technology", slug: "technology" },
+  { id: "tag2", name: "Food & Cooking", slug: "food-cooking" },
+  { id: "tag3", name: "Travel", slug: "travel" },
+  { id: "tag4", name: "Health & Fitness", slug: "health-fitness" },
+  { id: "tag5", name: "Science", slug: "science" },
+  { id: "tag6", name: "Fashion", slug: "fashion" },
+  { id: "tag7", name: "Business", slug: "business" },
+  { id: "tag8", name: "Art & Design", slug: "art-design" },
+  { id: "tag9", name: "Music", slug: "music" },
+  { id: "tag10", name: "Sports", slug: "sports" },
 ];
 
 export const mockProfile: Profile = {
@@ -214,6 +215,7 @@ export const mockProfile: Profile = {
   name: "Alice Smith",
   email: "alice.smith@example.com",
   bio: "I'm a software engineer and aspiring blogger. I love coding and writing about programming.",
+  slug: "test-user",
 };
 
 export const mockPost: PostDTO = {
@@ -227,10 +229,13 @@ export const mockPost: PostDTO = {
   created: new Date("2023-11-04T12:00:00Z"),
   updated: new Date("2023-11-04T14:30:00Z"),
   likes: 87,
-  user: {
-    id: "11",
-    name: "John Doe",
+  author: {
+    username: "test-user",
+    bio: "I'm a software engineer and aspiring blogger. I love coding and writing about programming.",
+    image: "https://i.pravatar.cc/300",
+    following: false,
+    slug: "test-user",
   },
-  tags: [mockTags[0], mockTags[1], mockTags[2]],
-  comments: 42,
+  tags: [mockTags[0].id, mockTags[1].id, mockTags[2].id],
+  isLiked: false,
 };

@@ -1,6 +1,6 @@
+import { UserSignUpForm } from "@/entities/user";
+import { Routing } from "@/shared/lib";
 import { NavLink } from "react-router-dom";
-import { Routing } from "../../../shared/lib";
-import { UserSignUpForm } from "../../../entities/user";
 
 export default function SignUpPage() {
   return (

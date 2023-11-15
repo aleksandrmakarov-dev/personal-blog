@@ -1,9 +1,9 @@
 import ComputerTwoToneIcon from "@mui/icons-material/ComputerTwoTone";
 import { NavLink } from "react-router-dom";
-import { Routing, cn } from "../../../shared/lib";
 import EditNoteIcon from "@mui/icons-material/EditNote";
-import { UserProfileMenu } from "../../../widgets/user-profile-menu/ui/UserProfileMenu";
-import { useAuth } from "../../../providers/AuthProvider";
+import { useAuth } from "@/providers/AuthProvider";
+import { Routing, cn } from "@/shared/lib";
+import { UserProfileMenu } from "@/widgets/user";
 
 type NavLinkType = {
   name: string;

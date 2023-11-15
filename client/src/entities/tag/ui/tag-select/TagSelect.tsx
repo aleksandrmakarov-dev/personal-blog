@@ -4,9 +4,9 @@ import {
   FormHelperText,
   TextField,
 } from "@mui/material";
-import React from "react";
 import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
+import { GenericErrorModelDTO } from "@/shared/lib/types";
 
 export type TagSelectOption = {
   id: string;
@@ -17,7 +17,10 @@ interface TagSelectProps {
   options: TagSelectOption[];
   isLoading: boolean;
   isError?: boolean;
+  error?: GenericErrorModelDTO;
   limit?: number;
+
+  actions?: React.ReactNode;
 
   onSelectTag: (tags: TagSelectOption[]) => void;
   value?: TagSelectOption[];
@@ -26,8 +29,17 @@ interface TagSelectProps {
   name: string;
 }
 
-const TagSelect: React.FC<TagSelectProps> = (props) => {
-  const { options, limit, onSelectTag, onBlur, value, name, disabled } = props;
+export function TagSelect(props: TagSelectProps) {
+  const {
+    options,
+    limit = 5,
+    onSelectTag,
+    onBlur,
+    value,
+    name,
+    disabled,
+    actions,
+  } = props;
 
   return (
     <div>
@@ -60,11 +72,12 @@ const TagSelect: React.FC<TagSelectProps> = (props) => {
           <TextField variant="standard" {...params} name={name} />
         )}
       />
-      <FormHelperText sx={{ textAlign: "end" }}>
-        <b>{value?.length}</b> of <b>{limit}</b> tags selected
-      </FormHelperText>
+      <div className="flex items-start justify-between">
+        {actions && <div className="flex items-center gap-0.5">{actions}</div>}
+        <FormHelperText sx={{ textAlign: "end" }}>
+          <b>{value?.length}</b> of <b>{limit}</b> tags selected
+        </FormHelperText>
+      </div>
     </div>
   );
-};
-
-export default TagSelect;
+}

@@ -1,4 +1,4 @@
-import { PostCardDTO } from "../../../../shared/lib";
+import { PostCardDTO } from "@/shared/lib";
 
 interface PostListProps {
   isLoading: boolean;

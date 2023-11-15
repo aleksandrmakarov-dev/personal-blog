@@ -1,8 +1,8 @@
+import { PostAuthor, PostImage } from "@/entities/post";
+import { mockPost } from "@/shared/lib/constants";
+import MarkdownPreview from "@/shared/ui/markdown/markdown-preview/MarkdownPreview";
+import MarkdownToC from "@/shared/ui/markdown/markdown-toc/MarkdownToC";
 import { useParams } from "react-router-dom";
-import { mockPost } from "../../shared/lib/constants";
-import MarkdownPreview from "../../shared/ui/markdown/markdown-preview/MarkdownPreview";
-import { PostAuthor, PostImage } from "../../entities/post";
-import MarkdownToC from "../../shared/ui/markdown/markdown-toc/MarkdownToC";
 
 export default function PostPage() {
   const { slug } = useParams();

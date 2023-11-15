@@ -1,4 +1,5 @@
 import { InferSchemaType, Schema, model } from "mongoose";
+const mongooseSlugUpdater = require("mongoose-slug-updater");
 
 const PostSchema = new Schema({
   title: { type: String, trim: true, required: true },
@@ -35,6 +36,8 @@ const PostSchema = new Schema({
     },
   ],
 });
+
+PostSchema.plugin(mongooseSlugUpdater);
 
 PostSchema.set("toJSON", {
   transform: (_document, returnedObject) => {

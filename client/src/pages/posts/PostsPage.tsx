@@ -1,10 +1,8 @@
 import { Divider, Tab, Tabs } from "@mui/material";
-import { PopularTopics } from "../../widgets/popular-topics";
-import { PostsFilter } from "../../widgets/posts-filter";
-import { GlobalPostFeed } from "../../widgets/global-post-feed";
 import PublicRoundedIcon from "@mui/icons-material/PublicRounded";
 import PersonRoundedIcon from "@mui/icons-material/PersonRounded";
 import { useState } from "react";
+import { PostsFilter, GlobalPostFeed, PopularTopics } from "@/widgets/post";
 
 export default function PostsPage() {
   const [tabIndex, setTabIndex] = useState<number>(0);

@@ -1,4 +1,4 @@
-import { User } from "../../entities/user/api/userApi";
+import { User } from "@/entities/user/api/userApi";
 
 export interface UserProfileDTO {
   slug: string;
@@ -28,6 +28,18 @@ async function signInWithPassword(
   return user;
 }
 
+export type SignUpWithPasswordDTO = {
+  email: string;
+  password: string;
+};
+
+async function signUpWithPassword(
+  credentiols: SignUpWithPasswordDTO
+): Promise<void> {
+  return;
+}
+
 export default {
   signInWithPassword,
+  signUpWithPassword,
 };

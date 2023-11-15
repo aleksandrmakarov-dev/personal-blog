@@ -1,9 +1,10 @@
 import { Link } from "react-router-dom";
-import { PostCardDTO, Routing, formatDate } from "../../../../shared/lib";
 import { Avatar, Chip, IconButton } from "@mui/material";
 import FavoriteBorderRoundedIcon from "@mui/icons-material/FavoriteBorderRounded";
 import PanoramaIcon from "@mui/icons-material/Panorama";
-import { stringAvatar, stringToColor } from "../../../../shared/lib/utils";
+import { PostCardDTO, Routing, formatDate } from "@/shared/lib";
+import { stringAvatar, stringToColor } from "@/shared/lib/utils";
+import { TagDTO } from "@/services/tag/tagService";
 
 interface PostPreviewCardProps {
   post: PostCardDTO;
@@ -78,7 +79,7 @@ export function PostPreviewCard({ post }: PostPreviewCardProps) {
             </p>
             <div className="flex items-center gap-1">
               <div className="flex gap-1 w-full">
-                {tags.map((tag) => (
+                {tags.map((tag: TagDTO) => (
                   <Chip
                     sx={{ fontSize: "0.875rem" }}
                     key={tag.id}
