@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Input } from "@mui/material";
+import { Alert, Input } from "@mui/material";
 import { Controller, useForm } from "react-hook-form";
 import { NavLink, useNavigate } from "react-router-dom";
 import { z } from "zod";
@@ -17,7 +17,7 @@ const formSchema = z.object({
 type FormType = z.infer<typeof formSchema>;
 
 export function UserSignInForm() {
-  const { mutate, isPending } = useSignInUserWithPassword();
+  const { mutate, isPending, isError, error } = useSignInUserWithPassword();
   const { signIn } = useAuth();
   const navigate = useNavigate();
 
@@ -40,6 +40,9 @@ export function UserSignInForm() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
+      {isError && (
+        <Alert severity="error">{error.response?.data.message}</Alert>
+      )}
       <Controller
         control={control}
         name="email"

@@ -9,6 +9,7 @@ import FormField from "@/shared/ui/form-field/FormField";
 
 const formSchema = z
   .object({
+    name: z.string().min(2).max(50),
     email: z.string().email(),
     password: z.string().min(6),
     passwordConfirm: z.string().min(6),
@@ -29,6 +30,7 @@ export function UserSignUpForm() {
   const { control, handleSubmit, reset } = useForm<FormType>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      name: "",
       email: "",
       password: "",
       passwordConfirm: "",
@@ -39,6 +41,7 @@ export function UserSignUpForm() {
   const onSubmit = async (values: FormType) => {
     mutate(
       {
+        name: values.name,
         email: values.email,
         password: values.password,
       },
@@ -54,6 +57,16 @@ export function UserSignUpForm() {
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
       {isError && <Alert severity="error">{error.message}</Alert>}
       {isSuccess && <Alert severity="success">{data.message}</Alert>}
+      <Controller
+        control={control}
+        name="name"
+        disabled={isPending}
+        render={({ field, fieldState: { error } }) => (
+          <FormField label="Name" error={error}>
+            <Input {...field} fullWidth size="small" />
+          </FormField>
+        )}
+      />
       <Controller
         control={control}
         name="email"
@@ -88,10 +101,10 @@ export function UserSignUpForm() {
         control={control}
         name="acceptTerms"
         disabled={isPending}
-        render={({ field, fieldState: { error } }) => (
+        render={({ field: { value, ...other }, fieldState: { error } }) => (
           <FormField error={error}>
             <FormControlLabel
-              control={<Checkbox size="small" {...field} />}
+              control={<Checkbox size="small" checked={value} {...other} />}
               label={
                 <p>
                   I accept{" "}

@@ -1,14 +1,13 @@
 import { Request, Response } from "express";
 import { SignUpWithPasswordValidationSchema } from "../lib/validations/user/sign-up.validation";
 import UserModel from "../models/user.model";
-import { Message } from "../lib/utils/express.utils";
+import { Message, Ok } from "../lib/utils/express.utils";
 import authUtils from "../lib/utils/auth.utils";
 import { BadRequestError, NotFoundError } from "../lib/api.errors";
 import { SignInWithPasswordValidationSchema } from "../lib/validations/user/sign-in.validation";
-import AccountModel from "../models/account.model";
 
 async function signUp(req: Request, res: Response) {
-  const { email, password } = SignUpWithPasswordValidationSchema.parse(
+  const { name, email, password } = SignUpWithPasswordValidationSchema.parse(
     req.body
   );
 
@@ -21,6 +20,7 @@ async function signUp(req: Request, res: Response) {
   const passwordHash = await authUtils.hashPassword(password);
 
   const createdUser = await UserModel.create({
+    name: name,
     email: email,
     created: Date.now(),
     passwordHash: passwordHash,
@@ -31,7 +31,7 @@ async function signUp(req: Request, res: Response) {
   return Message(
     res,
     "User registered",
-    "Check your email for verification letter",
+    "Check your email for verification letter!",
     201
   );
 }
@@ -40,9 +40,6 @@ async function signInWithPassword(req: Request, res: Response) {
   const { email, password } = SignInWithPasswordValidationSchema.parse(
     req.body
   );
-
-  const user = await UserModel.findOne({ email: email });
-  user?.passwordHash;
 
   const foundUser = await UserModel.findByEmail(email);
 
@@ -65,9 +62,25 @@ async function signInWithPassword(req: Request, res: Response) {
     throw new BadRequestError("Invaid email or password");
   }
 
-  const createdAccout = await AccountModel.create({});
+  // const createdAccout = await AccountModel.create({
+  //   user: foundUser._id,
+  //   provider: "local",
+  //   tokenType: "Bearer",
+  //   scope: "any",
+  //   refreshToken: "",
+  //   expiresAt: 0,
+  // });
+
+  // if (!createdAccout) {
+  //   throw new InternalError("Something went wrong");
+  // }
+
+  const userAccount = foundUser.toUserAccount();
+  console.log("account:", userAccount);
+  return Ok(res, userAccount);
 }
 
 export default {
   signUp,
+  signInWithPassword,
 };

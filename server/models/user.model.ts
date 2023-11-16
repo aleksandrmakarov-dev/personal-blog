@@ -1,4 +1,4 @@
-import { Document, Model, Schema, Types, model } from "mongoose";
+import mongoose, { Document, Model, Schema, Types, model } from "mongoose";
 const mongooseSlugUpdater = require("mongoose-slug-updater");
 
 // user schema
@@ -12,14 +12,24 @@ interface IUser {
   created: Date;
   updated?: Date;
   slug: string;
-  roles: string[];
-  posts: string[];
-  likedPosts: string[];
-  accounts: string[];
+  roles: mongoose.Types.ObjectId[];
+  posts: mongoose.Types.ObjectId[];
+  likedPosts: mongoose.Types.ObjectId[];
+  accounts: mongoose.Types.ObjectId[];
+}
+
+interface IUserAccount {
+  id: string;
+  name: string;
+  email: string;
+  image?: string;
+  roles: mongoose.Types.ObjectId[];
 }
 
 // user instance methods
-interface IUserMethods {}
+interface IUserMethods {
+  toUserAccount: () => IUserAccount;
+}
 
 // user static methods
 interface IUserModel extends Model<IUser, {}, IUserMethods> {
@@ -72,6 +82,21 @@ const UserSchema = new Schema<IUser, IUserModel, IUserMethods>({
   ],
 });
 
+// methods
+
+UserSchema.method("toUserAccount", function () {
+  const userAccout: IUserAccount = {
+    id: this._id.toString(),
+    name: this.name,
+    email: this.email,
+    image: this.image,
+    roles: this.roles,
+  };
+
+  return userAccout;
+});
+
+// statics
 UserSchema.static("findByEmail", async function (email: string) {
   return await this.findOne({ email: email });
 });

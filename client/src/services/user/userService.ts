@@ -1,6 +1,8 @@
 import { User } from "@/entities/user/api/userApi";
 import { GenericResponseModelDTO } from "@/shared/lib/types";
-import axios, { AxiosResponse } from "axios";
+import axios from "axios";
+
+const baseUrl = "/api/users";
 
 export interface UserProfileDTO {
   slug: string;
@@ -8,6 +10,14 @@ export interface UserProfileDTO {
   bio: string;
   image: string;
   following: boolean;
+}
+
+export interface UserAccountDTO {
+  id: string;
+  name: string;
+  email: string;
+  image?: string;
+  roles: string[];
 }
 
 export type SignInWithPasswordDTO = {
@@ -18,16 +28,11 @@ export type SignInWithPasswordDTO = {
 async function signInWithPassword(
   values: SignInWithPasswordDTO
 ): Promise<User> {
-  const user = {
-    id: "1",
-    slug: "test-user",
-    name: "Test User",
-    email: "test@example.com",
-    bio: "Test Bio",
-    image: "https://static.productionready.io/images/smiley-cyrus.jpg",
-  };
-
-  return user;
+  const response = await axios.post<UserAccountDTO>(
+    `${baseUrl}/sign-in/password`,
+    values
+  );
+  return response.data;
 }
 
 async function signInWithGoogle(): Promise<User> {
@@ -53,6 +58,7 @@ async function signInWithGithub(): Promise<User> {
 }
 
 export type SignUpWithPasswordDTO = {
+  name: string;
   email: string;
   password: string;
 };
@@ -60,10 +66,8 @@ export type SignUpWithPasswordDTO = {
 async function signUpWithPassword(
   values: SignUpWithPasswordDTO
 ): Promise<GenericResponseModelDTO> {
-  console.log("signUpWithPasssword:", values);
-
   const response = await axios.post<GenericResponseModelDTO>(
-    "/api/users/sign-up",
+    `${baseUrl}/sign-up`,
     values
   );
   return response.data;
