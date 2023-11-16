@@ -12,4 +12,13 @@ function NoContent(res: Response) {
   res.status(204).end();
 }
 
-export { Ok, Created, NoContent };
+function Message(
+  res: Response,
+  title: string,
+  message: string,
+  status: number
+) {
+  return res.status(status).json({ title, message });
+}
+
+export { Ok, Created, NoContent, Message };

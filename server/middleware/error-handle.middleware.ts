@@ -7,6 +7,7 @@ import {
 } from "../lib/api.errors";
 import mongoose from "mongoose";
 import { TokenExpiredError, JsonWebTokenError } from "jsonwebtoken";
+import { GenericErrorModelDTO } from "../lib/types";
 
 function errorHandleMiddleware(
   err: Error,
@@ -15,36 +16,75 @@ function errorHandleMiddleware(
   _next: NextFunction
 ) {
   if (err instanceof NotFoundError) {
-    return res.status(404).json({ title: "Not found", message: err.message });
+    const error: GenericErrorModelDTO = {
+      code: "404",
+      title: "Not found",
+      message: err.message,
+    };
+    return res.status(404).json(error);
   }
 
   if (err instanceof BadRequestError) {
-    return res.status(400).json({ title: "Bad request", message: err.message });
+    const error: GenericErrorModelDTO = {
+      code: "400",
+      title: "Bad request",
+      message: err.message,
+    };
+    return res.status(400).json(error);
   }
 
   if (err instanceof mongoose.Error.ValidationError) {
-    return res.status(422).json({ error: err.message });
+    const error: GenericErrorModelDTO = {
+      code: "422",
+      title: "Validation error",
+      message: err.message,
+    };
+    return res.status(422).json(error);
   }
 
   if (err instanceof z.ZodError) {
-    return res.status(422).json({ error: err.message });
+    const error: GenericErrorModelDTO = {
+      code: "422",
+      title: "Validation error",
+      message: err.message,
+    };
+    return res.status(422).json(error);
   }
 
   if (err instanceof TokenExpiredError) {
-    return res.status(401).json({ error: "Token expired" });
+    const error: GenericErrorModelDTO = {
+      code: "401",
+      title: "Token expired",
+      message: err.message,
+    };
+    return res.status(401).json(error);
   }
 
   if (err instanceof JsonWebTokenError) {
-    return res.status(401).json({ error: "Token must be provided" });
+    const error: GenericErrorModelDTO = {
+      code: "401",
+      title: "Token error",
+      message: err.message,
+    };
+    return res.status(401).json(error);
   }
 
   if (err instanceof UnAuthorizedError) {
-    return res.status(401).json({ error: err.message });
+    const error: GenericErrorModelDTO = {
+      code: "401",
+      title: "Unauthorized",
+      message: err.message,
+    };
+    return res.status(401).json(error);
   }
 
-  return res
-    .status(500)
-    .json({ title: "Internal error", message: err.message });
+  const error: GenericErrorModelDTO = {
+    code: "500",
+    title: "Internal error",
+    message: err.message,
+  };
+
+  return res.status(500).json(error);
 }
 
 export default errorHandleMiddleware;

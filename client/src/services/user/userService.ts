@@ -1,4 +1,6 @@
 import { User } from "@/entities/user/api/userApi";
+import { GenericResponseModelDTO } from "@/shared/lib/types";
+import axios, { AxiosResponse } from "axios";
 
 export interface UserProfileDTO {
   slug: string;
@@ -14,7 +16,7 @@ export type SignInWithPasswordDTO = {
 };
 
 async function signInWithPassword(
-  credentials: SignInWithPasswordDTO
+  values: SignInWithPasswordDTO
 ): Promise<User> {
   const user = {
     id: "1",
@@ -56,9 +58,15 @@ export type SignUpWithPasswordDTO = {
 };
 
 async function signUpWithPassword(
-  credentials: SignUpWithPasswordDTO
-): Promise<void> {
-  return;
+  values: SignUpWithPasswordDTO
+): Promise<GenericResponseModelDTO> {
+  console.log("signUpWithPasssword:", values);
+
+  const response = await axios.post<GenericResponseModelDTO>(
+    "/api/users/sign-up",
+    values
+  );
+  return response.data;
 }
 
 export default {

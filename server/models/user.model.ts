@@ -1,12 +1,47 @@
-import { InferSchemaType, Schema, model } from "mongoose";
+import { Document, Model, Schema, Types, model } from "mongoose";
 const mongooseSlugUpdater = require("mongoose-slug-updater");
 
-const UserSchema = new Schema({
-  name: { type: String, required: true },
+// user schema
+interface IUser {
+  name: string;
+  bio?: string;
+  email: string;
+  image?: string;
+  passwordHash?: string;
+  emailVerified?: boolean;
+  created: Date;
+  updated?: Date;
+  slug: string;
+  roles: string[];
+  posts: string[];
+  likedPosts: string[];
+  accounts: string[];
+}
+
+// user instance methods
+interface IUserMethods {}
+
+// user static methods
+interface IUserModel extends Model<IUser, {}, IUserMethods> {
+  findByEmail(email: string): Promise<
+    | (Document<unknown, {}, IUser> &
+        Omit<
+          IUser & {
+            _id: Types.ObjectId;
+          },
+          never
+        > &
+        IUserMethods)
+    | null
+  >;
+}
+
+const UserSchema = new Schema<IUser, IUserModel, IUserMethods>({
+  name: { type: String },
   bio: { type: String },
   email: { type: String, required: true, unique: true },
   image: { type: String },
-  passwordHash: { type: String, required: true },
+  passwordHash: { type: String },
   emailVerified: { type: Boolean, default: false },
   created: { type: Date, default: Date.now() },
   updated: { type: Date },
@@ -37,6 +72,10 @@ const UserSchema = new Schema({
   ],
 });
 
+UserSchema.static("findByEmail", async function (email: string) {
+  return await this.findOne({ email: email });
+});
+
 UserSchema.plugin(mongooseSlugUpdater);
 
 UserSchema.set("toJSON", {
@@ -48,8 +87,6 @@ UserSchema.set("toJSON", {
   },
 });
 
-type User = InferSchemaType<typeof UserSchema>;
-
-const UserModel = model<User>("User", UserSchema);
+const UserModel = model<IUser, IUserModel>("User", UserSchema);
 
 export default UserModel;
