@@ -11,18 +11,18 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import { CurrentUser, useAuth } from "@/providers/AuthProvider";
+import { useAuth } from "@/providers/AuthProvider";
 import { Routing } from "@/shared/lib";
 import { stringAvatar, stringToColor } from "@/shared/lib/utils";
+import { useSignOut } from "@/features/user";
+import { NavLink } from "react-router-dom";
 
-interface UserProfileMenuProps {
-  currentUser?: CurrentUser;
-}
-
-export function UserProfileMenu(props: UserProfileMenuProps) {
-  const { currentUser } = props;
+export function UserProfileMenu() {
+  const { currentUser, isLoading } = useAuth();
   const [anchorEl, setAnchorEl] = useState(null);
-  const { signOut } = useAuth();
+  const { clearUser } = useAuth();
+
+  const { mutate } = useSignOut();
 
   const open = Boolean(anchorEl);
   const handleClick = (event: any) => {
@@ -33,9 +33,20 @@ export function UserProfileMenu(props: UserProfileMenuProps) {
   };
 
   const onSignOutClick = () => {
-    signOut();
     handleClose();
+    mutate(
+      {},
+      {
+        onSuccess: () => {
+          clearUser();
+        },
+      }
+    );
   };
+
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
 
   if (!currentUser) {
     return (
@@ -106,22 +117,26 @@ export function UserProfileMenu(props: UserProfileMenuProps) {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        <MenuItem onClick={handleClose}>
-          <ListItemIcon>
-            <AccountCircleIcon fontSize="small" />
-          </ListItemIcon>
-          <ListItemText
-            primary={currentUser.name}
-            secondary={currentUser.email}
-          />
-        </MenuItem>
+        <NavLink to={Routing.users.details(currentUser.slug)}>
+          <MenuItem>
+            <ListItemIcon>
+              <AccountCircleIcon fontSize="small" />
+            </ListItemIcon>
+            <ListItemText
+              primary={currentUser.name}
+              secondary={currentUser.email}
+            />
+          </MenuItem>
+        </NavLink>
         <Divider />
-        <MenuItem onClick={handleClose}>
-          <ListItemIcon>
-            <Settings fontSize="small" />
-          </ListItemIcon>
-          <ListItemText>Settings</ListItemText>
-        </MenuItem>
+        <NavLink to={Routing.users.settings(currentUser.slug)}>
+          <MenuItem>
+            <ListItemIcon>
+              <Settings fontSize="small" />
+            </ListItemIcon>
+            <ListItemText>Settings</ListItemText>
+          </MenuItem>
+        </NavLink>
         <MenuItem onClick={onSignOutClick}>
           <ListItemIcon>
             <Logout fontSize="small" />

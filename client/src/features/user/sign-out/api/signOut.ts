@@ -1,7 +1,5 @@
 import { userKeys } from "@/entities/user/api/userApi";
-import userService, {
-  SignUpWithPasswordDTO,
-} from "@/services/user/userService";
+import userService from "@/services/user/userService";
 import {
   GenericErrorModelDTO,
   GenericResponseModelDTO,
@@ -9,16 +7,16 @@ import {
 import { useMutation } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 
-export const useSignUpWithPassword = () => {
+export const useSignOut = () => {
   return useMutation<
     GenericResponseModelDTO,
     AxiosError<GenericErrorModelDTO>,
-    SignUpWithPasswordDTO,
+    unknown,
     unknown
   >({
-    mutationKey: userKeys.mutation.signUp(),
-    mutationFn: async (values: SignUpWithPasswordDTO) => {
-      return await userService.signUpWithPassword(values);
+    mutationKey: userKeys.mutation.signOut(),
+    mutationFn: async () => {
+      return await userService.signOut();
     },
   });
 };

@@ -18,7 +18,7 @@ type FormType = z.infer<typeof formSchema>;
 
 export function UserSignInForm() {
   const { mutate, isPending, isError, error } = useSignInUserWithPassword();
-  const { signIn } = useAuth();
+  const { setUser } = useAuth();
   const navigate = useNavigate();
 
   const { control, handleSubmit } = useForm<FormType>({
@@ -32,7 +32,7 @@ export function UserSignInForm() {
   const onSubmit = async (values: FormType) => {
     mutate(values, {
       onSuccess: (data) => {
-        signIn(data);
+        setUser(data);
         navigate(Routing.root, { replace: true });
       },
     });

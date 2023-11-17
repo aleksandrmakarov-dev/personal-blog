@@ -20,7 +20,8 @@ export const userKeys = {
     signInWithGoogle: () => [...userKeys.user.root, "sign-in-with-google"],
     signInWithGithub: () => [...userKeys.user.root, "sign-in-with-github"],
     signUp: () => [...userKeys.user.root, "sign-up"],
-    refresh: () => [...userKeys.user.root, "refresh"],
+    refreshToken: () => [...userKeys.user.root, "refresh-token"],
+    signOut: () => [...userKeys.user.root, "sign-out"],
   },
 };
 
@@ -32,21 +33,3 @@ type UseRefreshUserQuery = UseQueryOptions<
 >;
 
 type UseRefreshUserOptions = Omit<UseRefreshUserQuery, "queryKey" | "queryFn">;
-
-export const useRefreshUser = (options?: UseRefreshUserOptions) => {
-  const { signIn } = useAuth();
-
-  return useQuery({
-    queryKey: userKeys.mutation.refresh(),
-    queryFn: async () => {
-      const user = {
-        email: "alexandr.makarov.2000@gmail.com",
-        id: "1",
-        name: "Alexandr Makarov",
-      };
-      signIn(user);
-      return user;
-    },
-    ...options,
-  });
-};

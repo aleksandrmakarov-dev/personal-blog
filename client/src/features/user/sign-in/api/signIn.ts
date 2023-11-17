@@ -21,7 +21,7 @@ export const useSignInUserWithPassword = () => {
 };
 
 export const useSignInWithGoogle = () => {
-  return useMutation<User, GenericErrorModelDTO, void, unknown>({
+  return useMutation<User, AxiosError<GenericErrorModelDTO>, void, unknown>({
     mutationKey: userKeys.mutation.signInWithGoogle(),
     mutationFn: async () => {
       return await userService.signInWithGoogle();
@@ -30,7 +30,7 @@ export const useSignInWithGoogle = () => {
 };
 
 export const useSignInWithGithub = () => {
-  return useMutation<User, GenericErrorModelDTO, void, unknown>({
+  return useMutation<User, AxiosError<GenericErrorModelDTO>, void, unknown>({
     mutationKey: userKeys.mutation.signInWithGithub(),
     mutationFn: async () => {
       return await userService.signInWithGithub();

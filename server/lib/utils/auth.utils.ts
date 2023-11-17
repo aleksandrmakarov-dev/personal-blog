@@ -26,7 +26,7 @@ function generateToken() {
   return crypto.randomBytes(32).toString("hex");
 }
 
-function signAccessToken(payload: any) {
+function generateAccessToken(payload: any) {
   return jsonwebtoken.sign(payload, AuthConfig.TOKEN_SECRET, {
     expiresIn: AuthConfig.ACCESS_TOKEN_EXPIRES,
   });
@@ -34,10 +34,6 @@ function signAccessToken(payload: any) {
 
 function verifyAccessToken(token: string) {
   return jsonwebtoken.verify(token, AuthConfig.TOKEN_SECRET);
-}
-
-function userToAccessToken(user: any) {
-  return signAccessToken({ id: user.id, roles: user.roles });
 }
 
 function getExpirationTimeUnix(seconds: number) {
@@ -50,9 +46,8 @@ function isExpired(date: number | Date) {
 
 export default {
   generateToken,
-  signAccessToken,
+  generateAccessToken,
   verifyAccessToken,
-  userToAccessToken,
   getExpirationTimeUnix,
   isExpired,
   hashPassword,

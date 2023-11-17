@@ -20,6 +20,7 @@ interface IUser {
 
 interface IUserAccount {
   id: string;
+  slug: string;
   name: string;
   email: string;
   image?: string;
@@ -87,6 +88,7 @@ const UserSchema = new Schema<IUser, IUserModel, IUserMethods>({
 UserSchema.method("toUserAccount", function () {
   const userAccout: IUserAccount = {
     id: this._id.toString(),
+    slug: this.slug,
     name: this.name,
     email: this.email,
     image: this.image,

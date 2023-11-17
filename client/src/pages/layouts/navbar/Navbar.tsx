@@ -63,7 +63,7 @@ export default function Navbar() {
                     <EditNoteIcon fontSize="medium" /> <span>Write</span>
                   </NavLink>
                 )}
-                <UserProfileMenu currentUser={currentUser} />
+                <UserProfileMenu />
               </div>
             </div>
           </div>

@@ -14,6 +14,7 @@ export interface UserProfileDTO {
 
 export interface UserAccountDTO {
   id: string;
+  slug: string;
   name: string;
   email: string;
   image?: string;
@@ -27,7 +28,7 @@ export type SignInWithPasswordDTO = {
 
 async function signInWithPassword(
   values: SignInWithPasswordDTO
-): Promise<User> {
+): Promise<UserAccountDTO> {
   const response = await axios.post<UserAccountDTO>(
     `${baseUrl}/sign-in/password`,
     values
@@ -73,9 +74,23 @@ async function signUpWithPassword(
   return response.data;
 }
 
+async function refreshToken(): Promise<UserAccountDTO> {
+  const response = await axios.post<UserAccountDTO>(`${baseUrl}/refresh-token`);
+  return response.data;
+}
+
+async function signOut(): Promise<GenericResponseModelDTO> {
+  const response = await axios.post<GenericResponseModelDTO>(
+    `${baseUrl}/sign-out`
+  );
+  return response.data;
+}
+
 export default {
   signInWithPassword,
   signUpWithPassword,
   signInWithGoogle,
   signInWithGithub,
+  refreshToken,
+  signOut,
 };

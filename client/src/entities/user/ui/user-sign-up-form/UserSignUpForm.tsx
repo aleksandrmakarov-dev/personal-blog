@@ -55,7 +55,9 @@ export function UserSignUpForm() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
-      {isError && <Alert severity="error">{error.message}</Alert>}
+      {isError && (
+        <Alert severity="error">{error.response?.data.message}</Alert>
+      )}
       {isSuccess && <Alert severity="success">{data.message}</Alert>}
       <Controller
         control={control}

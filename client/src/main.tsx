@@ -5,6 +5,7 @@ import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
+import axios from "axios";
 
 declare module "@mui/material/styles/createPalette" {
   interface Palette {
@@ -24,5 +25,8 @@ declare module "@mui/material/Button" {
     google: true;
   }
 }
+
+// default axios config
+axios.defaults.withCredentials = true;
 
 ReactDOM.createRoot(document.getElementById("root")!).render(<App />);

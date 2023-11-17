@@ -4,13 +4,14 @@ export const Routing = {
     root: "/posts",
     index: "/posts",
     details: (slug: string) => `/posts/${slug}`,
-    edit: (id: string) => `/posts/${id}/edit`,
+    edit: (slug: string) => `/posts/${slug}/edit`,
     new: "/posts/new",
   },
   aboutMe: "/about-me",
   users: {
     root: "/users",
-    details: (id: string) => `/users/${id}`,
+    details: (slug: string) => `/users/${slug}`,
+    settings: (slug: string) => `/users/${slug}/settings`,
   },
   auth: {
     signIn: "/sign-in",

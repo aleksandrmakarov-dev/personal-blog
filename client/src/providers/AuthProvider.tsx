@@ -1,26 +1,27 @@
-import { PropsWithChildren, createContext, useContext, useState } from "react";
-
-export type CurrentUser = {
-  id: string;
-  email: string;
-  name: string;
-  image?: string;
-};
+import { useRefreshToken } from "@/features/user/refresh-token";
+import { UserAccountDTO } from "@/services/user/userService";
+import {
+  PropsWithChildren,
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 
 export type AuthContextType = {
-  currentUser?: CurrentUser;
+  currentUser?: UserAccountDTO;
   isLoading: boolean;
-  isError?: string;
-  signIn: (user: CurrentUser) => void;
-  signOut: () => void;
+  isError?: boolean;
+  setUser: (user: UserAccountDTO) => void;
+  clearUser: () => void;
 };
 
 const defaultValue: AuthContextType = {
   currentUser: undefined,
   isLoading: false,
   isError: undefined,
-  signIn: () => {},
-  signOut: () => {},
+  setUser: () => {},
+  clearUser: () => {},
 };
 
 const AuthContext = createContext<AuthContextType>(defaultValue);
@@ -32,15 +33,26 @@ export const useAuth = () => {
 export default function AuthProvider(props: PropsWithChildren<{}>) {
   const { children } = props;
 
-  const [currentUser, setCurrentUser] = useState<CurrentUser>();
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [isError, setIsError] = useState<string>();
+  const [currentUser, setCurrentUser] = useState<UserAccountDTO>();
 
-  const signIn = (user: CurrentUser) => {
+  const { mutate, isPending, isError } = useRefreshToken();
+
+  useEffect(() => {
+    mutate(
+      {},
+      {
+        onSuccess: (data) => {
+          setCurrentUser(data);
+        },
+      }
+    );
+  }, []);
+
+  const setUser = (user: UserAccountDTO) => {
     setCurrentUser(user);
   };
 
-  const signOut = () => {
+  const clearUser = () => {
     setCurrentUser(undefined);
   };
 
@@ -48,10 +60,10 @@ export default function AuthProvider(props: PropsWithChildren<{}>) {
     <AuthContext.Provider
       value={{
         currentUser: currentUser,
-        isLoading: isLoading,
+        isLoading: isPending,
         isError: isError,
-        signIn: signIn,
-        signOut: signOut,
+        setUser: setUser,
+        clearUser: clearUser,
       }}
     >
       {children}

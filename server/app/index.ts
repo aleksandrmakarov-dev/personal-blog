@@ -1,8 +1,10 @@
 require("express-async-errors");
-import express, { Express } from "express";
-import { connectToDb } from "../database/mongoose";
 import morgan from "morgan";
 import cors from "cors";
+import cookieParser from "cookie-parser";
+
+import express, { Express } from "express";
+import { connectToDb } from "../database/mongoose";
 import postRoutes from "../routes/post.routes";
 import tagRoutes from "../routes/tag.routes";
 import errorHandleMiddleware from "../middleware/error-handle.middleware";
@@ -16,6 +18,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev"));
 app.use(cors());
+app.use(cookieParser());
 
 app.use("/api/posts", postRoutes);
 app.use("/api/tags", tagRoutes);
