@@ -53,8 +53,25 @@ async function getPostBySlug(slug: string): Promise<PostDTO> {
   return response.data;
 }
 
+export interface UpdatePostDTO {
+  title: string;
+  body: string;
+  description: string;
+  image?: string;
+  tags: string[];
+}
+
+async function updatePostById(
+  id: string,
+  post: UpdatePostDTO
+): Promise<PostDTO> {
+  const response = await axios.put<PostDTO>(`/api/posts/${id}`, post);
+  return response.data;
+}
+
 export default {
   getPosts,
   createPost,
   getPostBySlug,
+  updatePostById,
 };

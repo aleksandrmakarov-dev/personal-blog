@@ -44,3 +44,11 @@ export function stringAvatar(value: string) {
 export async function sleep(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
+
+export function getSearchParamsObject<T>(searchParams: URLSearchParams): T {
+  const paramsObject: Record<string, string> = {};
+  searchParams.forEach((value, key) => {
+    paramsObject[key] = value;
+  });
+  return paramsObject as T;
+}

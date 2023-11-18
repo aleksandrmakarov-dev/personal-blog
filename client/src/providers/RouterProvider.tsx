@@ -27,7 +27,10 @@ const router = createBrowserRouter(
         <Route path={Routing.posts.root}>
           <Route index element={<PostsPage />} />
           <Route path="new" element={<PostEditorPage />} />
-          <Route path=":slug" element={<PostPage />} />
+          <Route path=":slug">
+            <Route index element={<PostPage />} />
+            <Route path="edit" element={<PostEditorPage edit />} />
+          </Route>
         </Route>
         <Route path={Routing.aboutMe} element={<AboutMePage />} />
         <Route path={Routing.users.root}>

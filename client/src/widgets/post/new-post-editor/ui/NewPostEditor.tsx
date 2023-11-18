@@ -1,7 +1,6 @@
 import { PostEditor, PostEditorSchemaType } from "@/entities/post";
 import { useCreatePost } from "@/features/post";
 import { Routing } from "@/shared/lib";
-import { mockPost } from "@/shared/lib/constants";
 import { Alert } from "@mui/material";
 import { NavLink } from "react-router-dom";
 
@@ -25,6 +24,7 @@ export function NewPostEditor() {
 
   return (
     <>
+      <h1 className="text-4xl font-semibold mb-5">Create new post</h1>
       {isSuccess && (
         <Alert className="mb-2">
           Post created successfully!{" "}
@@ -37,14 +37,11 @@ export function NewPostEditor() {
         </Alert>
       )}
       {isError && (
-        <Alert className="mb-2">{error.response?.data.message}</Alert>
+        <Alert className="mb-2" severity="error">
+          {error.response?.data.message}
+        </Alert>
       )}
-      <PostEditor
-        post={{ ...mockPost }}
-        onSubmit={onSubmit}
-        isLoading={isPending}
-        isError={isError}
-      />
+      <PostEditor onSubmit={onSubmit} isLoading={isPending} isError={isError} />
     </>
   );
 }

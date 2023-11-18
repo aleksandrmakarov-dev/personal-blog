@@ -26,7 +26,7 @@ const MarkdownEditor: React.ForwardRefRenderFunction<
         <Tab value={0} label="Write" disabled={disabled} />
         <Tab value={1} label="Preview changes" disabled={disabled} />
       </Tabs>
-      <div className="h-96 mb-2">
+      <div className="h-[30rem] mb-2">
         {index === 0 && (
           <MarkdownEdit disabled={disabled} value={value} onChange={onChange} />
         )}

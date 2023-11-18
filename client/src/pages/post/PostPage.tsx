@@ -1,5 +1,4 @@
-import { PostAuthor, PostImage } from "@/entities/post";
-import { usePost } from "@/entities/post/api/postApi";
+import { PostAuthor, PostImage, usePost } from "@/entities/post";
 import MarkdownPreview from "@/shared/ui/markdown/markdown-preview/MarkdownPreview";
 import MarkdownToC from "@/shared/ui/markdown/markdown-toc/MarkdownToC";
 import { useParams } from "react-router-dom";

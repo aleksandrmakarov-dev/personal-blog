@@ -1,4 +1,7 @@
-import postService, { PostPreviewDTO } from "@/services/post/postService";
+import postService, {
+  PostDTO,
+  PostPreviewDTO,
+} from "@/services/post/postService";
 import { PagedResponse, GenericErrorModelDTO } from "@/shared/lib/types";
 import { UseQueryOptions, useQuery } from "@tanstack/react-query";
 import { AxiosError } from "axios";
@@ -72,7 +75,12 @@ export const useGlobalFeed = (
 };
 
 export const usePost = (slug: string) => {
-  return useQuery({
+  return useQuery<
+    PostDTO,
+    AxiosError<GenericErrorModelDTO>,
+    PostDTO,
+    unknown[]
+  >({
     queryKey: postKeys.post.slug(slug),
     queryFn: async () => {
       return await postService.getPostBySlug(slug);

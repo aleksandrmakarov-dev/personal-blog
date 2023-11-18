@@ -6,8 +6,10 @@ export function MainLayout() {
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
-      <main className="mx-auto max-w-screen-lg py-8 px-5 lg:px-0 flex-1">
-        <Outlet />
+      <main className="flex justify-center py-8 px-5 lg:px-0 flex-1">
+        <div className="max-w-screen-lg w-full">
+          <Outlet />
+        </div>
       </main>
       <Footer />
     </div>

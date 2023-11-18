@@ -1,13 +1,15 @@
 import { PostList, PostPreviewCard } from "@/entities/post";
 import { useGlobalFeed } from "@/entities/post/api/postApi";
-import useSearchParameters from "@/shared/hooks/useSearchParameters";
+import { getSearchParamsObject } from "@/shared/lib/utils";
 import RouterPagination from "@/shared/ui/router-pagination/RouterPagination";
+import { useSearchParams } from "react-router-dom";
 
 export function GlobalPostFeed() {
-  const searchParams = useSearchParameters();
+  const [searchParams] = useSearchParams();
 
-  const { data, isLoading, isError, error, isSuccess } =
-    useGlobalFeed(searchParams);
+  const { data, isLoading, isError, error, isSuccess } = useGlobalFeed(
+    getSearchParamsObject(searchParams)
+  );
 
   return (
     <>
@@ -26,7 +28,6 @@ export function GlobalPostFeed() {
           totalPages={data.totalPages}
           limit={data.limit}
           page={data.page}
-          baseUrl="/posts"
         />
       )}
     </>

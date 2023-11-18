@@ -15,6 +15,7 @@ interface PostEditorProps {
   isLoading: boolean;
   isError: boolean;
   error?: string;
+  edit?: boolean;
 }
 
 const initialPost: PostEditorSchemaType = {
@@ -26,7 +27,7 @@ const initialPost: PostEditorSchemaType = {
 };
 
 export function PostEditor(props: PostEditorProps) {
-  const { post, onSubmit, isLoading } = props;
+  const { post, onSubmit, isLoading, edit } = props;
 
   const navigate = useNavigate();
 
@@ -41,6 +42,11 @@ export function PostEditor(props: PostEditorProps) {
       <PostEditorBody control={control} isLoading={isLoading} />
       <div className="flex items-center justify-end gap-x-2">
         <Button onClick={() => navigate(-1)}>Cancel</Button>
+        {edit && (
+          <Button color="error" variant="contained" disableElevation>
+            Delete
+          </Button>
+        )}
         <LoadingButton
           loading={isLoading}
           className="self-start"

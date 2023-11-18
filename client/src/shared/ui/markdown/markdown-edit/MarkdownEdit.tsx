@@ -11,7 +11,7 @@ interface MarkdownEditProps {
 const MarkdownEdit: React.ForwardRefRenderFunction<
   HTMLInputElement,
   MarkdownEditProps
-> = (props, ref) => {
+> = (props, _ref) => {
   const { value: markdownValue, onChange, disabled } = props;
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -80,7 +80,10 @@ const MarkdownEdit: React.ForwardRefRenderFunction<
             overflowX: "hidden",
           }}
           lineProps={{
-            style: { wordBreak: "break-word", whiteSpace: "pre-wrap" },
+            style: {
+              wordBreak: "break-word",
+              whiteSpace: "pre-wrap",
+            },
           }}
           wrapLines={true}
         >
