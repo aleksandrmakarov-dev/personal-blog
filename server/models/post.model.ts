@@ -1,7 +1,30 @@
-import { InferSchemaType, Schema, model } from "mongoose";
 const mongooseSlugUpdater = require("mongoose-slug-updater");
+import mongoose, { Model, Schema, model } from "mongoose";
 
-const PostSchema = new Schema({
+interface IPost {
+  title: string;
+  description: string;
+  body: string;
+  created: Date;
+  updated: Date;
+  image: string;
+  slug: string;
+  parent?: mongoose.Types.ObjectId;
+  author: mongoose.Types.ObjectId;
+  children: mongoose.Types.ObjectId;
+  tags: mongoose.Types.ObjectId[];
+  likes: mongoose.Types.ObjectId[];
+}
+
+// post instance methods
+interface IPostMethods {}
+
+// post static methods
+interface IPostModel extends Model<IPost, {}, IPostMethods> {
+  findBySlug: (slug: string) => any;
+}
+
+const PostSchema = new Schema<IPost, IPostModel, IPostMethods>({
   title: { type: String, trim: true, required: true },
   description: { type: String, trim: true, required: true },
   body: { type: String, trim: true, required: true },
@@ -29,12 +52,18 @@ const PostSchema = new Schema({
       ref: "User",
     },
   ],
-  children: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "Post",
-    },
-  ],
+  children: {
+    type: Schema.Types.ObjectId,
+    ref: "Post",
+  },
+});
+
+// methods
+
+// statics
+
+PostSchema.static("findBySlug", function (slug: string) {
+  return this.findOne({ slug: slug });
 });
 
 PostSchema.plugin(mongooseSlugUpdater);
@@ -47,8 +76,6 @@ PostSchema.set("toJSON", {
   },
 });
 
-type Post = InferSchemaType<typeof PostSchema>;
-
-const PostModel = model<Post>("Post", PostSchema);
+const PostModel = model<IPost, IPostModel>("Post", PostSchema);
 
 export default PostModel;

@@ -6,10 +6,10 @@ import { Control, Controller } from "react-hook-form";
 import { z } from "zod";
 
 export const postEditorSchema = z.object({
-  title: z.string().min(1).max(100),
-  description: z.string().min(1).max(150),
+  title: z.string().min(1).max(150),
+  description: z.string().min(1).max(250),
   body: z.string().min(1),
-  image: z.string().url().optional(),
+  image: z.string().optional(),
   tags: z
     .array(
       z.object({
@@ -90,7 +90,7 @@ export function PostEditorBody(props: PostEditorBodyProps) {
             <PostTagSelect onSelectTag={onSelectTag} {...other} />
           </FormField>
         )}
-      ></Controller>
+      />
     </>
   );
 }

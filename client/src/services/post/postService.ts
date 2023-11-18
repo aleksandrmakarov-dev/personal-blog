@@ -1,6 +1,7 @@
 import { PagedResponse } from "@/shared/lib/types";
 import axios from "axios";
 import { UserProfileDTO } from "../user/userService";
+import { TagDTO } from "../tag/tagService";
 
 export interface PostPreviewDTO {
   id: string;
@@ -13,7 +14,7 @@ export interface PostPreviewDTO {
   author: UserProfileDTO;
   likes: number;
   isLiked: boolean;
-  tags: string[];
+  tags: TagDTO[];
 }
 
 export interface PostDTO extends PostPreviewDTO {

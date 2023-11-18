@@ -2,19 +2,20 @@ import { Link } from "react-router-dom";
 import { Avatar, Chip, IconButton } from "@mui/material";
 import FavoriteBorderRoundedIcon from "@mui/icons-material/FavoriteBorderRounded";
 import PanoramaIcon from "@mui/icons-material/Panorama";
-import { PostCardDTO, Routing, formatDate } from "@/shared/lib";
+import { Routing, formatDate } from "@/shared/lib";
 import { stringAvatar, stringToColor } from "@/shared/lib/utils";
 import { TagDTO } from "@/services/tag/tagService";
+import { PostPreviewDTO } from "@/services/post/postService";
 
 interface PostPreviewCardProps {
-  post: PostCardDTO;
+  post: PostPreviewDTO;
 }
 
 export function PostPreviewCard({ post }: PostPreviewCardProps) {
   const {
     title,
     image,
-    user,
+    author,
     created,
     description,
     likes,
@@ -22,7 +23,6 @@ export function PostPreviewCard({ post }: PostPreviewCardProps) {
     tags,
     slug,
   } = post;
-
   return (
     <article className="border-b border-gray-200">
       <div className="py-5 ">
@@ -44,28 +44,30 @@ export function PostPreviewCard({ post }: PostPreviewCardProps) {
           </div>
           <div className="w-full">
             <div className="flex gap-2 items-center">
-              {user && (
-                <div className="flex items-center">
-                  <Avatar
-                    className="mr-2"
-                    alt={user.name}
-                    children={stringAvatar(user.name)}
-                    sx={{
-                      width: 24,
-                      height: 24,
-                      fontSize: 10,
-                      bgcolor: stringToColor(user.name),
-                    }}
-                  />
-                  <Link
-                    className="text-sm font-semibold text-foreground-secondary hover:text-foreground-primary"
-                    to={Routing.users.details(user.id)}
-                  >
-                    {user.name}
-                  </Link>
-                </div>
+              {author && (
+                <>
+                  <div className="flex items-center">
+                    <Avatar
+                      className="mr-2"
+                      alt={author.name}
+                      children={stringAvatar(author.name)}
+                      sx={{
+                        width: 24,
+                        height: 24,
+                        fontSize: 10,
+                        bgcolor: stringToColor(author.name),
+                      }}
+                    />
+                    <Link
+                      className="text-sm font-semibold text-foreground-secondary hover:text-foreground-primary"
+                      to={Routing.users.details(author.slug)}
+                    >
+                      {author.name}
+                    </Link>
+                  </div>
+                  <span className="text-foreground-secondary">•</span>
+                </>
               )}
-              <span className="text-foreground-secondary">•</span>
               <p className="text-xs uppercase text-foreground-secondary">
                 <span>{formatDate(created)}</span>{" "}
                 {updated && <span>(Edit {formatDate(updated)})</span>}

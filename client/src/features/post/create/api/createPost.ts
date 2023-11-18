@@ -6,9 +6,15 @@ import postService, {
   PostDTO,
   CreatePostDTO,
 } from "@/services/post/postService";
+import { AxiosError } from "axios";
 
 export const useCreatePost = () => {
-  return useMutation<PostDTO, GenericErrorModelDTO, CreatePostDTO, unknown>({
+  return useMutation<
+    PostDTO,
+    AxiosError<GenericErrorModelDTO>,
+    CreatePostDTO,
+    unknown
+  >({
     mutationKey: postKeys.mutations.create(),
     mutationFn: async (post: CreatePostDTO) => {
       await sleep(2000);

@@ -1,4 +1,4 @@
-import mongoose, { Document, Model, Schema, Types, model } from "mongoose";
+import mongoose, { Model, Schema, model } from "mongoose";
 const mongooseSlugUpdater = require("mongoose-slug-updater");
 
 // user schema
@@ -20,7 +20,6 @@ interface IUser {
 
 interface IUserAccount {
   id: string;
-  slug: string;
   name: string;
   email: string;
   image?: string;
@@ -34,17 +33,7 @@ interface IUserMethods {
 
 // user static methods
 interface IUserModel extends Model<IUser, {}, IUserMethods> {
-  findByEmail(email: string): Promise<
-    | (Document<unknown, {}, IUser> &
-        Omit<
-          IUser & {
-            _id: Types.ObjectId;
-          },
-          never
-        > &
-        IUserMethods)
-    | null
-  >;
+  findByEmail: (email: string) => any;
 }
 
 const UserSchema = new Schema<IUser, IUserModel, IUserMethods>({
@@ -88,7 +77,6 @@ const UserSchema = new Schema<IUser, IUserModel, IUserMethods>({
 UserSchema.method("toUserAccount", function () {
   const userAccout: IUserAccount = {
     id: this._id.toString(),
-    slug: this.slug,
     name: this.name,
     email: this.email,
     image: this.image,
@@ -99,8 +87,8 @@ UserSchema.method("toUserAccount", function () {
 });
 
 // statics
-UserSchema.static("findByEmail", async function (email: string) {
-  return await this.findOne({ email: email });
+UserSchema.static("findByEmail", function (email: string) {
+  return this.findOne({ email: email });
 });
 
 UserSchema.plugin(mongooseSlugUpdater);

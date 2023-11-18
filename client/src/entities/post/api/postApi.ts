@@ -1,6 +1,7 @@
 import postService, { PostPreviewDTO } from "@/services/post/postService";
 import { PagedResponse, GenericErrorModelDTO } from "@/shared/lib/types";
 import { UseQueryOptions, useQuery } from "@tanstack/react-query";
+import { AxiosError } from "axios";
 
 export type QueryFilter = {
   orderBy?: string;
@@ -50,7 +51,7 @@ export const postKeys = {
 
 type UseGlobalFeedQuery = UseQueryOptions<
   PagedResponse<PostPreviewDTO>,
-  GenericErrorModelDTO,
+  AxiosError<GenericErrorModelDTO>,
   PagedResponse<PostPreviewDTO>,
   unknown[]
 >;

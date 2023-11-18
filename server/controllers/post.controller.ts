@@ -2,16 +2,24 @@ import { Request, Response } from "express";
 import { CreatePostValidationSchema } from "../lib/validations/post/create-post.validation";
 import PostModel from "../models/post.model";
 import { Created, NoContent, Ok } from "../lib/utils/express.utils";
-import { GetPostParamsValidationSchema } from "../lib/validations/post/get-post.validation";
+import {
+  GetPostListParamsValidationSchema,
+  GetPostParamsValidationSchema,
+} from "../lib/validations/post/get-post.validation";
 import { UpdatePostParamsValidationSchema } from "../lib/validations/post/update-post.validation";
 import { NotFoundError } from "../lib/api.errors";
 import { DeletePostParamsValidationSchema } from "../lib/validations/post/delete-post.validation";
+import UserModel from "../models/user.model";
 
 async function create(req: Request, res: Response) {
   const reqBody = CreatePostValidationSchema.parse(req.body);
 
+  // any first user
+  const user = await UserModel.findOne({ _id: "6557b66180f473df03b70ffb" });
+
   const createdPost = await PostModel.create({
     created: Date.now(),
+    author: user?._id,
     ...reqBody,
   });
 
@@ -20,27 +28,47 @@ async function create(req: Request, res: Response) {
 
 async function getBySlug(req: Request, res: Response) {
   const reqParams = GetPostParamsValidationSchema.parse(req.params);
-  const foundPost = await PostModel.findOne({ slug: reqParams.identifier });
+  const foundPost = await PostModel.findBySlug(reqParams.identifier)
+    .populate("author", { id: 1, slug: 1, name: 1, image: 1 })
+    .populate("tags");
 
   return Ok(res, foundPost);
 }
 
 // Add pagination
-async function getList(_req: Request, res: Response) {
-  const searchOptions = {
-    page: 1,
-    limit: 15,
-  };
+async function getList(req: Request, res: Response) {
+  const {
+    page = 1,
+    limit = 10,
+    query,
+    orderBy,
+  } = GetPostListParamsValidationSchema.parse(req.query);
+
+  const searchOptions = query
+    ? { title: { $regex: query, $options: "i" } }
+    : {};
+
+  let sortOptions: any = { created: -1 };
+
+  if (orderBy === "oldest") {
+    sortOptions = { created: 1 };
+  } else if (orderBy === "popular") {
+    sortOptions = { likes: -1 };
+  }
 
   const foundPosts = await PostModel.find(searchOptions, { body: 0 })
-    .populate("author")
+    .sort(sortOptions)
+    .skip((page - 1) * limit)
+    .limit(limit)
+    .populate("author", { id: 1, slug: 1, name: 1, image: 1 })
     .populate("tags");
+
   const countPosts = await PostModel.countDocuments(searchOptions);
-  const countPages = Math.ceil(countPosts / searchOptions.limit);
+  const countPages = Math.ceil(countPosts / limit);
   const pagedResult = {
     items: foundPosts,
-    page: 1,
-    limit: 10,
+    page: page,
+    limit: limit,
     totalItems: countPosts,
     totalPages: countPages,
   };

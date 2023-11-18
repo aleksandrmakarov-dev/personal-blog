@@ -7,9 +7,7 @@ const baseUrl = "/api/users";
 export interface UserProfileDTO {
   slug: string;
   name: string;
-  bio: string;
   image: string;
-  following: boolean;
 }
 
 export interface UserAccountDTO {
