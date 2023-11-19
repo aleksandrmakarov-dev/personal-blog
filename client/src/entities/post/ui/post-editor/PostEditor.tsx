@@ -8,9 +8,11 @@ import {
   postEditorSchema,
 } from "../post-editor-body/PostEditorBody";
 import { useNavigate } from "react-router-dom";
+import { DeleteCurrentPostDialog } from "@/widgets/post";
+import { PostDTO } from "@/services/post/postService";
 
 interface PostEditorProps {
-  post?: PostEditorSchemaType;
+  post?: PostDTO;
   onSubmit: (values: PostEditorSchemaType) => void;
   isLoading: boolean;
   isError: boolean;
@@ -42,10 +44,15 @@ export function PostEditor(props: PostEditorProps) {
       <PostEditorBody control={control} isLoading={isLoading} />
       <div className="flex items-center justify-end gap-x-2">
         <Button onClick={() => navigate(-1)}>Cancel</Button>
-        {edit && (
-          <Button color="error" variant="contained" disableElevation>
-            Delete
-          </Button>
+        {edit && post && (
+          <DeleteCurrentPostDialog
+            id={post.id}
+            trigger={
+              <Button color="error" variant="contained" disableElevation>
+                Delete
+              </Button>
+            }
+          />
         )}
         <LoadingButton
           loading={isLoading}

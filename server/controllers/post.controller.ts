@@ -6,7 +6,10 @@ import {
   GetPostListParamsValidationSchema,
   GetPostParamsValidationSchema,
 } from "../lib/validations/post/get-post.validation";
-import { UpdatePostParamsValidationSchema } from "../lib/validations/post/update-post.validation";
+import {
+  UpdatePostParamsValidationSchema,
+  UpdatePostValidationSchema,
+} from "../lib/validations/post/update-post.validation";
 import { NotFoundError } from "../lib/api.errors";
 import { DeletePostParamsValidationSchema } from "../lib/validations/post/delete-post.validation";
 import UserModel from "../models/user.model";
@@ -14,12 +17,18 @@ import UserModel from "../models/user.model";
 async function create(req: Request, res: Response) {
   const reqBody = CreatePostValidationSchema.parse(req.body);
 
+  const userId = req.user?.id;
+
   // any first user
-  const user = await UserModel.findOne({ _id: "6557b66180f473df03b70ffb" });
+  const user = await UserModel.findById(userId);
+
+  if (!user) {
+    throw new NotFoundError(`User with id ${userId} not found`);
+  }
 
   const createdPost = await PostModel.create({
     created: Date.now(),
-    author: user?._id,
+    author: user._id,
     ...reqBody,
   });
 
@@ -77,7 +86,7 @@ async function getList(req: Request, res: Response) {
 
 async function updateById(req: Request, res: Response) {
   const reqParams = UpdatePostParamsValidationSchema.parse(req.params);
-  const reqBody = UpdatePostParamsValidationSchema.parse(req.body);
+  const reqBody = UpdatePostValidationSchema.parse(req.body);
 
   const postToUpdate = await PostModel.findOne({ _id: reqParams.identifier });
   if (!postToUpdate) {

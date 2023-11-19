@@ -12,6 +12,7 @@ import {
 import { SignInWithPasswordValidationSchema } from "../lib/validations/user/sign-in.validation";
 import AccountModel from "../models/account.model";
 import requestIp from "request-ip";
+import appConfig from "../config/app.config";
 
 async function signUp(req: Request, res: Response) {
   const { name, email, password } = SignUpWithPasswordValidationSchema.parse(
@@ -25,6 +26,9 @@ async function signUp(req: Request, res: Response) {
   }
 
   const passwordHash = await authUtils.hashPassword(password);
+  const role = appConfig.default.admin.emails.includes(email)
+    ? "admin"
+    : "user";
 
   const createdUser = await UserModel.create({
     name: name,
@@ -33,6 +37,7 @@ async function signUp(req: Request, res: Response) {
     passwordHash: passwordHash,
     // add email verification
     emailVerified: true,
+    role: role,
   });
 
   return Message(
@@ -75,7 +80,7 @@ async function signInWithPassword(req: Request, res: Response) {
   // create account
 
   // Expires after 7 days
-  const refreshTokenExpires = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+  const refreshTokenExpires = appConfig.refreshToken.expires();
 
   const createdAccount = await AccountModel.create({
     user: foundUser._id,
@@ -91,23 +96,20 @@ async function signInWithPassword(req: Request, res: Response) {
   }
 
   const accessToken = authUtils.generateAccessToken({
-    id: foundUser._id,
-    roles: foundUser.roles,
+    id: foundUser._id.toString(),
+    role: foundUser.role,
   });
 
-  // Expires after 15 minutes
-  const accessTokenExpires = new Date(Date.now() + 15 * 60 * 1000);
-
-  res.cookie("refreshToken", refreshToken, {
+  res.cookie(appConfig.refreshToken.cookie.name, refreshToken, {
     httpOnly: true,
     sameSite: "strict",
     expires: refreshTokenExpires,
   });
 
-  res.cookie("accessToken", accessToken, {
+  res.cookie(appConfig.accessToken.cookie.name, accessToken, {
     httpOnly: true,
     sameSite: "strict",
-    expires: accessTokenExpires,
+    expires: appConfig.accessToken.expires(),
   });
 
   const userAccount = foundUser.toUserAccount();
@@ -115,7 +117,7 @@ async function signInWithPassword(req: Request, res: Response) {
 }
 
 async function refreshToken(req: Request, res: Response) {
-  const refreshToken = req.cookies["refreshToken"];
+  const refreshToken = req.cookies[appConfig.refreshToken.cookie.name];
   if (!refreshToken) {
     throw new UnAuthorizedError("Refresh token not found");
   }
@@ -145,11 +147,11 @@ async function refreshToken(req: Request, res: Response) {
   }
 
   const accessToken = authUtils.generateAccessToken({
-    id: foundUser._id,
-    roles: foundUser.roles,
+    id: foundUser._id.toString(),
+    role: foundUser.role,
   });
 
-  res.cookie("accessToken", accessToken, {
+  res.cookie(appConfig.accessToken.cookie.name, accessToken, {
     httpOnly: true,
     sameSite: "strict",
     expires: new Date(Date.now() + 15 * 60 * 1000),
@@ -161,8 +163,8 @@ async function refreshToken(req: Request, res: Response) {
 }
 
 async function signOut(_req: Request, res: Response) {
-  res.clearCookie("accessToken");
-  res.clearCookie("refreshToken");
+  res.clearCookie(appConfig.refreshToken.cookie.name);
+  res.clearCookie(appConfig.accessToken.cookie.name);
 
   return Message(res, "Signed out", "Signed out successfully", 200);
 }

@@ -5,3 +5,8 @@ export interface UserProfileDTO {
   image?: string;
   following: boolean;
 }
+
+export interface JWTPayload {
+  id: string;
+  role: string;
+}

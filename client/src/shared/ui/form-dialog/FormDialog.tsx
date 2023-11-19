@@ -14,7 +14,13 @@ interface FormDialogProps {
   children: React.ReactNode;
   title: string;
   isLoading?: boolean;
-  reset: () => void;
+
+  primaryButtonName?: string;
+  secondaryButtonName?: string;
+  primaryButtonColor?: "primary" | "secondary" | "error" | "info" | "success";
+  secondaryButtonColor?: "primary" | "secondary" | "error" | "info" | "success";
+
+  reset?: () => void;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   handleSubmit: (
     e?: React.BaseSyntheticEvent<object, any, any> | undefined
@@ -28,6 +34,10 @@ const FormDialog: React.FC<FormDialogProps> = (props) => {
     children,
     title,
     isLoading,
+    primaryButtonColor = "primary",
+    secondaryButtonColor = "primary",
+    primaryButtonName = "Submit",
+    secondaryButtonName = "Cancel",
     setOpen,
     reset,
     handleSubmit,
@@ -42,21 +52,23 @@ const FormDialog: React.FC<FormDialogProps> = (props) => {
           <DialogContent dividers>{children}</DialogContent>
           <DialogActions>
             <Button
+              color={secondaryButtonColor}
               onClick={() => {
                 setOpen(false);
-                reset();
+                reset?.();
               }}
               disabled={isLoading}
             >
-              Cancel
+              {secondaryButtonName}
             </Button>
             <LoadingButton
               loading={isLoading}
+              color={primaryButtonColor}
               type="submit"
               variant="contained"
               disableElevation
             >
-              Submit
+              {primaryButtonName}
             </LoadingButton>
           </DialogActions>
         </form>

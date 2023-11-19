@@ -1,4 +1,4 @@
-import mongoose, { Model, Schema, model } from "mongoose";
+import mongoose, { Model, Document, Schema, Types, model } from "mongoose";
 const mongooseSlugUpdater = require("mongoose-slug-updater");
 
 // user schema
@@ -12,7 +12,7 @@ interface IUser {
   created: Date;
   updated?: Date;
   slug: string;
-  roles: mongoose.Types.ObjectId[];
+  role: string;
   posts: mongoose.Types.ObjectId[];
   likedPosts: mongoose.Types.ObjectId[];
   accounts: mongoose.Types.ObjectId[];
@@ -23,7 +23,7 @@ interface IUserAccount {
   name: string;
   email: string;
   image?: string;
-  roles: mongoose.Types.ObjectId[];
+  role: string;
 }
 
 // user instance methods
@@ -33,7 +33,17 @@ interface IUserMethods {
 
 // user static methods
 interface IUserModel extends Model<IUser, {}, IUserMethods> {
-  findByEmail: (email: string) => any;
+  findByEmail: (email: string) => Promise<
+    | (Document<unknown, {}, IUser> &
+        Omit<
+          IUser & {
+            _id: Types.ObjectId;
+          },
+          never
+        > &
+        IUserMethods)
+    | null
+  >;
 }
 
 const UserSchema = new Schema<IUser, IUserModel, IUserMethods>({
@@ -46,12 +56,7 @@ const UserSchema = new Schema<IUser, IUserModel, IUserMethods>({
   created: { type: Date, default: Date.now() },
   updated: { type: Date },
   slug: { type: String, slug: "email", slugPaddingSize: 4, unique: true },
-  roles: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "Role",
-    },
-  ],
+  role: { type: String, enum: ["user", "admin"], default: "user" },
   posts: [
     {
       type: Schema.Types.ObjectId,
@@ -80,15 +85,15 @@ UserSchema.method("toUserAccount", function () {
     name: this.name,
     email: this.email,
     image: this.image,
-    roles: this.roles,
+    role: this.role,
   };
 
   return userAccout;
 });
 
 // statics
-UserSchema.static("findByEmail", function (email: string) {
-  return this.findOne({ email: email });
+UserSchema.static("findByEmail", async function (email: string) {
+  return await this.findOne({ email: email });
 });
 
 UserSchema.plugin(mongooseSlugUpdater);

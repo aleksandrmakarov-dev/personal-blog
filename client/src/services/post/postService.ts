@@ -1,4 +1,4 @@
-import { PagedResponse } from "@/shared/lib/types";
+import { GenericResponseModelDTO, PagedResponse } from "@/shared/lib/types";
 import axios from "axios";
 import { UserProfileDTO } from "../user/userService";
 import { TagDTO } from "../tag/tagService";
@@ -65,7 +65,12 @@ async function updatePostById(
   id: string,
   post: UpdatePostDTO
 ): Promise<PostDTO> {
-  const response = await axios.put<PostDTO>(`/api/posts/${id}`, post);
+  const response = await axios.put<PostDTO>(`/api/posts/id/${id}`, post);
+  return response.data;
+}
+
+async function deletePostById(id: string): Promise<GenericResponseModelDTO> {
+  const response = await axios.delete(`/api/posts/id/${id}`);
   return response.data;
 }
 
@@ -74,4 +79,5 @@ export default {
   createPost,
   getPostBySlug,
   updatePostById,
+  deletePostById,
 };

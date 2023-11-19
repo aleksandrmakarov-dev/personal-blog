@@ -8,7 +8,7 @@ interface NewTagEditorDialogProps {
 export function NewTagEditorDialog(props: NewTagEditorDialogProps) {
   const { trigger } = props;
 
-  const { mutate, isError, isPending, isSuccess } = useCreateTag();
+  const { mutate, isError, error, isPending, isSuccess } = useCreateTag();
 
   const onSubmit = (
     values: TagEditorSchemaType,
@@ -28,6 +28,7 @@ export function NewTagEditorDialog(props: NewTagEditorDialogProps) {
       trigger={trigger}
       title="Create tag"
       isError={isError}
+      error={error?.response?.data}
       isLoading={isPending}
       isSuccess={isSuccess}
       onSubmit={onSubmit}

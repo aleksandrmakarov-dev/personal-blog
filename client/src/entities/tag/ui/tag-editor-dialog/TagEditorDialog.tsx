@@ -7,12 +7,15 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import FormDialog from "@/shared/ui/form-dialog/FormDialog";
+import { GenericErrorModelDTO } from "@/shared/lib/types";
+import { Alert } from "@mui/material";
 
 interface TagEditorDialogProps {
   trigger: JSX.Element;
   title: string;
   isLoading?: boolean;
   isError?: boolean;
+  error?: GenericErrorModelDTO;
   isSuccess?: boolean;
   tag?: TagEditorSchemaType;
 
@@ -28,7 +31,7 @@ const initialValues: TagEditorSchemaType = {
 };
 
 export function TagEditorDialog(props: TagEditorDialogProps) {
-  const { title, onSubmit, isLoading, tag, trigger } = props;
+  const { title, onSubmit, isLoading, tag, trigger, isError, error } = props;
 
   const [open, setOpen] = useState<boolean>(false);
 
@@ -50,7 +53,14 @@ export function TagEditorDialog(props: TagEditorDialogProps) {
       handleSubmit={handleSubmit((values) => onSubmit(values, reset, close))}
       isLoading={isLoading}
     >
-      <TagEditorBody control={control} isLoading={isLoading} />
+      <>
+        {isError && (
+          <Alert severity="error" className="mb-2">
+            {error?.message}
+          </Alert>
+        )}
+        <TagEditorBody control={control} isLoading={isLoading} />
+      </>
     </FormDialog>
   );
 }

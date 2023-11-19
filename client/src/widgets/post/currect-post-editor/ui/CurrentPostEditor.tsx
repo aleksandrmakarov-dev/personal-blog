@@ -1,7 +1,7 @@
 import { PostEditor, PostEditorSchemaType, usePost } from "@/entities/post";
 import { useUpdatePost } from "@/features/post";
 import { Routing } from "@/shared/lib";
-import { Alert } from "@mui/material";
+import { Alert, AlertTitle } from "@mui/material";
 import { NavLink, useParams } from "react-router-dom";
 
 export function CurrentPostEditor() {
@@ -46,7 +46,8 @@ export function CurrentPostEditor() {
       <h1 className="text-4xl font-semibold mb-5">Update post</h1>
       {isUpdateSuccess && (
         <Alert className="mb-2">
-          Post updated successfully!{" "}
+          <AlertTitle>Post updated successfully</AlertTitle>
+          To see the updated post{" "}
           <NavLink
             className="underline font-semibold"
             to={Routing.posts.details(updateData.slug)}
@@ -57,11 +58,13 @@ export function CurrentPostEditor() {
       )}
       {isPostError && (
         <Alert className="mb-2" severity="error">
+          <AlertTitle>Error while loading post data</AlertTitle>
           {postError.response?.data.message}
         </Alert>
       )}
       {isUpdateError && (
         <Alert className="mb-2" severity="error">
+          <AlertTitle>Error while updating post</AlertTitle>
           {updateError.response?.data.message}
         </Alert>
       )}

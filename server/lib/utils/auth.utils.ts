@@ -2,6 +2,7 @@ import jsonwebtoken from "jsonwebtoken";
 import crypto from "crypto";
 import dayjs from "dayjs";
 import bcrypt from "bcrypt";
+import { JWTPayload } from "../types/user.types";
 
 const AuthConfig = {
   TOKEN_SECRET:
@@ -26,7 +27,7 @@ function generateToken() {
   return crypto.randomBytes(32).toString("hex");
 }
 
-function generateAccessToken(payload: any) {
+function generateAccessToken(payload: JWTPayload) {
   return jsonwebtoken.sign(payload, AuthConfig.TOKEN_SECRET, {
     expiresIn: AuthConfig.ACCESS_TOKEN_EXPIRES,
   });
@@ -36,20 +37,10 @@ function verifyAccessToken(token: string) {
   return jsonwebtoken.verify(token, AuthConfig.TOKEN_SECRET);
 }
 
-function getExpirationTimeUnix(seconds: number) {
-  return dayjs().add(seconds, "seconds").unix();
-}
-
-function isExpired(date: number | Date) {
-  return dayjs().isBefore(date);
-}
-
 export default {
   generateToken,
   generateAccessToken,
   verifyAccessToken,
-  getExpirationTimeUnix,
-  isExpired,
   hashPassword,
   verifyPassword,
 };

@@ -1,7 +1,7 @@
 import { PostEditor, PostEditorSchemaType } from "@/entities/post";
 import { useCreatePost } from "@/features/post";
 import { Routing } from "@/shared/lib";
-import { Alert } from "@mui/material";
+import { Alert, AlertTitle } from "@mui/material";
 import { NavLink } from "react-router-dom";
 
 export function NewPostEditor() {
@@ -27,7 +27,8 @@ export function NewPostEditor() {
       <h1 className="text-4xl font-semibold mb-5">Create new post</h1>
       {isSuccess && (
         <Alert className="mb-2">
-          Post created successfully!{" "}
+          <AlertTitle>Post created successfully</AlertTitle>
+          To see the created post{" "}
           <NavLink
             className="underline font-semibold"
             to={Routing.posts.details(data.slug)}
@@ -38,6 +39,7 @@ export function NewPostEditor() {
       )}
       {isError && (
         <Alert className="mb-2" severity="error">
+          <AlertTitle>Error while creating post</AlertTitle>
           {error.response?.data.message}
         </Alert>
       )}
