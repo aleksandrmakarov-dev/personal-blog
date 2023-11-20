@@ -13,3 +13,9 @@ export interface PostPreviewDTO {
   isFavorite: boolean;
   tags: TagDTO[];
 }
+
+export interface PostParentDTO {
+  id: string;
+  slug: string;
+  title: string;
+}

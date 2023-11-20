@@ -1,30 +1,60 @@
 import StarOutlineRoundedIcon from "@mui/icons-material/StarOutlineRounded";
-import { IconButton } from "@mui/material";
+import { CircularProgress, IconButton } from "@mui/material";
 import { useFavoritePost } from "..";
 import { useQueryClient } from "@tanstack/react-query";
 import { postKeys } from "@/entities/post";
+import { PostDTO, PostPreviewDTO } from "@/services/post/postService";
+import { PagedResponse } from "@/shared/lib/types";
 
 interface FavoritePostProps {
   postId: string;
+  postSlug: string;
 }
 
 export function FavoritePost(props: FavoritePostProps) {
-  const { postId } = props;
+  const { postId, postSlug } = props;
 
   const queryClient = useQueryClient();
 
-  const { mutate } = useFavoritePost();
+  const { mutate, isPending } = useFavoritePost();
 
   const onClick = () => {
     mutate(
       { postId: postId },
       {
-        onSuccess: () => {
-          console.log(`${postId} added to favorite`);
-          // make it better
-          queryClient.invalidateQueries({
-            queryKey: postKeys.posts.globalFeed.root(),
-          });
+        onSuccess: async () => {
+          const postsQueryKey = postKeys.posts.globalFeed.root();
+          const postQueryKey = postKeys.post.slug(postSlug);
+
+          await queryClient.cancelQueries({ queryKey: postsQueryKey });
+          await queryClient.cancelQueries({ queryKey: postQueryKey });
+
+          queryClient.setQueriesData<PagedResponse<PostPreviewDTO>>(
+            { queryKey: postsQueryKey },
+            (prev) => {
+              if (!prev) return prev;
+
+              return {
+                ...prev,
+                items: prev.items.map((post) => {
+                  if (post.id === postId) {
+                    return { ...post, isFavorite: true };
+                  }
+                  return post;
+                }),
+              };
+            }
+          );
+
+          queryClient.setQueriesData<PostDTO>(
+            {
+              queryKey: postQueryKey,
+            },
+            (prev) => {
+              if (!prev) return prev;
+              return { ...prev, isFavorite: true };
+            }
+          );
         },
         onError: (error) => {
           console.log(error);
@@ -34,7 +64,8 @@ export function FavoritePost(props: FavoritePostProps) {
   };
 
   return (
-    <IconButton size="small" onClick={onClick}>
+    <IconButton sx={{ position: "relative" }} size="small" onClick={onClick}>
+      {isPending && <CircularProgress sx={{ position: "absolute" }} />}
       <StarOutlineRoundedIcon sx={{ fontSize: 28 }} />
     </IconButton>
   );

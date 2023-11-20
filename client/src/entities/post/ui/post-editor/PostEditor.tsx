@@ -26,6 +26,7 @@ const initialPost: PostEditorSchemaType = {
   body: "",
   image: "",
   tags: [],
+  parent: { id: "", title: "" },
 };
 
 export function PostEditor(props: PostEditorProps) {

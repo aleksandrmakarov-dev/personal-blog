@@ -3,6 +3,19 @@ import axios from "axios";
 import { UserProfileDTO } from "../user/userService";
 import { TagDTO } from "../tag/tagService";
 
+export interface PostItemDTO {
+  id: string;
+  slug: string;
+  title: string;
+  description: string;
+  image?: string;
+  created: Date;
+  updated?: Date;
+  author: string;
+  isFavorite: boolean;
+  tags: string[];
+}
+
 export interface PostPreviewDTO {
   id: string;
   slug: string;
@@ -21,20 +34,22 @@ export interface PostDTO extends PostPreviewDTO {
 }
 
 type GetArticlesParams = {
-  page: number;
-  limit: number;
+  page?: number;
+  limit?: number;
+  paged?: boolean;
+  populate?: boolean;
+  orderBy?: string;
+  query?: string;
 };
 
-async function getPosts(params: GetArticlesParams) {
-  const response = await axios.get<PagedResponse<PostPreviewDTO>>(
-    "/api/posts",
-    { params }
-  );
+async function getPosts<T>(params: GetArticlesParams) {
+  const response = await axios.get<T>("/api/posts", { params });
 
   return response.data;
 }
 
 export interface CreatePostDTO {
+  parent?: string;
   title: string;
   body: string;
   description: string;
@@ -43,6 +58,7 @@ export interface CreatePostDTO {
 }
 
 async function createPost(post: CreatePostDTO): Promise<PostDTO> {
+  console.log(post);
   const response = await axios.post<PostDTO>("/api/posts", post);
   return response.data;
 }
@@ -53,6 +69,7 @@ async function getPostBySlug(slug: string): Promise<PostDTO> {
 }
 
 export interface UpdatePostDTO {
+  parent?: string;
   title: string;
   body: string;
   description: string;

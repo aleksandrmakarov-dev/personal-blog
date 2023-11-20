@@ -1,5 +1,6 @@
 import postService, {
   PostDTO,
+  PostItemDTO,
   PostPreviewDTO,
 } from "@/services/post/postService";
 import { PagedResponse, GenericErrorModelDTO } from "@/shared/lib/types";
@@ -38,6 +39,7 @@ export const postKeys = {
         query,
       ],
     },
+    query: (query: QueryFilter) => [...postKeys.posts.root, query],
   },
   post: {
     root: ["post"],
@@ -50,6 +52,32 @@ export const postKeys = {
     favorite: () => [...postKeys.post.root, "favorite"],
     unfavorite: () => [...postKeys.post.root, "unfavorite"],
   },
+};
+
+type UsePostsQuery<T> = UseQueryOptions<
+  T,
+  AxiosError<GenericErrorModelDTO>,
+  T,
+  unknown[]
+>;
+
+type UsePostsOptions<T> = Omit<UsePostsQuery<T>, "queryKey" | "queryFn">;
+
+export const usePosts = <T>(
+  params: QueryFilter,
+  options?: UsePostsOptions<T>
+) => {
+  return useQuery({
+    queryKey: postKeys.posts.query(params),
+    queryFn: async () => {
+      return await postService.getPosts<T>({
+        paged: false,
+        populate: false,
+        ...params,
+      });
+    },
+    ...options,
+  });
 };
 
 type UseGlobalFeedQuery = UseQueryOptions<
@@ -68,7 +96,11 @@ export const useGlobalFeed = (
   return useQuery({
     queryKey: postKeys.posts.globalFeed.query(params),
     queryFn: async () => {
-      return await postService.getPosts(params);
+      return await postService.getPosts<PagedResponse<PostPreviewDTO>>({
+        paged: true,
+        populate: true,
+        ...params,
+      });
     },
     ...options,
   });

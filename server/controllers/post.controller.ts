@@ -17,7 +17,6 @@ import {
   FavoritePostParamsSchema,
   UnfavortiePostParamsSchema,
 } from "../lib/schemas/post/favorite-post.schema";
-import { PostPreviewDTO } from "../lib/types/post.types";
 import { UserProfileDTO } from "../lib/types/user.types";
 import { ITag } from "../models/tag.model";
 
@@ -46,7 +45,16 @@ async function getBySlug(req: Request, res: Response) {
   const reqParams = GetPostParamsSchema.parse(req.params);
   const foundPost = await PostModel.findBySlug(reqParams.identifier)
     .populate("author", { id: 1, slug: 1, name: 1, image: 1 })
-    .populate("tags");
+    .populate("tags")
+    .populate("parent", {
+      id: 1,
+      slug: 1,
+      title: 1,
+    });
+
+  if (!foundPost) {
+    throw new NotFoundError(`Post with slug ${reqParams.identifier} not found`);
+  }
 
   return Ok(res, foundPost);
 }
@@ -58,7 +66,12 @@ async function getList(req: Request, res: Response) {
     limit = 10,
     query,
     orderBy,
+    paged: pagedStr,
+    populate: populateStr,
   } = GetPostListParamsSchema.parse(req.query);
+
+  const paged = pagedStr === "true";
+  const populate = populateStr === "true";
 
   const searchOptions = query
     ? { title: { $regex: query, $options: "i" } }
@@ -72,47 +85,64 @@ async function getList(req: Request, res: Response) {
     sortOptions = { likes: -1 };
   }
 
-  const foundPosts = await PostModel.find(searchOptions, { body: 0 })
-    .sort(sortOptions)
-    .skip((page - 1) * limit)
-    .limit(limit)
-    .populate<{ author: UserProfileDTO }>("author", {
-      id: 1,
-      slug: 1,
-      name: 1,
-      image: 1,
-    })
-    .populate<{ tags: ITag[] }>("tags");
+  let postQuery = PostModel.find(searchOptions, { body: 0 }).sort(sortOptions);
 
-  const userId = req.user?.id;
+  if (paged) {
+    postQuery = postQuery.skip((page - 1) * limit).limit(limit);
+  }
 
-  const mappedPosts: PostPreviewDTO[] = foundPosts.map((post) => ({
-    id: post.id,
-    slug: post.slug,
-    title: post.title,
-    description: post.description,
-    image: post.image,
-    created: post.created,
-    updated: post.updated,
-    tags: post.tags.map((tag) => ({
-      id: tag.id.toString(),
-      name: tag.name,
-      slug: tag.slug,
-    })),
-    author: post.author,
-    isFavorite: userId ? post.isFavorite(userId) : false,
-  }));
+  let foundPosts = [];
 
-  const countPosts = await PostModel.countDocuments(searchOptions);
-  const countPages = Math.ceil(countPosts / limit);
-  const pagedResult = {
-    items: mappedPosts,
-    page: page,
-    limit: limit,
-    totalItems: countPosts,
-    totalPages: countPages,
-  };
-  return Ok(res, pagedResult);
+  if (populate) {
+    foundPosts = await postQuery
+      .populate<{ author: UserProfileDTO }>("author", {
+        id: 1,
+        slug: 1,
+        name: 1,
+        image: 1,
+      })
+      .populate<{ tags: ITag[] }>("tags")
+      .exec();
+
+    const userId = req.user?.id;
+
+    foundPosts = foundPosts.map((post) => ({
+      id: post.id,
+      slug: post.slug,
+      title: post.title,
+      description: post.description,
+      image: post.image,
+      created: post.created,
+      updated: post.updated,
+      tags: post.tags.map((tag) => ({
+        id: tag.id.toString(),
+        name: tag.name,
+        slug: tag.slug,
+      })),
+      author: post.author,
+      isFavorite: userId ? post.isFavorite(userId) : false,
+    }));
+  } else {
+    foundPosts = await postQuery.exec();
+  }
+
+  let result = {};
+
+  if (paged) {
+    const countPosts = await PostModel.countDocuments(searchOptions);
+    const countPages = Math.ceil(countPosts / limit);
+    result = {
+      items: foundPosts,
+      page: page,
+      limit: limit,
+      totalItems: countPosts,
+      totalPages: countPages,
+    };
+  } else {
+    result = foundPosts;
+  }
+
+  return Ok(res, result);
 }
 
 async function updateById(req: Request, res: Response) {

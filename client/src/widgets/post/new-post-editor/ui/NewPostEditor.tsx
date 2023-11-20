@@ -12,6 +12,7 @@ export function NewPostEditor() {
     mutate(
       {
         ...values,
+        parent: values.parent?.id,
         tags: values.tags.map((tag) => tag.id),
       },
       {
