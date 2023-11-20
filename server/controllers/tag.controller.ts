@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
-import { CreateTagValidationSchema } from "../lib/validations/tag/create-tag.validation";
 import TagModel from "../models/tag.model";
 import { Created, Ok } from "../lib/utils/express.utils";
+import { CreateTagBodySchema } from "../lib/schemas/tag/create-tag.validation";
 
 async function create(req: Request, res: Response) {
-  const reqBody = CreateTagValidationSchema.parse(req.body);
+  const reqBody = CreateTagBodySchema.parse(req.body);
 
   const createdTag = await TagModel.create({
     created: Date.now(),

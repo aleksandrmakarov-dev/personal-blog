@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const CreatePostValidationSchema = z.object({
+export const CreatePostBodySchema = z.object({
   title: z.string().min(1).max(150),
   description: z.string().min(1).max(250),
   body: z.string().min(1),
@@ -9,4 +9,4 @@ export const CreatePostValidationSchema = z.object({
   parent: z.string().optional(),
 });
 
-export type CreatePostValidation = z.infer<typeof CreatePostValidationSchema>;
+export type CreatePostBody = z.infer<typeof CreatePostBodySchema>;

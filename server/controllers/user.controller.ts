@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import { SignUpWithPasswordValidationSchema } from "../lib/validations/user/sign-up.validation";
 import UserModel from "../models/user.model";
 import { Message, Ok } from "../lib/utils/express.utils";
 import authUtils from "../lib/utils/auth.utils";
@@ -9,13 +8,14 @@ import {
   NotFoundError,
   UnAuthorizedError,
 } from "../lib/api.errors";
-import { SignInWithPasswordValidationSchema } from "../lib/validations/user/sign-in.validation";
 import AccountModel from "../models/account.model";
 import requestIp from "request-ip";
 import appConfig from "../config/app.config";
+import { SignInWithPasswordBodySchema } from "../lib/schemas/user/sign-in.validation";
+import { SignUpWithPasswordBodySchema } from "../lib/schemas/user/sign-up.validation";
 
 async function signUp(req: Request, res: Response) {
-  const { name, email, password } = SignUpWithPasswordValidationSchema.parse(
+  const { name, email, password } = SignUpWithPasswordBodySchema.parse(
     req.body
   );
 
@@ -49,9 +49,7 @@ async function signUp(req: Request, res: Response) {
 }
 
 async function signInWithPassword(req: Request, res: Response) {
-  const { email, password } = SignInWithPasswordValidationSchema.parse(
-    req.body
-  );
+  const { email, password } = SignInWithPasswordBodySchema.parse(req.body);
 
   const foundUser = await UserModel.findByEmail(email);
 

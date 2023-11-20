@@ -12,8 +12,7 @@ export interface PostPreviewDTO {
   created: Date;
   updated?: Date;
   author: UserProfileDTO;
-  likes: number;
-  isLiked: boolean;
+  isFavorite: boolean;
   tags: TagDTO[];
 }
 
@@ -74,10 +73,24 @@ async function deletePostById(id: string): Promise<GenericResponseModelDTO> {
   return response.data;
 }
 
+async function favoritePostById(id: string): Promise<PostDTO> {
+  const response = await axios.put<PostDTO>(`/api/posts/id/${id}/favorite`);
+  return response.data;
+}
+
+async function unfavoritePostById(id: string): Promise<PostDTO> {
+  const response = await axios.delete<PostDTO>(
+    `/api/posts/id/${id}/unfavorite`
+  );
+  return response.data;
+}
+
 export default {
   getPosts,
   createPost,
   getPostBySlug,
   updatePostById,
   deletePostById,
+  favoritePostById,
+  unfavoritePostById,
 };

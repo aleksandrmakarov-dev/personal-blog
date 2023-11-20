@@ -1,1 +1,1 @@
-export { useDeletePost } from "./ui/deletePost";
+export { useDeletePost } from "./api/deletePost";

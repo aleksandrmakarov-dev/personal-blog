@@ -47,8 +47,8 @@ export const postKeys = {
     create: () => [...postKeys.post.root, "create"],
     update: () => [...postKeys.post.root, "update"],
     delete: () => [...postKeys.post.root, "delete"],
-    like: () => [...postKeys.post.root, "like"],
-    unlike: () => [...postKeys.post.root, "unlike"],
+    favorite: () => [...postKeys.post.root, "favorite"],
+    unfavorite: () => [...postKeys.post.root, "unfavorite"],
   },
 };
 

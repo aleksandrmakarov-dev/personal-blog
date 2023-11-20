@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom";
-import { Avatar, Chip, IconButton } from "@mui/material";
-import FavoriteBorderRoundedIcon from "@mui/icons-material/FavoriteBorderRounded";
+import { Avatar, Chip } from "@mui/material";
 import PanoramaIcon from "@mui/icons-material/Panorama";
 import { Routing, formatDate } from "@/shared/lib";
 import { stringAvatar, stringToColor } from "@/shared/lib/utils";
 import { TagDTO } from "@/services/tag/tagService";
 import { PostPreviewDTO } from "@/services/post/postService";
+import { FavoritePost, UnfavoritePost } from "@/features/post";
 
 interface PostPreviewCardProps {
   post: PostPreviewDTO;
@@ -18,10 +18,10 @@ export function PostPreviewCard({ post }: PostPreviewCardProps) {
     author,
     created,
     description,
-    likes,
     updated,
     tags,
     slug,
+    isFavorite,
   } = post;
   return (
     <article className="border-b border-gray-200">
@@ -43,7 +43,7 @@ export function PostPreviewCard({ post }: PostPreviewCardProps) {
             )}
           </div>
           <div className="w-full">
-            <div className="flex gap-2 items-center">
+            <div className="flex gap-2 items-center mb-1">
               {author && (
                 <>
                   <div className="flex items-center">
@@ -97,14 +97,11 @@ export function PostPreviewCard({ post }: PostPreviewCardProps) {
                   />
                 ))}
               </div>
-              <div className="flex items-center gap-1">
-                <IconButton size="small" color="primary">
-                  <FavoriteBorderRoundedIcon sx={{ fontSize: 20 }} />
-                </IconButton>
-                <p className="text-sm font-semibold text-foreground-secondary">
-                  {likes}
-                </p>
-              </div>
+              {isFavorite ? (
+                <UnfavoritePost postId={post.id} />
+              ) : (
+                <FavoritePost postId={post.id} />
+              )}
             </div>
           </div>
         </div>

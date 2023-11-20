@@ -2,7 +2,7 @@ import mongoose, { Model, Document, Schema, Types, model } from "mongoose";
 const mongooseSlugUpdater = require("mongoose-slug-updater");
 
 // user schema
-interface IUser {
+export interface IUser {
   name: string;
   bio?: string;
   email: string;

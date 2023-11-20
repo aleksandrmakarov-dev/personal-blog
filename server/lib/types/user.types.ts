@@ -1,9 +1,8 @@
 export interface UserProfileDTO {
   id: string;
-  username: string;
-  bio: string;
+  slug: string;
+  name: string;
   image?: string;
-  following: boolean;
 }
 
 export interface JWTPayload {

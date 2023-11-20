@@ -1,14 +1,12 @@
 import { z } from "zod";
 
-export const GetPostParamsValidationSchema = z.object({
+export const GetPostParamsSchema = z.object({
   identifier: z.string().min(1),
 });
 
-export type GetPostParamsValidation = z.infer<
-  typeof GetPostParamsValidationSchema
->;
+export type GetPostParams = z.infer<typeof GetPostParamsSchema>;
 
-export const GetPostListParamsValidationSchema = z.object({
+export const GetPostListParamsSchema = z.object({
   page: z.coerce.number().min(1).optional(),
   limit: z.coerce.number().min(5).optional(),
   query: z.string().optional(),

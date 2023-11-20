@@ -1,7 +1,21 @@
-import { InferSchemaType, Schema, model } from "mongoose";
+import { Model, Schema, model } from "mongoose";
 const mongooseSlugUpdater = require("mongoose-slug-updater");
 
-const TagSchema = new Schema({
+export interface ITag {
+  id: string;
+  name: string;
+  slug: string;
+  created: Date;
+  updated: Date;
+}
+
+// user instance methods
+interface ITagMethods {}
+
+// user static methods
+interface ITagModel extends Model<ITag, {}, ITagMethods> {}
+
+const TagSchema = new Schema<ITag, ITagModel, ITagMethods>({
   name: { type: String, required: true },
   slug: { type: String, slug: "name", slugPaddingSize: 4, unique: true },
   created: { type: Date, default: Date.now() },
@@ -18,8 +32,6 @@ TagSchema.set("toJSON", {
   },
 });
 
-type Tag = InferSchemaType<typeof TagSchema>;
-
-const TagModel = model<Tag>("Tag", TagSchema);
+const TagModel = model<ITag, ITagModel>("Tag", TagSchema);
 
 export default TagModel;

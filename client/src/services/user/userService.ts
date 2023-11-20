@@ -5,6 +5,7 @@ import axios from "axios";
 const baseUrl = "/api/users";
 
 export interface UserProfileDTO {
+  id: string;
   slug: string;
   name: string;
   image: string;
