@@ -59,7 +59,7 @@ export function FileUploader(props: FileUploaderProps) {
       <label htmlFor="myfile">
         <button
           type="button"
-          className="border rounded-sm border-foreground-secondary w-full px-2 py-3 border-dashed mb-3"
+          className="border rounded-sm border-foreground-secondary w-full px-2 py-3 border-dashed mb-3 hover:bg-gray-50 transition-colors"
           onClick={() => inputRef.current?.click()}
         >
           <span className="flex items-center justify-center">

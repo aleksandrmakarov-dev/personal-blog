@@ -82,8 +82,8 @@ export function PostEditorBody(props: PostEditorBodyProps) {
               <TextField size="small" fullWidth {...field} />
               <FileUploaderDialog
                 trigger={
-                  <Button type="button" variant="outlined" disableElevation>
-                    Change
+                  <Button type="button" variant="contained" disableElevation>
+                    Choose
                   </Button>
                 }
                 title="Upload preview image"
