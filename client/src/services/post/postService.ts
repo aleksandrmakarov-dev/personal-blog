@@ -1,4 +1,4 @@
-import { GenericResponseModelDTO, PagedResponse } from "@/shared/lib/types";
+import { GenericResponseModelDTO } from "@/shared/lib/types";
 import axios from "axios";
 import { UserProfileDTO } from "../user/userService";
 import { TagDTO } from "../tag/tagService";
@@ -8,30 +8,30 @@ export interface PostItemDTO {
   slug: string;
   title: string;
   description: string;
-  image?: string;
+  image: string | null;
   created: Date;
-  updated?: Date;
+  updated: Date | null;
   author: string;
   isFavorite: boolean;
   tags: string[];
 }
 
-export interface PostPreviewDTO {
+export interface PostDTO {
   id: string;
   slug: string;
+  parent: { id: string; title: string } | null;
   title: string;
+  body: string;
   description: string;
-  image?: string;
+  image: string | null;
   created: Date;
-  updated?: Date;
+  updated: Date | null;
   author: UserProfileDTO;
   isFavorite: boolean;
   tags: TagDTO[];
 }
 
-export interface PostDTO extends PostPreviewDTO {
-  body: string;
-}
+export interface PostPreviewDTO extends Omit<PostDTO, "body" | "parent"> {}
 
 type GetArticlesParams = {
   page?: number;
@@ -49,11 +49,11 @@ async function getPosts<T>(params: GetArticlesParams) {
 }
 
 export interface CreatePostDTO {
-  parent?: string;
+  parent: string | null;
   title: string;
   body: string;
   description: string;
-  image?: string;
+  image: string | null;
   tags: string[];
 }
 
@@ -69,11 +69,11 @@ async function getPostBySlug(slug: string): Promise<PostDTO> {
 }
 
 export interface UpdatePostDTO {
-  parent?: string;
+  parent: string | null;
   title: string;
   body: string;
   description: string;
-  image?: string;
+  image: string | null;
   tags: string[];
 }
 

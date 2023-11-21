@@ -5,8 +5,8 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useDebounce } from "use-debounce";
 
 interface PostParentSelectProps {
-  onSelectParent: (value?: PostSelectOption) => void;
-  value?: PostSelectOption;
+  onSelectParent: (value: PostSelectOption | null) => void;
+  value: PostSelectOption | null;
   onBlur: (e: any) => void;
   disabled?: boolean;
   name: string;
@@ -57,16 +57,11 @@ export function PostParentSelect(props: PostParentSelectProps) {
 
   return (
     <Autocomplete
-      disablePortal
       open={open}
       onOpen={() => setOpen(true)}
       onClose={() => setOpen(false)}
       onChange={(_, v) => {
-        if (!v) {
-          onSelectParent(undefined);
-        } else {
-          onSelectParent(v);
-        }
+        onSelectParent(v);
       }}
       onBlur={onBlur}
       value={value}
@@ -75,9 +70,9 @@ export function PostParentSelect(props: PostParentSelectProps) {
       isOptionEqualToValue={(option, value) => option.id === value.id}
       getOptionLabel={(option) => option.title}
       inputValue={query}
-      onInputChange={(e, newValue) => setQuery(newValue)}
+      onInputChange={(_e, newValue) => setQuery(newValue)}
       renderInput={(params) => (
-        <TextField {...params} name={name} variant="standard" />
+        <TextField {...params} name={name} size="small" />
       )}
       options={data || []}
     />

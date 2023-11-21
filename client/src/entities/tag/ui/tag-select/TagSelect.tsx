@@ -57,6 +57,7 @@ export function TagSelect(props: TagSelectProps) {
         value={value}
         disabled={disabled}
         isOptionEqualToValue={(option, value) => option.id === value.id}
+        size="small"
         renderOption={(props, option, { selected }) => (
           <li {...props}>
             <Checkbox
@@ -68,9 +69,7 @@ export function TagSelect(props: TagSelectProps) {
             {option.name}
           </li>
         )}
-        renderInput={(params) => (
-          <TextField variant="standard" {...params} name={name} />
-        )}
+        renderInput={(params) => <TextField {...params} name={name} />}
       />
       <div className="flex items-start justify-between">
         {actions && <div className="flex items-center gap-0.5">{actions}</div>}

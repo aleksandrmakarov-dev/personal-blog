@@ -8,6 +8,7 @@ interface FormFieldProps extends React.HTMLAttributes<HTMLDivElement> {
   error?: FieldError;
   children: React.ReactNode;
   helper?: React.ReactNode;
+  required?: boolean;
 }
 
 const FormField: React.FC<FormFieldProps> = (props) => {
@@ -18,17 +19,18 @@ const FormField: React.FC<FormFieldProps> = (props) => {
     labelFontSize = 16,
     helper,
     className,
+    required,
   } = props;
 
   return (
     <div className={className}>
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between mb-1">
         {label && (
           <InputLabel
-            className="mb-1 !text-foreground-secondary"
+            className="mb-0.5 !text-foreground-secondary"
             sx={{ fontSize: labelFontSize }}
           >
-            {label}
+            {label} {required && <span className="text-red-500">*</span>}
           </InputLabel>
         )}
         {helper}

@@ -25,7 +25,7 @@ export function CurrentPostEditor() {
   const onSubmit = async (values: PostEditorSchemaType) => {
     const dataToUpdate = {
       ...values,
-      parent: values.parent?.id,
+      parent: values.parent?.id || null,
       tags: values.tags.map((tag) => tag.id),
     };
 

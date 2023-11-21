@@ -39,13 +39,7 @@ export function PostFilterBody(props: PostFilterBodyProps) {
         name="query"
         disabled={isLoading}
         render={({ field }) => (
-          <TextField
-            {...field}
-            placeholder="Search"
-            size="small"
-            fullWidth
-            variant="standard"
-          />
+          <TextField {...field} placeholder="Search" size="small" fullWidth />
         )}
       />
       <Controller
@@ -53,7 +47,7 @@ export function PostFilterBody(props: PostFilterBodyProps) {
         name="orderBy"
         disabled={isLoading}
         render={({ field }) => (
-          <Select {...field} size="small" variant="standard" label="Order By">
+          <Select {...field} size="small">
             {options.map((option: { name: string; value: string }) => (
               <MenuItem key={option.value} value={option.value}>
                 {option.name}

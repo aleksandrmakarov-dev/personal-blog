@@ -5,6 +5,8 @@ import { useQueryClient } from "@tanstack/react-query";
 import { postKeys } from "@/entities/post";
 import { PostDTO, PostPreviewDTO } from "@/services/post/postService";
 import { PagedResponse } from "@/shared/lib/types";
+import { useAuth } from "@/providers/AuthProvider";
+import { Routing } from "@/shared/lib";
 
 interface FavoritePostProps {
   postId: string;
@@ -13,6 +15,8 @@ interface FavoritePostProps {
 
 export function FavoritePost(props: FavoritePostProps) {
   const { postId, postSlug } = props;
+
+  const { currentUser } = useAuth();
 
   const queryClient = useQueryClient();
 
@@ -64,7 +68,12 @@ export function FavoritePost(props: FavoritePostProps) {
   };
 
   return (
-    <IconButton sx={{ position: "relative" }} size="small" onClick={onClick}>
+    <IconButton
+      sx={{ position: "relative" }}
+      size="small"
+      href={currentUser ? "" : Routing.auth.signIn}
+      onClick={currentUser ? onClick : undefined}
+    >
       {isPending && <CircularProgress sx={{ position: "absolute" }} />}
       <StarOutlineRoundedIcon sx={{ fontSize: 28 }} />
     </IconButton>

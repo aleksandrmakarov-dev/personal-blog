@@ -1,4 +1,4 @@
-import { Input, FormControlLabel, Checkbox, Alert } from "@mui/material";
+import { FormControlLabel, Checkbox, Alert, TextField } from "@mui/material";
 import { NavLink } from "react-router-dom";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
@@ -65,7 +65,7 @@ export function UserSignUpForm() {
         disabled={isPending}
         render={({ field, fieldState: { error } }) => (
           <FormField label="Name" error={error}>
-            <Input {...field} fullWidth size="small" />
+            <TextField {...field} fullWidth size="small" />
           </FormField>
         )}
       />
@@ -75,7 +75,7 @@ export function UserSignUpForm() {
         disabled={isPending}
         render={({ field, fieldState: { error } }) => (
           <FormField label="Email address" error={error}>
-            <Input {...field} fullWidth size="small" type="email" />
+            <TextField {...field} fullWidth size="small" type="email" />
           </FormField>
         )}
       />
@@ -85,7 +85,7 @@ export function UserSignUpForm() {
         disabled={isPending}
         render={({ field, fieldState: { error } }) => (
           <FormField label="Password" error={error}>
-            <Input {...field} type="password" fullWidth size="small" />
+            <TextField {...field} type="password" fullWidth size="small" />
           </FormField>
         )}
       />
@@ -95,7 +95,7 @@ export function UserSignUpForm() {
         disabled={isPending}
         render={({ field, fieldState: { error } }) => (
           <FormField label="Confirm password" error={error}>
-            <Input {...field} type="password" fullWidth size="small" />
+            <TextField {...field} type="password" fullWidth size="small" />
           </FormField>
         )}
       />

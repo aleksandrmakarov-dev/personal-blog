@@ -1,4 +1,4 @@
-import { Divider, Tab, Tabs } from "@mui/material";
+import { Divider, InputBase, OutlinedInput, Tab, Tabs } from "@mui/material";
 import React, { useState } from "react";
 import MarkdownEdit from "../markdown-edit/MarkdownEdit";
 import MarkdownPreview from "../markdown-preview/MarkdownPreview";
@@ -9,14 +9,10 @@ interface MarkdownEditorProps {
   onBlur: (e: any) => void;
   name: string;
   disabled?: boolean;
-  ref: any;
   rows?: number;
 }
 
-const MarkdownEditor: React.ForwardRefRenderFunction<
-  HTMLTextAreaElement,
-  MarkdownEditorProps
-> = (props, ref) => {
+const MarkdownEditor: React.FC<MarkdownEditorProps> = (props) => {
   const { onChange, value, disabled } = props;
   const [index, setIndex] = useState<number>(0);
 
@@ -39,4 +35,4 @@ const MarkdownEditor: React.ForwardRefRenderFunction<
   );
 };
 
-export default React.forwardRef(MarkdownEditor);
+export default MarkdownEditor;

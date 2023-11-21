@@ -1,5 +1,4 @@
-import { UseQueryOptions, useQuery } from "@tanstack/react-query";
-import { useAuth } from "../../../providers/AuthProvider";
+import { UseQueryOptions } from "@tanstack/react-query";
 import { GenericErrorModelDTO } from "../../../shared/lib/types";
 
 export interface User {

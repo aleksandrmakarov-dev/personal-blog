@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Alert, Input } from "@mui/material";
+import { Alert, TextField } from "@mui/material";
 import { Controller, useForm } from "react-hook-form";
 import { NavLink, useNavigate } from "react-router-dom";
 import { z } from "zod";
@@ -49,7 +49,7 @@ export function UserSignInForm() {
         disabled={isPending}
         render={({ field, fieldState: { error } }) => (
           <FormField label="Email address" error={error}>
-            <Input {...field} fullWidth size="small" />
+            <TextField {...field} fullWidth size="small" />
           </FormField>
         )}
       />
@@ -70,7 +70,7 @@ export function UserSignInForm() {
               </NavLink>
             }
           >
-            <Input {...field} type="password" fullWidth size="small" />
+            <TextField {...field} type="password" fullWidth size="small" />
           </FormField>
         )}
       />

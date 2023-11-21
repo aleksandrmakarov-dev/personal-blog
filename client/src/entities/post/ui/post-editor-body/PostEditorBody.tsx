@@ -1,10 +1,11 @@
 import FormField from "@/shared/ui/form-field/FormField";
 import MarkdownEditor from "@/shared/ui/markdown/markdown-editor/MarkdownEditor";
 import { PostTagSelect } from "@/widgets/post";
-import { TextField } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import { Control, Controller } from "react-hook-form";
 import { z } from "zod";
 import { PostParentSelect } from "../..";
+import { FileUploaderDialog } from "@/widgets/file-uploader-dialog";
 
 export const postEditorSchema = z.object({
   parent: z
@@ -12,11 +13,11 @@ export const postEditorSchema = z.object({
       id: z.string().min(1),
       title: z.string().min(1),
     })
-    .optional(),
+    .nullable(),
   title: z.string().min(1).max(150),
   description: z.string().min(1).max(250),
   body: z.string().min(1),
-  image: z.string().optional(),
+  image: z.string().nullable(),
   tags: z
     .array(
       z.object({
@@ -56,8 +57,8 @@ export function PostEditorBody(props: PostEditorBodyProps) {
         disabled={isLoading}
         name="title"
         render={({ field, fieldState: { error } }) => (
-          <FormField label="Title" error={error}>
-            <TextField size="small" fullWidth variant="standard" {...field} />
+          <FormField label="Title" required error={error}>
+            <TextField size="small" fullWidth {...field} />
           </FormField>
         )}
       />
@@ -66,15 +67,8 @@ export function PostEditorBody(props: PostEditorBodyProps) {
         disabled={isLoading}
         name="description"
         render={({ field, fieldState: { error } }) => (
-          <FormField label="Description" error={error}>
-            <TextField
-              size="small"
-              fullWidth
-              variant="standard"
-              {...field}
-              multiline
-              rows={3}
-            />
+          <FormField label="Description" required error={error}>
+            <TextField size="small" fullWidth {...field} multiline rows={3} />
           </FormField>
         )}
       />
@@ -83,8 +77,19 @@ export function PostEditorBody(props: PostEditorBodyProps) {
         disabled={isLoading}
         name="image"
         render={({ field, fieldState: { error } }) => (
-          <FormField label="Image" error={error}>
-            <TextField size="small" fullWidth variant="standard" {...field} />
+          <FormField label="Preview image" error={error}>
+            <div className="flex  gap-3">
+              <TextField size="small" fullWidth {...field} />
+              <FileUploaderDialog
+                trigger={
+                  <Button type="button" variant="outlined" disableElevation>
+                    Change
+                  </Button>
+                }
+                title="Upload preview image"
+                onSave={(files) => {}}
+              />
+            </div>
           </FormField>
         )}
       />
@@ -92,8 +97,8 @@ export function PostEditorBody(props: PostEditorBodyProps) {
         control={control}
         disabled={isLoading}
         name="body"
-        render={({ field, fieldState: { error } }) => (
-          <FormField label="Body" error={error}>
+        render={({ field: { ref, ...field }, fieldState: { error } }) => (
+          <FormField label="Content" required error={error}>
             <MarkdownEditor {...field} rows={25} />
           </FormField>
         )}
@@ -106,7 +111,7 @@ export function PostEditorBody(props: PostEditorBodyProps) {
           field: { onChange: onSelectTag, ref, ...other },
           fieldState: { error },
         }) => (
-          <FormField label="Tags" error={error}>
+          <FormField label="Tags" required error={error}>
             <PostTagSelect onSelectTag={onSelectTag} {...other} />
           </FormField>
         )}

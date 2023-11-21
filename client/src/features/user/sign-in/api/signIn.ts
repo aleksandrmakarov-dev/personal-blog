@@ -1,6 +1,7 @@
 import { User, userKeys } from "@/entities/user/api/userApi";
 import userService, {
   SignInWithPasswordDTO,
+  UserAccountDTO,
 } from "@/services/user/userService";
 import { GenericErrorModelDTO } from "@/shared/lib/types";
 import { useMutation } from "@tanstack/react-query";
@@ -8,7 +9,7 @@ import { AxiosError } from "axios";
 
 export const useSignInUserWithPassword = () => {
   return useMutation<
-    User,
+    UserAccountDTO,
     AxiosError<GenericErrorModelDTO>,
     SignInWithPasswordDTO,
     unknown
