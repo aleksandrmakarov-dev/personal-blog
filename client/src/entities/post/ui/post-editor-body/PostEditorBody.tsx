@@ -1,11 +1,11 @@
 import FormField from "@/shared/ui/form-field/FormField";
-import MarkdownEditor from "@/shared/ui/markdown/markdown-editor/MarkdownEditor";
 import { PostTagSelect } from "@/widgets/post";
 import { Button, TextField } from "@mui/material";
 import { Control, Controller } from "react-hook-form";
 import { z } from "zod";
 import { PostParentSelect } from "../..";
 import { FileUploaderDialog } from "@/widgets/file-uploader-dialog";
+import { MarkdownEditor } from "@/shared/ui/markdown";
 
 export const postEditorSchema = z.object({
   parent: z

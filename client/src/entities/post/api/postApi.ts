@@ -1,6 +1,5 @@
 import postService, {
   PostDTO,
-  PostItemDTO,
   PostPreviewDTO,
 } from "@/services/post/postService";
 import { PagedResponse, GenericErrorModelDTO } from "@/shared/lib/types";

@@ -43,8 +43,8 @@ export function FileUploader(props: FileUploaderProps) {
   return (
     <div>
       <div className="flex items-center justify-between mb-2">
-        <p className="text-foreground-secondary text-xs">Max file size: 5Mb</p>
-        <p className="text-foreground-secondary text-xs">
+        <p className="text-foreground-secondary text-sm">Max file size: 5Mb</p>
+        <p className="text-foreground-secondary text-sm">
           Supported formats: .jpg, .jpeg, .png, .gif
         </p>
       </div>

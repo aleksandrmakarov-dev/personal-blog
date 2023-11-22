@@ -10,7 +10,7 @@ interface PostAuthorProps extends React.HTMLAttributes<HTMLDivElement> {
   readingTime: number;
   readingUnits?: "min" | "hrs";
   created: Date;
-  updated?: Date;
+  updated: Date | null;
 }
 
 export function PostAuthor(props: PostAuthorProps) {

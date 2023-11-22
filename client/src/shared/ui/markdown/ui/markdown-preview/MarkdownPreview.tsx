@@ -22,19 +22,23 @@ import {
   Ul,
 } from "../components";
 import rehypeSlug from "rehype-slug";
+import remarkToc from "remark-toc";
 
 interface MarkdownPreviewProps extends HTMLAttributes<HTMLDivElement> {
   value: string;
 }
 
-const MarkdownPreview: React.FC<MarkdownPreviewProps> = (props) => {
+export const MarkdownPreview = (props: MarkdownPreviewProps) => {
   const { value, ...other } = props;
 
   return (
     <Markdown
       {...other}
       rehypePlugins={[rehypeSlug]}
-      remarkPlugins={[remarkGfm]}
+      remarkPlugins={[
+        remarkGfm,
+        [remarkToc, { heading: "On this page", maxDepth: 3, tight: true }],
+      ]}
       components={{
         h1: H1,
         h2: H2,
@@ -61,5 +65,3 @@ const MarkdownPreview: React.FC<MarkdownPreviewProps> = (props) => {
     </Markdown>
   );
 };
-
-export default MarkdownPreview;

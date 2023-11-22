@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import { useRef } from "react";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { vs } from "react-syntax-highlighter/dist/esm/styles/hljs";
 
@@ -8,10 +8,7 @@ interface MarkdownEditProps {
   disabled?: boolean;
 }
 
-const MarkdownEdit: React.ForwardRefRenderFunction<
-  HTMLInputElement,
-  MarkdownEditProps
-> = (props, _ref) => {
+export const MarkdownEdit = (props: MarkdownEditProps) => {
   const { value: markdownValue, onChange, disabled } = props;
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -122,5 +119,3 @@ const MarkdownEdit: React.ForwardRefRenderFunction<
     </div>
   );
 };
-
-export default React.forwardRef(MarkdownEdit);

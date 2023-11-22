@@ -47,7 +47,14 @@ const FormDialog: React.FC<FormDialogProps> = (props) => {
     <>
       {React.cloneElement(trigger, { onClick: () => setOpen(true) })}
       <Dialog open={open} fullWidth>
-        <form onSubmit={handleSubmit}>
+        <form
+          onSubmit={(e: any) => {
+            // https://github.com/redux-form/redux-form/issues/3701
+            // stop propagation to prevent dialog form from submitting the parent form
+            e.stopPropagation();
+            handleSubmit(e);
+          }}
+        >
           <DialogTitle>{title}</DialogTitle>
           <DialogContent dividers>{children}</DialogContent>
           <DialogActions>

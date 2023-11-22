@@ -1,6 +1,5 @@
 import { PostAuthor, PostImage, usePost } from "@/entities/post";
-import MarkdownPreview from "@/shared/ui/markdown/markdown-preview/MarkdownPreview";
-import MarkdownToC from "@/shared/ui/markdown/markdown-toc/MarkdownToC";
+import { MarkdownPreview } from "@/shared/ui/markdown";
 import { useParams } from "react-router-dom";
 
 export default function PostPage() {
@@ -20,13 +19,7 @@ export default function PostPage() {
 
   return (
     <div>
-      <div className="grid grid-cols-[2fr_6fr] gap-x-5 items-start">
-        <div className="sticky top-2 left-0">
-          <h5 className="text-xl font-semibold text-foreground-primary">
-            Table of Contents
-          </h5>
-          <MarkdownToC value={body} />
-        </div>
+      <div className="grid grid-cols-[6fr_2fr] gap-x-5 items-start">
         <div>
           <h1 className="text-4xl font-bold text-foreground-primary my-8">
             {data.title}
@@ -51,6 +44,7 @@ export default function PostPage() {
           <p className="mt-5">{description}</p>
           <MarkdownPreview value={body} />
         </div>
+        <div>Sidebar...</div>
       </div>
     </div>
   );

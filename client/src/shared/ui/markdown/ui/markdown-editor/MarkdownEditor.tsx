@@ -1,7 +1,7 @@
-import { Divider, InputBase, OutlinedInput, Tab, Tabs } from "@mui/material";
+import { Tab, Tabs } from "@mui/material";
 import React, { useState } from "react";
-import MarkdownEdit from "../markdown-edit/MarkdownEdit";
-import MarkdownPreview from "../markdown-preview/MarkdownPreview";
+import { MarkdownPreview } from "../markdown-preview/MarkdownPreview";
+import { MarkdownEdit } from "../markdown-edit/MarkdownEdit";
 
 interface MarkdownEditorProps {
   value: string;
@@ -12,7 +12,7 @@ interface MarkdownEditorProps {
   rows?: number;
 }
 
-const MarkdownEditor: React.FC<MarkdownEditorProps> = (props) => {
+export const MarkdownEditor: React.FC<MarkdownEditorProps> = (props) => {
   const { onChange, value, disabled } = props;
   const [index, setIndex] = useState<number>(0);
 
@@ -33,5 +33,3 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = (props) => {
     </>
   );
 };
-
-export default MarkdownEditor;
