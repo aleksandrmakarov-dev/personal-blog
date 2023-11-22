@@ -57,7 +57,6 @@ export function PostEditor(props: PostEditorProps) {
         )}
         <LoadingButton
           loading={isLoading}
-          className="self-start"
           type="submit"
           variant="contained"
           disableElevation

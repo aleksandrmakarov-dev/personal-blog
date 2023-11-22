@@ -22,9 +22,15 @@ export const MarkdownEditor: React.FC<MarkdownEditorProps> = (props) => {
         <Tab value={0} label="Write" disabled={disabled} />
         <Tab value={1} label="Preview changes" disabled={disabled} />
       </Tabs>
-      <div className="h-[30rem] border rounded-md border-gray-300 p-2 focus-within:border-primary-600 focus-within:border-2">
+      <div className="h-[30rem]">
         {index === 0 && (
-          <MarkdownEdit disabled={disabled} value={value} onChange={onChange} />
+          <div className="border rounded-md border-gray-300 p-2 focus-within:border-primary-600 focus-within:border-2 overflow-auto h-full">
+            <MarkdownEdit
+              disabled={disabled}
+              value={value}
+              onChange={onChange}
+            />
+          </div>
         )}
         {index === 1 && (
           <MarkdownPreview className="h-full overflow-auto" value={value} />

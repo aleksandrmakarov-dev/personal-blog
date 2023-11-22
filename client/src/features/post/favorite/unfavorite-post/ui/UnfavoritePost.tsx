@@ -70,7 +70,9 @@ export function UnfavoritePost(props: UnfavoritePostProps) {
       size="small"
       onClick={onClick}
     >
-      {isPending && <CircularProgress sx={{ position: "absolute" }} />}
+      {isPending && (
+        <CircularProgress color="warning" sx={{ position: "absolute" }} />
+      )}
       <StarRounded sx={{ fontSize: 28 }} />
     </IconButton>
   );

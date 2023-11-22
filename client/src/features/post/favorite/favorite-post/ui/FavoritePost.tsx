@@ -74,7 +74,9 @@ export function FavoritePost(props: FavoritePostProps) {
       href={currentUser ? "" : Routing.auth.signIn}
       onClick={currentUser ? onClick : undefined}
     >
-      {isPending && <CircularProgress sx={{ position: "absolute" }} />}
+      {isPending && (
+        <CircularProgress color="warning" sx={{ position: "absolute" }} />
+      )}
       <StarOutlineRoundedIcon sx={{ fontSize: 28 }} />
     </IconButton>
   );
