@@ -4,6 +4,7 @@ import {
   NotFoundError,
   BadRequestError,
   UnAuthorizedError,
+  FileUploadError,
 } from "../lib/api.errors";
 import mongoose from "mongoose";
 import { TokenExpiredError, JsonWebTokenError } from "jsonwebtoken";
@@ -76,6 +77,15 @@ function errorHandleMiddleware(
       message: err.message,
     };
     return res.status(401).json(error);
+  }
+
+  if (err instanceof FileUploadError) {
+    const error: GenericErrorModelDTO = {
+      code: "500",
+      title: "File upload error",
+      message: err.message,
+    };
+    return res.status(500).json(error);
   }
 
   const error: GenericErrorModelDTO = {
