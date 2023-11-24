@@ -4,8 +4,9 @@ import { Button, TextField } from "@mui/material";
 import { Control, Controller } from "react-hook-form";
 import { z } from "zod";
 import { PostParentSelect } from "../..";
-import { FileUploaderDialog } from "@/widgets/file-uploader-dialog";
 import { MarkdownEditor } from "@/shared/ui/markdown";
+import { FileDTO } from "@/services/file/fileService";
+import { FileUploadDialog } from "@/widgets/file";
 
 export const postEditorSchema = z.object({
   parent: z
@@ -79,15 +80,18 @@ export function PostEditorBody(props: PostEditorBodyProps) {
         render={({ field, fieldState: { error } }) => (
           <FormField label="Preview image" error={error}>
             <div className="flex  gap-3">
-              <TextField size="small" fullWidth {...field} />
-              <FileUploaderDialog
-                trigger={
-                  <Button type="button" variant="contained" disableElevation>
-                    Choose
-                  </Button>
-                }
-                title="Upload preview image"
-                onSave={(files) => {}}
+              <TextField
+                size="small"
+                fullWidth
+                {...field}
+                inputProps={{ readOnly: true }}
+              />
+              <FileUploadDialog
+                title="Upload image"
+                trigger={<Button>Upload</Button>}
+                onCallback={(file: FileDTO) => {
+                  field.onChange(file.url);
+                }}
               />
             </div>
           </FormField>

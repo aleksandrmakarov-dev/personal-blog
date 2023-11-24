@@ -42,8 +42,10 @@ type GetArticlesParams = {
   query?: string;
 };
 
+const baseUrl = "/api/posts";
+
 async function getPosts<T>(params: GetArticlesParams) {
-  const response = await axios.get<T>("/api/posts", { params });
+  const response = await axios.get<T>(baseUrl, { params });
 
   return response.data;
 }
@@ -58,13 +60,12 @@ export interface CreatePostDTO {
 }
 
 async function createPost(post: CreatePostDTO): Promise<PostDTO> {
-  console.log(post);
-  const response = await axios.post<PostDTO>("/api/posts", post);
+  const response = await axios.post<PostDTO>(baseUrl, post);
   return response.data;
 }
 
 async function getPostBySlug(slug: string): Promise<PostDTO> {
-  const response = await axios.get<PostDTO>(`/api/posts/slug/${slug}`);
+  const response = await axios.get<PostDTO>(`${baseUrl}/slug/${slug}`);
   return response.data;
 }
 
@@ -81,23 +82,23 @@ async function updatePostById(
   id: string,
   post: UpdatePostDTO
 ): Promise<PostDTO> {
-  const response = await axios.put<PostDTO>(`/api/posts/id/${id}`, post);
+  const response = await axios.put<PostDTO>(`${baseUrl}/id/${id}`, post);
   return response.data;
 }
 
 async function deletePostById(id: string): Promise<GenericResponseModelDTO> {
-  const response = await axios.delete(`/api/posts/id/${id}`);
+  const response = await axios.delete(`${baseUrl}/id/${id}`);
   return response.data;
 }
 
 async function favoritePostById(id: string): Promise<PostDTO> {
-  const response = await axios.put<PostDTO>(`/api/posts/id/${id}/favorite`);
+  const response = await axios.put<PostDTO>(`${baseUrl}/id/${id}/favorite`);
   return response.data;
 }
 
 async function unfavoritePostById(id: string): Promise<PostDTO> {
   const response = await axios.delete<PostDTO>(
-    `/api/posts/id/${id}/unfavorite`
+    `${baseUrl}/id/${id}/unfavorite`
   );
   return response.data;
 }

@@ -2,6 +2,8 @@ import { useRef } from "react";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { vs } from "react-syntax-highlighter/dist/esm/styles/hljs";
 
+import { MarkdownToolbar } from "../..";
+
 interface MarkdownEditProps {
   value: string;
   onChange: (value: string) => void;
@@ -61,60 +63,98 @@ export const MarkdownEdit = (props: MarkdownEditProps) => {
     }
   };
 
+  const addMarkdown = (
+    syntax: string,
+    defaultValue: string,
+    newline?: boolean
+  ) => {
+    const placeholder = /{placeholder}/g;
+
+    const start = textareaRef.current!.selectionStart;
+    const end = textareaRef.current!.selectionEnd;
+
+    const text = textareaRef.current!.value;
+    const before = text.substring(0, start);
+    const selected = text.substring(start, end);
+
+    console.log(before);
+
+    const isAtBeginningOfLine = before.trimEnd().endsWith("\n");
+
+    // Prepend a newline character if the cursor is not at the beginning of the line
+    const beforeWithNewline =
+      !isAtBeginningOfLine && newline ? before + "\n" : before;
+
+    const replacedString =
+      syntax.replace(placeholder, selected || defaultValue) +
+      (newline ? "  \n" : "");
+
+    const after = text.substring(end, text.length);
+
+    textareaRef.current!.value = beforeWithNewline + replacedString + after;
+    textareaRef.current!.selectionStart = start + replacedString.length;
+    textareaRef.current!.selectionEnd = start + replacedString.length;
+
+    textareaRef.current!.focus();
+
+    onChange(textareaRef.current!.value);
+  };
+
   return (
-    <div className="relative overflow-auto h-full">
-      <div className="relative !text-sm">
-        <SyntaxHighlighter
-          style={vs}
-          language="markdown"
-          customStyle={{
-            padding: "1rem",
-            margin: 0,
-            fontFamily: "!monospace",
-            wordBreak: "break-word",
-            msWordBreak: "keep-all",
-            overflowWrap: "break-word",
-            overflowX: "hidden",
-          }}
-          lineProps={{
-            style: {
+    <div className="h-full flex flex-col">
+      <MarkdownToolbar addMarkdown={addMarkdown} />
+      <div className="border rounded-md border-gray-300 p-2 focus-within:border-primary-600 focus-within:border-2 overflow-auto h-full">
+        <div className="relative !text-sm">
+          <SyntaxHighlighter
+            style={vs}
+            language="markdown"
+            customStyle={{
+              padding: "1rem",
+              margin: 0,
+              fontFamily: "!monospace",
               wordBreak: "break-word",
-              whiteSpace: "pre-wrap",
-            },
-          }}
-          wrapLines={true}
-        >
-          {markdownValue}
-        </SyntaxHighlighter>
-        <textarea
-          style={{
-            padding: "1rem",
-            margin: 0,
-            width: "100%",
-            height: "100%",
-            position: "absolute",
-            top: 0,
-            left: 0,
-            resize: "none",
-            overflow: "hidden",
-            background: "transparent",
-            outline: "none",
-            border: "none",
-            color: "transparent",
-            caretColor: "black",
-            fontFamily:
-              'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
-            fontStyle: "italic",
-            fontWeight: "bold",
-          }}
-          spellCheck={false}
-          autoCorrect="off"
-          ref={textareaRef}
-          onKeyDown={onKeyDown}
-          value={markdownValue}
-          onChange={(e) => onChange(e.target.value)}
-          disabled={disabled}
-        />
+              msWordBreak: "keep-all",
+              overflowWrap: "break-word",
+              overflowX: "hidden",
+            }}
+            lineProps={{
+              style: {
+                wordBreak: "break-word",
+                whiteSpace: "pre-wrap",
+              },
+            }}
+            wrapLines={true}
+          >
+            {markdownValue}
+          </SyntaxHighlighter>
+          <textarea
+            style={{
+              padding: "1rem",
+              margin: 0,
+              width: "100%",
+              height: "100%",
+              position: "absolute",
+              top: 0,
+              left: 0,
+              resize: "none",
+              overflow: "hidden",
+              background: "transparent",
+              outline: "none",
+              border: "none",
+              color: "transparent",
+              caretColor: "black",
+              fontFamily:
+                'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
+            }}
+            spellCheck={false}
+            autoCorrect="off"
+            ref={textareaRef}
+            onKeyDown={onKeyDown}
+            value={markdownValue}
+            onChange={(e) => onChange(e.target.value)}
+            disabled={disabled}
+          />
+        </div>
       </div>
     </div>
   );

@@ -6,12 +6,21 @@ import {
   TableCell as MUITableCell,
   TableContainer,
   Paper,
+  styled,
 } from "@mui/material";
+
+const TableBox = (props: { children: React.ReactNode }) => {
+  return (
+    <div className="overflow-x-auto mb-10 border border-gray-300 rounded-sm">
+      {props.children}
+    </div>
+  );
+};
 
 export const Table = (props: any) => {
   const { node, ...other } = props;
   return (
-    <TableContainer className="mb-5" component={Paper}>
+    <TableContainer className="mb-5" component={TableBox}>
       <MUITable {...other} />
     </TableContainer>
   );
