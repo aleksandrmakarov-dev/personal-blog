@@ -1,6 +1,7 @@
 import { IconButton } from "@mui/material";
 import ImageRoundedIcon from "@mui/icons-material/ImageRounded";
 import { FileUploadDialog } from "@/widgets/file";
+import SquareIconButton from "@/shared/ui/square-icon-button/SquareIconButton";
 
 interface BasicItmProps {
   addMarkdown: (
@@ -16,9 +17,9 @@ export function ImageItem(props: BasicItmProps) {
   return (
     <FileUploadDialog
       trigger={
-        <IconButton title="Image">
-          <ImageRoundedIcon />
-        </IconButton>
+        <SquareIconButton size="small" title="Image">
+          <ImageRoundedIcon fontSize="small" />
+        </SquareIconButton>
       }
       title="Upload Image"
       onCallback={(file) => {

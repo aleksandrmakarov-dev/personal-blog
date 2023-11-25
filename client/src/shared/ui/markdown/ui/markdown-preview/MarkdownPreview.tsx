@@ -22,7 +22,6 @@ import {
   Ul,
 } from "../components";
 import rehypeSlug from "rehype-slug";
-import remarkToc from "remark-toc";
 
 interface MarkdownPreviewProps extends HTMLAttributes<HTMLDivElement> {
   value: string;
@@ -35,10 +34,7 @@ export const MarkdownPreview = (props: MarkdownPreviewProps) => {
     <Markdown
       {...other}
       rehypePlugins={[rehypeSlug]}
-      remarkPlugins={[
-        remarkGfm,
-        [remarkToc, { heading: "On this page", maxDepth: 3, tight: true }],
-      ]}
+      remarkPlugins={[remarkGfm]}
       components={{
         h1: H1,
         h2: H2,

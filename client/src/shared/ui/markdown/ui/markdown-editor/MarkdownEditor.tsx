@@ -27,7 +27,7 @@ export const MarkdownEditor: React.FC<MarkdownEditorProps> = (props) => {
           <MarkdownEdit disabled={disabled} value={value} onChange={onChange} />
         )}
         {index === 1 && (
-          <MarkdownPreview className="h-full overflow-auto" value={value} />
+          <MarkdownPreview className="h-full overflow-auto p-2" value={value} />
         )}
       </div>
     </>

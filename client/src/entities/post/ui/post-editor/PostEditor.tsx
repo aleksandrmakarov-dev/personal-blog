@@ -61,7 +61,7 @@ export function PostEditor(props: PostEditorProps) {
           variant="contained"
           disableElevation
         >
-          Submit
+          {edit ? "Save changes" : "Create"}
         </LoadingButton>
       </div>
     </form>

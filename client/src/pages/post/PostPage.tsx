@@ -1,5 +1,5 @@
 import { PostAuthor, PostImage, usePost } from "@/entities/post";
-import { MarkdownPreview } from "@/shared/ui/markdown";
+import { MarkdownPreview, MarkdownToc } from "@/shared/ui/markdown";
 import { useParams } from "react-router-dom";
 
 export default function PostPage() {
@@ -19,7 +19,7 @@ export default function PostPage() {
 
   return (
     <div>
-      <div className="grid grid-cols-[6fr_2fr] gap-x-5 items-start">
+      <div className="grid grid-cols-[6fr_2fr] gap-x-10 items-start">
         <div>
           <h1 className="text-4xl font-bold text-foreground-primary my-8">
             {data.title}
@@ -44,7 +44,9 @@ export default function PostPage() {
           <p className="mt-5">{description}</p>
           <MarkdownPreview value={body} />
         </div>
-        <div>Sidebar...</div>
+        <div className="sticky left-0 top-4">
+          <MarkdownToc value={body} />
+        </div>
       </div>
     </div>
   );

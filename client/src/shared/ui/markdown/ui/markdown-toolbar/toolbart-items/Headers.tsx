@@ -1,6 +1,7 @@
 import { IconButton, Menu, MenuItem } from "@mui/material";
 import { useState } from "react";
 import TitleIcon from "@mui/icons-material/Title";
+import SquareIconButton from "@/shared/ui/square-icon-button/SquareIconButton";
 
 interface HeadersProps {
   addMarkdown: (
@@ -30,9 +31,9 @@ export function Headers(props: HeadersProps) {
 
   return (
     <div>
-      <IconButton onClick={handleClick} title="Headers">
-        <TitleIcon />
-      </IconButton>
+      <SquareIconButton size="small" onClick={handleClick} title="Headers">
+        <TitleIcon fontSize="small" />
+      </SquareIconButton>
       <Menu anchorEl={anchorEl} open={open} onClose={close}>
         {[1, 2, 3, 4, 5, 6].map((i) => (
           <MenuItem

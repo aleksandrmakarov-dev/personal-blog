@@ -37,6 +37,7 @@ export function CurrentPostEditor() {
       {
         onSuccess: () => {
           // do something like navigate to post page
+          window.scrollTo(0, 0);
         },
       }
     );

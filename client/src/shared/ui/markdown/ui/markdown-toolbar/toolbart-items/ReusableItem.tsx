@@ -1,4 +1,6 @@
+import SquareIconButton from "@/shared/ui/square-icon-button/SquareIconButton";
 import { IconButton } from "@mui/material";
+import React from "react";
 
 interface BasicItmProps {
   icon: any;
@@ -21,8 +23,8 @@ export function ReusableItem(props: BasicItmProps) {
   };
 
   return (
-    <IconButton title={tooltip} onClick={onClick}>
-      {icon}
-    </IconButton>
+    <SquareIconButton size="small" title={tooltip} onClick={onClick}>
+      {React.cloneElement(icon, { fontSize: "small" })}
+    </SquareIconButton>
   );
 }
