@@ -1,6 +1,5 @@
 import jsonwebtoken from "jsonwebtoken";
 import crypto from "crypto";
-import dayjs from "dayjs";
 import bcrypt from "bcrypt";
 import { JWTPayload } from "../types/user.types";
 

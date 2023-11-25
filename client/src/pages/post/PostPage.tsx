@@ -1,5 +1,6 @@
 import { PostAuthor, PostImage, usePost } from "@/entities/post";
 import { MarkdownPreview, MarkdownToc } from "@/shared/ui/markdown";
+import { Chip, Divider } from "@mui/material";
 import { useParams } from "react-router-dom";
 
 export default function PostPage() {
@@ -15,7 +16,7 @@ export default function PostPage() {
     return <div>{error?.response?.data.message}</div>;
   }
 
-  const { author, created, updated, image, description, body } = data;
+  const { author, created, updated, image, description, body, tags } = data;
 
   return (
     <div>
@@ -28,7 +29,7 @@ export default function PostPage() {
             <PostAuthor
               id={author.slug}
               name={author.name}
-              readingTime={5}
+              readingTime={data.readingTime}
               readingUnits="min"
               created={created}
               updated={updated}
@@ -43,6 +44,15 @@ export default function PostPage() {
           )}
           <p className="mt-5">{description}</p>
           <MarkdownPreview value={body} />
+          <Divider className="pt-5" />
+          <div className="mt-5">
+            <h5 className="text-lg font-semibold mb-3">Tags</h5>
+            <div className=" flex items-center gap-2">
+              {tags.map((tag) => (
+                <Chip key={tag.id} label={tag.name} />
+              ))}
+            </div>
+          </div>
         </div>
         <div className="sticky left-0 top-4">
           <MarkdownToc value={body} />

@@ -18,7 +18,7 @@ const renderNodes = (nodes: TocNode[], activeId: string) => {
   return (
     <ul>
       {nodes.map((node) => (
-        <TocLink node={node} activeId={activeId} />
+        <TocLink key={node.data.id} node={node} activeId={activeId} />
       ))}
     </ul>
   );

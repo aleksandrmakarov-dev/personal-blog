@@ -1,19 +1,19 @@
 import clsx, { ClassValue } from "clsx";
+import moment from "moment";
 import { twMerge } from "tailwind-merge";
-import { GenericErrorModelDTO } from "./types";
-import axios from "axios";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
 export function formatDate(input: Date | string | number): string {
-  const date = new Date(input);
-  return date.toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  });
+  const date = moment(new Date(input));
+  const diff = moment().diff(date, "days");
+  if (diff > 1) {
+    return date.format("MMM D, YYYY");
+  } else {
+    return date.fromNow();
+  }
 }
 
 export function stringToColor(string: string) {

@@ -70,7 +70,7 @@ export function PostPreviewCard({ post }: PostPreviewCardProps) {
               )}
               <p className="text-xs uppercase text-foreground-secondary">
                 <span>{formatDate(created)}</span>{" "}
-                {updated && <span>(Edit {formatDate(updated)})</span>}
+                {updated && <span>(Updated {formatDate(updated)})</span>}
               </p>
             </div>
             <h3 className="text-lg font-semibold mb-1">
@@ -98,9 +98,9 @@ export function PostPreviewCard({ post }: PostPreviewCardProps) {
                 ))}
               </div>
               {isFavorite ? (
-                <UnfavoritePost postId={post.id} />
+                <UnfavoritePost postId={post.id} postSlug={post.slug} />
               ) : (
-                <FavoritePost postId={post.id} />
+                <FavoritePost postId={post.id} postSlug={post.slug} />
               )}
             </div>
           </div>

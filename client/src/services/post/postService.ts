@@ -13,6 +13,7 @@ export interface PostItemDTO {
   updated: Date | null;
   author: string;
   isFavorite: boolean;
+  readingTime: number;
   tags: string[];
 }
 
@@ -28,6 +29,7 @@ export interface PostDTO {
   updated: Date | null;
   author: UserProfileDTO;
   isFavorite: boolean;
+  readingTime: number;
   tags: TagDTO[];
 }
 

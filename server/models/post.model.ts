@@ -9,6 +9,7 @@ interface IPost {
   updated: Date;
   image: string;
   slug: string;
+  readingTime: number;
   parent?: mongoose.Types.ObjectId;
   author: mongoose.Types.ObjectId;
   children: mongoose.Types.ObjectId;
@@ -35,6 +36,7 @@ const PostSchema = new Schema<IPost, IPostModel, IPostMethods>({
   created: { type: Date, default: Date.now() },
   updated: { type: Date },
   image: { type: String },
+  readingTime: { type: Number, default: 0 },
   slug: { type: String, slug: "title", slugPaddingSize: 4, unique: true },
   parent: {
     type: Schema.Types.ObjectId,

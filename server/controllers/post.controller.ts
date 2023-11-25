@@ -19,6 +19,7 @@ import {
 } from "../lib/schemas/post/favorite-post.schema";
 import { UserProfileDTO } from "../lib/types/user.types";
 import { ITag } from "../models/tag.model";
+import utils from "../lib/utils/utils";
 
 async function create(req: Request, res: Response) {
   const reqBody = CreatePostBodySchema.parse(req.body);
@@ -35,6 +36,7 @@ async function create(req: Request, res: Response) {
   const createdPost = await PostModel.create({
     created: Date.now(),
     author: user._id,
+    readingTime: utils.readingTime(reqBody.body),
     ...reqBody,
   });
 
@@ -153,7 +155,11 @@ async function updateById(req: Request, res: Response) {
   if (!postToUpdate) {
     throw new NotFoundError(`Post with id ${reqParams.identifier} not found`);
   }
-  postToUpdate.set({ ...reqBody, updated: Date.now() });
+  postToUpdate.set({
+    ...reqBody,
+    updated: Date.now(),
+    readingTime: utils.readingTime(reqBody.body),
+  });
   await postToUpdate.save();
 
   return Ok(res, postToUpdate);
