@@ -40,7 +40,7 @@ export function PostAuthor(props: PostAuthorProps) {
         <div>
           <NavLink
             className="text-foreground-primary font-semibold hover:underline"
-            to={Routing.users.details(id)}
+            to={Routing.users.profile(id)}
           >
             {name}
           </NavLink>
