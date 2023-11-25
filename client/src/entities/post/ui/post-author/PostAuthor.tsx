@@ -45,7 +45,7 @@ export function PostAuthor(props: PostAuthorProps) {
             {name}
           </NavLink>
         </div>
-        <div className="text-foreground-secondary ">
+        <div className="text-foreground-secondary">
           <span>
             {readingTime} {readingUnits} read
           </span>

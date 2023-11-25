@@ -19,7 +19,7 @@ export function PostTagSelect(props: PostTagSelectProps) {
       options={data || []}
       isLoading={isLoading}
       isError={isError}
-      limit={5}
+      limit={3}
       {...props}
       actions={
         <>

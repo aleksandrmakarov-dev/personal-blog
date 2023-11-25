@@ -17,7 +17,7 @@ export interface UserAccountDTO {
   name: string;
   email: string;
   image?: string;
-  roles: string[];
+  role: string;
 }
 
 export type SignInWithPasswordDTO = {

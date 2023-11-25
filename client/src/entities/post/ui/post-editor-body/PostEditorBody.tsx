@@ -79,7 +79,7 @@ export function PostEditorBody(props: PostEditorBodyProps) {
         name="image"
         render={({ field, fieldState: { error } }) => (
           <FormField label="Preview image" error={error}>
-            <div className="flex  gap-3">
+            <div className="flex gap-3">
               <TextField
                 size="small"
                 fullWidth

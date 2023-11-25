@@ -4,6 +4,7 @@ import EditNoteIcon from "@mui/icons-material/EditNote";
 import { useAuth } from "@/providers/AuthProvider";
 import { Routing, cn } from "@/shared/lib";
 import { UserProfileMenu } from "@/widgets/user";
+import PrivateComponent from "@/shared/ui/private-component/PrivateComponent";
 
 type NavLinkType = {
   name: string;
@@ -28,7 +29,6 @@ const NavLinks: NavLinkType[] = [
 
 export default function Navbar() {
   const { currentUser } = useAuth();
-  const isAuth = !!currentUser;
 
   const navLinkStyling = ({ isActive, isPending }: any) =>
     cn("flex items-center gap-1", {
@@ -58,11 +58,11 @@ export default function Navbar() {
                 ))}
               </div>
               <div className="flex gap-x-3">
-                {isAuth && (
+                <PrivateComponent role="admin">
                   <NavLink className={navLinkStyling} to="/posts/new">
                     <EditNoteIcon fontSize="medium" /> <span>Write</span>
                   </NavLink>
-                )}
+                </PrivateComponent>
                 <UserProfileMenu />
               </div>
             </div>

@@ -19,4 +19,8 @@ export const Routing = {
     signOut: "/sign-out",
     forgotPassword: "/forgot-password",
   },
+  errors: {
+    notFound: "/not-found",
+    unauthorized: "/unauthorized",
+  },
 };

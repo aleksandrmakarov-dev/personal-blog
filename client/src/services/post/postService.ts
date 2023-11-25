@@ -20,7 +20,7 @@ export interface PostItemDTO {
 export interface PostDTO {
   id: string;
   slug: string;
-  parent: { id: string; title: string } | null;
+  parent?: PostPreviewDTO;
   title: string;
   body: string;
   description: string;
@@ -31,6 +31,7 @@ export interface PostDTO {
   isFavorite: boolean;
   readingTime: number;
   tags: TagDTO[];
+  child?: PostPreviewDTO;
 }
 
 export interface PostPreviewDTO extends Omit<PostDTO, "body" | "parent"> {}

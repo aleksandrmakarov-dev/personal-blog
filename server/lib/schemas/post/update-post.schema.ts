@@ -5,7 +5,10 @@ export const UpdatePostBodySchema = z.object({
   description: z.string().min(1).max(250),
   body: z.string().min(1),
   image: z.string().nullable(),
-  tags: z.array(z.string()).min(1).max(5),
+  tags: z
+    .array(z.string())
+    .min(1)
+    .max(3, { message: "Tags must be between 1 and 3" }),
   parent: z.string().nullable(),
 });
 

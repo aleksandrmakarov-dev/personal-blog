@@ -12,7 +12,7 @@ interface IPost {
   readingTime: number;
   parent?: mongoose.Types.ObjectId;
   author: mongoose.Types.ObjectId;
-  children: mongoose.Types.ObjectId;
+  child: mongoose.Types.ObjectId;
   tags: mongoose.Types.ObjectId[];
   favorites: mongoose.Types.ObjectId[];
 }
@@ -22,6 +22,10 @@ interface IPostMethods {
   addFavorite: (userId: string) => Promise<void>;
   removeFavorite: (userId: string) => Promise<void>;
   isFavorite: (userId: string) => boolean;
+  setChild: (childId: string) => Promise<void>;
+  clearChild: () => Promise<void>;
+  setParent: (parentId: string) => Promise<void>;
+  clearParent: () => Promise<void>;
 }
 
 // post static methods
@@ -58,13 +62,31 @@ const PostSchema = new Schema<IPost, IPostModel, IPostMethods>({
       ref: "User",
     },
   ],
-  children: {
+  child: {
     type: Schema.Types.ObjectId,
     ref: "Post",
   },
 });
 
 // methods
+
+PostSchema.method("setChild", async function (childId: string) {
+  const id = new mongoose.Types.ObjectId(childId);
+  await this.updateOne({ $set: { child: id } });
+});
+
+PostSchema.method("clearChild", async function () {
+  await this.updateOne({ $set: { child: null } });
+});
+
+PostSchema.method("setParent", async function (parentId: string) {
+  const id = new mongoose.Types.ObjectId(parentId);
+  await this.updateOne({ $set: { parent: id } });
+});
+
+PostSchema.method("clearParent", async function () {
+  await this.updateOne({ $set: { parent: null } });
+});
 
 PostSchema.method("addFavorite", async function (userId: string) {
   const id = new mongoose.Types.ObjectId(userId);

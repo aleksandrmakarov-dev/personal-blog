@@ -47,7 +47,7 @@ function errorHandleMiddleware(
     const error: GenericErrorModelDTO = {
       code: "422",
       title: "Validation error",
-      message: err.message,
+      message: err.errors[0].message,
     };
     return res.status(422).json(error);
   }

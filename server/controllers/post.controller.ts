@@ -40,6 +40,16 @@ async function create(req: Request, res: Response) {
     ...reqBody,
   });
 
+  if (reqBody.parent) {
+    const parentPost = await PostModel.findById(reqBody.parent);
+    if (!parentPost) {
+      throw new NotFoundError(
+        `Parent post with id ${reqBody.parent} not found`
+      );
+    }
+    await parentPost?.setChild(createdPost._id.toString());
+  }
+
   return Created(res, createdPost);
 }
 
@@ -49,6 +59,11 @@ async function getBySlug(req: Request, res: Response) {
     .populate("author", { id: 1, slug: 1, name: 1, image: 1 })
     .populate("tags")
     .populate("parent", {
+      id: 1,
+      slug: 1,
+      title: 1,
+    })
+    .populate("child", {
       id: 1,
       slug: 1,
       title: 1,
@@ -162,6 +177,16 @@ async function updateById(req: Request, res: Response) {
   });
   await postToUpdate.save();
 
+  if (reqBody.parent) {
+    const parentPost = await PostModel.findById(reqBody.parent);
+    await parentPost?.setChild(postToUpdate._id.toString());
+  }
+
+  if (postToUpdate.child && !reqBody.parent) {
+    const parentPost = await PostModel.findById(reqBody.parent);
+    await parentPost?.clearChild();
+  }
+
   return Ok(res, postToUpdate);
 }
 
@@ -172,6 +197,18 @@ async function deleteById(req: Request, res: Response) {
     throw new NotFoundError(`Post with id ${reqParams.identifier} not found`);
   }
   await postToDelete.deleteOne();
+
+  const parentPost = await PostModel.findById(postToDelete.parent);
+  const childPost = await PostModel.findById(postToDelete.child);
+
+  if (parentPost && childPost) {
+    await childPost?.setParent(parentPost._id.toString());
+    await parentPost?.setChild(childPost._id.toString());
+  } else if (parentPost) {
+    await parentPost?.clearChild();
+  } else if (childPost) {
+    await childPost?.clearParent();
+  }
 
   return NoContent(res);
 }

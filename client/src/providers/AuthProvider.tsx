@@ -34,18 +34,24 @@ export default function AuthProvider(props: PropsWithChildren<{}>) {
   const { children } = props;
 
   const [currentUser, setCurrentUser] = useState<UserAccountDTO>();
+  const [isLoading, setIsLoading] = useState(true);
 
-  const { mutate, isPending, isError } = useRefreshToken();
+  const { mutateAsync, isError } = useRefreshToken();
 
   useEffect(() => {
-    mutate(
-      {},
-      {
-        onSuccess: (data) => {
-          setCurrentUser(data);
-        },
+    const fetchUserData = async () => {
+      try {
+        const data = await mutateAsync({});
+        setCurrentUser(data);
+      } catch (error) {
+        // Handle error if needed
+        console.error(error);
+      } finally {
+        setIsLoading(false);
       }
-    );
+    };
+
+    fetchUserData();
   }, []);
 
   const setUser = (user: UserAccountDTO) => {
@@ -59,11 +65,11 @@ export default function AuthProvider(props: PropsWithChildren<{}>) {
   return (
     <AuthContext.Provider
       value={{
-        currentUser: currentUser,
-        isLoading: isPending,
-        isError: isError,
-        setUser: setUser,
-        clearUser: clearUser,
+        currentUser,
+        isLoading,
+        isError,
+        setUser,
+        clearUser,
       }}
     >
       {children}
