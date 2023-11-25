@@ -9,7 +9,7 @@ interface RouterPaginationProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 const RouterPagination = (props: RouterPaginationProps) => {
-  const { page, totalItems, totalPages, limit } = props;
+  const { page, totalItems, totalPages, limit, ...other } = props;
   const location = useLocation();
 
   const currentSearchParams = new URLSearchParams(location.search);
@@ -18,7 +18,7 @@ const RouterPagination = (props: RouterPaginationProps) => {
   const to = possibleTo > totalItems ? totalItems : possibleTo;
 
   return (
-    <div {...props}>
+    <div {...other}>
       <div className="flex items-center justify-between">
         <div>
           <p className="text-sm text-foreground-secondary">

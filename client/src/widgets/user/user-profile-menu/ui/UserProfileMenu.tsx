@@ -15,13 +15,14 @@ import { useAuth } from "@/providers/AuthProvider";
 import { Routing } from "@/shared/lib";
 import { stringAvatar, stringToColor } from "@/shared/lib/utils";
 import { useSignOut } from "@/features/user";
-import { NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export function UserProfileMenu() {
   const { currentUser, isLoading } = useAuth();
   const [anchorEl, setAnchorEl] = useState(null);
   const { clearUser } = useAuth();
 
+  const navigate = useNavigate();
   const { mutate } = useSignOut();
 
   const open = Boolean(anchorEl);
@@ -117,26 +118,32 @@ export function UserProfileMenu() {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        <NavLink to={Routing.users.details(currentUser.slug)}>
-          <MenuItem>
-            <ListItemIcon>
-              <AccountCircleIcon fontSize="small" />
-            </ListItemIcon>
-            <ListItemText
-              primary={currentUser.name}
-              secondary={currentUser.email}
-            />
-          </MenuItem>
-        </NavLink>
+        <MenuItem
+          onClick={() => {
+            navigate(Routing.users.profile(currentUser.slug));
+            close();
+          }}
+        >
+          <ListItemIcon>
+            <AccountCircleIcon fontSize="small" />
+          </ListItemIcon>
+          <ListItemText
+            primary={currentUser.name}
+            secondary={currentUser.email}
+          />
+        </MenuItem>
         <Divider />
-        <NavLink to={Routing.users.settings(currentUser.slug)}>
-          <MenuItem>
-            <ListItemIcon>
-              <Settings fontSize="small" />
-            </ListItemIcon>
-            <ListItemText>Settings</ListItemText>
-          </MenuItem>
-        </NavLink>
+        <MenuItem
+          onClick={() => {
+            navigate(Routing.users.settings(currentUser.slug));
+            close();
+          }}
+        >
+          <ListItemIcon>
+            <Settings fontSize="small" />
+          </ListItemIcon>
+          <ListItemText>Settings</ListItemText>
+        </MenuItem>
         <MenuItem onClick={onSignOutClick}>
           <ListItemIcon>
             <Logout fontSize="small" />

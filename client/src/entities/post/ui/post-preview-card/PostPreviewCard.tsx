@@ -60,7 +60,7 @@ export function PostPreviewCard({ post }: PostPreviewCardProps) {
                     />
                     <Link
                       className="text-sm font-semibold text-foreground-secondary hover:text-foreground-primary"
-                      to={Routing.users.details(author.slug)}
+                      to={Routing.users.profile(author.slug)}
                     >
                       {author.name}
                     </Link>

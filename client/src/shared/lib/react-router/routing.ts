@@ -10,7 +10,7 @@ export const Routing = {
   aboutMe: "/about-me",
   users: {
     root: "/users",
-    details: (slug: string) => `/users/${slug}`,
+    profile: (slug: string) => `/users/${slug}`,
     settings: (slug: string) => `/users/${slug}/settings`,
   },
   auth: {

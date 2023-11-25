@@ -29,6 +29,7 @@ export default function PostsPage() {
             icon={<PersonRoundedIcon fontSize="small" />}
             iconPosition="start"
             label="Following"
+            disabled={true}
           />
         </Tabs>
         <Divider />
