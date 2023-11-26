@@ -21,7 +21,7 @@ export function UserSignInForm() {
   const { setUser } = useAuth();
   const navigate = useNavigate();
 
-  const { control, handleSubmit } = useForm<FormType>({
+  const { control, handleSubmit, reset } = useForm<FormType>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: "",
@@ -29,11 +29,14 @@ export function UserSignInForm() {
     },
   });
 
-  const onSubmit = async (values: FormType) => {
+  const onSubmit = (values: FormType) => {
     mutate(values, {
       onSuccess: (data) => {
         setUser(data);
         navigate(Routing.root, { replace: true });
+      },
+      onError: () => {
+        reset();
       },
     });
   };

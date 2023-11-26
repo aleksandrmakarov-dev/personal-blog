@@ -49,6 +49,9 @@ export function UserSignUpForm() {
         onSuccess: () => {
           reset();
         },
+        onError: () => {
+          reset();
+        },
       }
     );
   };

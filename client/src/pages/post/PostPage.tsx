@@ -5,10 +5,14 @@ import {
   PostTagList,
   usePost,
 } from "@/entities/post";
+import { Routing } from "@/shared/lib";
 import Header from "@/shared/ui/header/Header";
 import { MarkdownPreview, MarkdownToc } from "@/shared/ui/markdown";
+import PrivateComponent from "@/shared/ui/private-component/PrivateComponent";
+import SquareIconButton from "@/shared/ui/square-icon-button/SquareIconButton";
 import { Divider } from "@mui/material";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import EditRoundedIcon from "@mui/icons-material/EditRounded";
 
 export default function PostPage() {
   const { slug } = useParams();
@@ -29,7 +33,18 @@ export default function PostPage() {
   return (
     <div className="grid grid-cols-[6fr_2fr] gap-x-10 items-start">
       <div>
-        <Header value={title} />
+        <Header
+          value={title}
+          action={
+            <PrivateComponent role="admin">
+              <Link to={Routing.posts.edit(data.slug)}>
+                <SquareIconButton>
+                  <EditRoundedIcon />
+                </SquareIconButton>
+              </Link>
+            </PrivateComponent>
+          }
+        />
         {author && (
           <PostAuthor
             id={author.slug}

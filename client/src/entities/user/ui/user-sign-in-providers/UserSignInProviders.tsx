@@ -58,6 +58,7 @@ export function UserSignInProviders() {
           variant="outlined"
           color="google"
           disableElevation
+          disabled
           onClick={() =>
             googleMutate(undefined, {
               onSuccess: (data) => {
@@ -74,6 +75,7 @@ export function UserSignInProviders() {
           variant="contained"
           color="github"
           disableElevation
+          disabled
           onClick={() =>
             githubMutate(undefined, {
               onSuccess: (data) => {
