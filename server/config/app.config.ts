@@ -1,38 +1,77 @@
 import cloudinary from "cloudinary";
+import dotenv from "dotenv";
+dotenv.config();
+
+if (!process.env.COOKIE_NAME_REFRESH_TOKEN) {
+  throw new Error("Missing COOKIE_NAME_REFRESH_TOKEN");
+}
+
+if (!process.env.COOKIE_NAME_ACCESS_TOKEN) {
+  throw new Error("Missing COOKIE_NAME_ACCESS_TOKEN");
+}
+
+if (!process.env.CLOUDINARY_ROOT) {
+  throw new Error("Missing CLOUDINARY_ROOT");
+}
+
+if (!process.env.CLOUDINARY_API_KEY) {
+  throw new Error("Missing CLOUDINARY_API_KEY");
+}
+
+if (!process.env.CLOUDINARY_API_SECRET) {
+  throw new Error("Missing CLOUDINARY_API_SECRET");
+}
+
+if (!process.env.CLOUDINARY_CLOUD_NAME) {
+  throw new Error("Missing CLOUDINARY_CLOUD_NAME");
+}
+
+if (!process.env.LOCAL_ROOT) {
+  throw new Error("Missing LOCAL_ROOT");
+}
+
+if (!process.env.DEFAULT_ADMIN_EMAIL) {
+  throw new Error("Missing DEFAULT_ADMIN_EMAIL");
+}
+
+if (!process.env.MONGODB_URI) {
+  throw new Error("Missing MONGODB_URI");
+}
 
 const config = {
   refreshToken: {
     cookie: {
-      name: "refresh-token",
+      name: process.env.COOKIE_NAME_REFRESH_TOKEN,
     },
     expires: () => new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days
   },
   accessToken: {
     cookie: {
-      name: "access-token",
+      name: process.env.COOKIE_NAME_ACCESS_TOKEN,
     },
     expires: () => new Date(Date.now() + 15 * 60 * 1000), // 15 minutes
   },
   upload: {
-    maxFileSize: 1024 * 1024 * 5, // 5MB
-    allowedMimeTypes: ["image/jpeg", "image/png", "image/gif"],
     path: {
-      cloud: "personal-website-development/uploads",
-      local: (value: string) => `uploads/${value}`,
+      cloud: process.env.CLOUDINARY_ROOT,
+      local: (value: string) => `${process.env.LOCAL_ROOT}/${value}`,
     },
   },
   default: {
     admin: {
-      emails: ["ac5295@student.jamk.fi", "alexandr.makarov.2000@gmail.com"],
+      emails: [process.env.DEFAULT_ADMIN_EMAIL],
     },
+  },
+  database: {
+    uri: process.env.MONGODB_URI,
   },
 };
 
 export function cloudinaryConfigure() {
   cloudinary.v2.config({
-    cloud_name: "dbr3vpkso",
-    api_key: "456956429427678",
-    api_secret: "KHKKBvmiVaT44XMgmcil_iCLWe0",
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
     secure: true,
   });
 }

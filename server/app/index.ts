@@ -11,6 +11,9 @@ import errorHandleMiddleware from "../middleware/error-handle.middleware";
 import userRoutes from "../routes/user.routes";
 import fileRoutes from "../routes/file.routes";
 import { cloudinaryConfigure } from "../config/app.config";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 cloudinaryConfigure();
 
