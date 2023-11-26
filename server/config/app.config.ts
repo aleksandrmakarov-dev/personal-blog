@@ -38,6 +38,10 @@ if (!process.env.MONGODB_URI) {
   throw new Error("Missing MONGODB_URI");
 }
 
+if (!process.env.TOKEN_SECRET) {
+  throw new Error("Missing TOKEN_SECRET");
+}
+
 const config = {
   refreshToken: {
     cookie: {
@@ -50,6 +54,8 @@ const config = {
       name: process.env.COOKIE_NAME_ACCESS_TOKEN,
     },
     expires: () => new Date(Date.now() + 15 * 60 * 1000), // 15 minutes
+    expirationTime: 15 * 60 * 1000, // 15 minutes
+    secretKey: process.env.TOKEN_SECRET,
   },
   upload: {
     path: {
