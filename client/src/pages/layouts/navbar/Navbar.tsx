@@ -43,7 +43,7 @@ export default function Navbar() {
             <div>
               <a href="/" className="flex gap-2 items-center text-primary-600">
                 <ComputerTwoToneIcon />
-                <h1 className="font-bold">Code Journeys</h1>
+                <h1 className="font-bold">Code Journey</h1>
               </a>
             </div>
             <div className="flex items-center gap-x-14">
