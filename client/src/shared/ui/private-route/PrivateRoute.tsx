@@ -3,11 +3,11 @@ import { Routing } from "@/shared/lib";
 import { Navigate, Outlet } from "react-router-dom";
 
 interface PrivateRouteProps {
-  role?: string;
+  roles?: string[];
 }
 
 export default function PrivateRoute(props: PrivateRouteProps) {
-  const { role } = props;
+  const { roles } = props;
 
   const { isLoading, currentUser } = useAuth();
 
@@ -16,8 +16,8 @@ export default function PrivateRoute(props: PrivateRouteProps) {
   }
 
   if (currentUser) {
-    if (role) {
-      if (currentUser.role === role) {
+    if (roles) {
+      if (roles.includes(currentUser.role)) {
         return <Outlet />;
       } else {
         return <Navigate to={Routing.errors.unauthorized} replace />;

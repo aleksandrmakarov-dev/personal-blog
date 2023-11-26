@@ -55,7 +55,7 @@ export default function Navbar() {
                 ))}
               </div>
               <div className="flex gap-x-3">
-                <PrivateComponent role="admin">
+                <PrivateComponent roles={["admin"]}>
                   <NavLink className={navLinkStyling} to="/posts/new">
                     <EditNoteIcon fontSize="medium" /> <span>Write</span>
                   </NavLink>

@@ -36,7 +36,7 @@ export default function PostPage() {
         <Header
           value={title}
           action={
-            <PrivateComponent role="admin">
+            <PrivateComponent roles={["admin"]}>
               <Link to={Routing.posts.edit(data.slug)}>
                 <SquareIconButton>
                   <EditRoundedIcon />

@@ -2,10 +2,10 @@ import { useAuth } from "@/providers/AuthProvider";
 
 export default function PrivateComponent({
   children,
-  role,
+  roles,
 }: {
   children: React.ReactNode;
-  role?: string;
+  roles?: string[];
 }) {
   const { currentUser, isLoading } = useAuth();
 
@@ -14,8 +14,8 @@ export default function PrivateComponent({
   }
 
   if (currentUser) {
-    if (role) {
-      if (currentUser.role === role) {
+    if (roles) {
+      if (roles.includes(currentUser.role)) {
         return <>{children}</>;
       } else {
         return null;
