@@ -1,4 +1,4 @@
-Hi, my name is Jason Watmore and I'm a web developer from Sydney Australia. I started coding when I was a teenager (a long time ago!) and have loved it ever since, I began my programming career in 1998 during the dot-com boom, I've worked in a lot of different companies over the years and currently run my own small web dev business that I co-founded with my wife Tina (who's also a programmer).
+Hi, my name is Aleksandr Makarov and I'm a web developer based in Finland. I started coding when I was a teenager (a long time ago!) and have loved it ever since, I began my programming career in 1998 during the dot-com boom, I've worked in a lot of different companies over the years and currently run my own small web dev business that I co-founded with my wife Tina (who's also a programmer).
 
 I created this blog in 2011 to share practical tutorials along with working code samples and boilerplate projects for real-world web development problems that I run into in my day to day work. I try to make the tutorials as concise as possible, focusing on the code, structure and functionality, while trying to leave out extra fluff or info that isn't useful.
 
