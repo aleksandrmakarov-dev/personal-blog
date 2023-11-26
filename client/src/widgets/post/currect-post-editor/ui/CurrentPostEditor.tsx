@@ -1,6 +1,7 @@
 import { PostEditor, PostEditorSchemaType, usePost } from "@/entities/post";
 import { useUpdatePost } from "@/features/post";
 import { Routing } from "@/shared/lib";
+import Header from "@/shared/ui/header/Header";
 import { Alert, AlertTitle } from "@mui/material";
 import { NavLink, useParams } from "react-router-dom";
 
@@ -45,7 +46,7 @@ export function CurrentPostEditor() {
 
   return (
     <>
-      <h1 className="text-4xl font-semibold mb-5">Update post</h1>
+      <Header value="Update post" />
       {isUpdateSuccess && (
         <Alert className="mb-2">
           <AlertTitle>Post updated successfully</AlertTitle>

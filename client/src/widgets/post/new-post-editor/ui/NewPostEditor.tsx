@@ -1,6 +1,7 @@
 import { PostEditor, PostEditorSchemaType } from "@/entities/post";
 import { useCreatePost } from "@/features/post";
 import { Routing } from "@/shared/lib";
+import Header from "@/shared/ui/header/Header";
 import { Alert, AlertTitle } from "@mui/material";
 import { NavLink, useNavigate } from "react-router-dom";
 
@@ -26,7 +27,7 @@ export function NewPostEditor() {
 
   return (
     <>
-      <h1 className="text-4xl font-semibold mb-5">Create new post</h1>
+      <Header value="Create new post" />
       {isSuccess && (
         <Alert className="mb-2">
           <AlertTitle>Post created successfully</AlertTitle>

@@ -14,7 +14,7 @@ export function PopularTopics() {
       <div className="flex flex-wrap gap-x-1 gap-y-2">
         {data && data.length > 0 ? (
           data
-            .slice(10)
+            .slice(0, 8)
             .map(({ id, name }) => (
               <Chip key={id} label={name} size="small" variant="filled" />
             ))

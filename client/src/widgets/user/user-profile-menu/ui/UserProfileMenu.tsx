@@ -120,8 +120,8 @@ export function UserProfileMenu() {
       >
         <MenuItem
           onClick={() => {
-            navigate(Routing.users.profile(currentUser.slug));
             close();
+            navigate(Routing.users.profile(currentUser.slug));
           }}
         >
           <ListItemIcon>
@@ -135,8 +135,8 @@ export function UserProfileMenu() {
         <Divider />
         <MenuItem
           onClick={() => {
-            navigate(Routing.users.settings(currentUser.slug));
             close();
+            navigate(Routing.users.settings(currentUser.slug));
           }}
         >
           <ListItemIcon>

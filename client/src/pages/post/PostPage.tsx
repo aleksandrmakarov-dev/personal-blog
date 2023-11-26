@@ -5,6 +5,7 @@ import {
   PostTagList,
   usePost,
 } from "@/entities/post";
+import Header from "@/shared/ui/header/Header";
 import { MarkdownPreview, MarkdownToc } from "@/shared/ui/markdown";
 import { Divider } from "@mui/material";
 import { useParams } from "react-router-dom";
@@ -28,9 +29,7 @@ export default function PostPage() {
   return (
     <div className="grid grid-cols-[6fr_2fr] gap-x-10 items-start">
       <div>
-        <h1 className="text-4xl font-bold text-foreground-primary mb-8">
-          {title}
-        </h1>
+        <Header value={title} />
         {author && (
           <PostAuthor
             id={author.slug}
