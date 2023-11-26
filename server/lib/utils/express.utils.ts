@@ -1,4 +1,4 @@
-import { Response, Request } from "express";
+import { Response } from "express";
 
 function Ok(res: Response, data: any) {
   return res.status(200).json(data);

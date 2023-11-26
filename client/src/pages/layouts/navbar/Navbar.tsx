@@ -1,7 +1,6 @@
 import ComputerTwoToneIcon from "@mui/icons-material/ComputerTwoTone";
 import { NavLink } from "react-router-dom";
 import EditNoteIcon from "@mui/icons-material/EditNote";
-import { useAuth } from "@/providers/AuthProvider";
 import { Routing, cn } from "@/shared/lib";
 import { UserProfileMenu } from "@/widgets/user";
 import PrivateComponent from "@/shared/ui/private-component/PrivateComponent";
@@ -28,8 +27,6 @@ const NavLinks: NavLinkType[] = [
 ];
 
 export default function Navbar() {
-  const { currentUser } = useAuth();
-
   const navLinkStyling = ({ isActive, isPending }: any) =>
     cn("flex items-center gap-1", {
       "text-primary-600 underline": isActive,

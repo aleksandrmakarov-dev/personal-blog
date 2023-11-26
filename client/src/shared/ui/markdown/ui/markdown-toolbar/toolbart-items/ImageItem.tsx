@@ -1,4 +1,3 @@
-import { IconButton } from "@mui/material";
 import ImageRoundedIcon from "@mui/icons-material/ImageRounded";
 import { FileUploadDialog } from "@/widgets/file";
 import SquareIconButton from "@/shared/ui/square-icon-button/SquareIconButton";

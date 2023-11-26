@@ -30,7 +30,7 @@ async function signUp(req: Request, res: Response) {
     ? "admin"
     : "user";
 
-  const createdUser = await UserModel.create({
+  await UserModel.create({
     name: name,
     email: email,
     created: Date.now(),

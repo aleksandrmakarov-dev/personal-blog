@@ -1,4 +1,3 @@
-import { User } from "@/entities/user/api/userApi";
 import { GenericResponseModelDTO } from "@/shared/lib/types";
 import axios from "axios";
 
@@ -35,23 +34,25 @@ async function signInWithPassword(
   return response.data;
 }
 
-async function signInWithGoogle(): Promise<User> {
-  const user = {
+async function signInWithGoogle(): Promise<UserAccountDTO> {
+  const user: UserAccountDTO = {
     id: "1",
     slug: "test-user",
     name: "Test User",
     email: "test@example.com",
+    role: "user",
   };
 
   return user;
 }
 
-async function signInWithGithub(): Promise<User> {
-  const user = {
+async function signInWithGithub(): Promise<UserAccountDTO> {
+  const user: UserAccountDTO = {
     id: "1",
     slug: "test-user",
     name: "Test User",
     email: "test@example.com",
+    role: "user",
   };
 
   return user;

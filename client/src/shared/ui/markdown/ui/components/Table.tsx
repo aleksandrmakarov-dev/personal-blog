@@ -5,8 +5,6 @@ import {
   TableRow as MUITableRow,
   TableCell as MUITableCell,
   TableContainer,
-  Paper,
-  styled,
 } from "@mui/material";
 
 const TableBox = (props: { children: React.ReactNode }) => {

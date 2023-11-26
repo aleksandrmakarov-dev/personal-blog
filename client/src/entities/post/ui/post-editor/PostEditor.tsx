@@ -37,7 +37,14 @@ export function PostEditor(props: PostEditorProps) {
   const { control, handleSubmit } = useForm<PostEditorSchemaType>({
     resolver: zodResolver(postEditorSchema),
     defaultValues: initialPost,
-    values: post,
+    values: post
+      ? {
+          ...post,
+          parent: post.parent
+            ? { id: post.parent.id, title: post.parent.title }
+            : null,
+        }
+      : initialPost,
   });
 
   return (

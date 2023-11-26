@@ -1,6 +1,3 @@
-import { UseQueryOptions } from "@tanstack/react-query";
-import { GenericErrorModelDTO } from "../../../shared/lib/types";
-
 export interface User {
   id: string;
   email: string;
@@ -23,12 +20,3 @@ export const userKeys = {
     signOut: () => [...userKeys.user.root, "sign-out"],
   },
 };
-
-type UseRefreshUserQuery = UseQueryOptions<
-  User,
-  GenericErrorModelDTO,
-  User,
-  string[]
->;
-
-type UseRefreshUserOptions = Omit<UseRefreshUserQuery, "queryKey" | "queryFn">;

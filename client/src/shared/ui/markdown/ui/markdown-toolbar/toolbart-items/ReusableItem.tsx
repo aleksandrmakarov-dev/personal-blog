@@ -1,5 +1,4 @@
 import SquareIconButton from "@/shared/ui/square-icon-button/SquareIconButton";
-import { IconButton } from "@mui/material";
 import React from "react";
 
 interface BasicItmProps {

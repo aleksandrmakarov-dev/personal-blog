@@ -14,7 +14,7 @@ export function DeleteCurrentPostDialog(props: DeleteCurrentPostDialogProps) {
   const { trigger, id } = props;
 
   const [open, setOpen] = useState<boolean>(false);
-  const { mutate, isPending, isError, error, data, reset } = useDeletePost();
+  const { mutate, isPending, isError, error, reset } = useDeletePost();
   const navigate = useNavigate();
 
   const onSubmit = async (e: any) => {
