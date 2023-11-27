@@ -1,5 +1,8 @@
 export const Img = (props: any) => {
   const { node, ...other } = props;
+
+  console.log("Img", props);
+
   return (
     <a target="_blank" href={props.src}>
       <span className="block">
@@ -7,9 +10,9 @@ export const Img = (props: any) => {
           className="rounded-md mb-2 max-h-[28rem] max-w-full mx-auto"
           {...other}
         />
-        {other.title && (
+        {other.alt && (
           <span className="text-center text-foreground-secondary block">
-            {other.title}
+            {other.alt}
           </span>
         )}
       </span>
