@@ -22,6 +22,7 @@ import {
   Ul,
 } from "../components";
 import rehypeSlug from "rehype-slug";
+const plantuml = require("@akebifiky/remark-simple-plantuml");
 
 interface MarkdownPreviewProps extends HTMLAttributes<HTMLDivElement> {
   value: string;
@@ -34,7 +35,7 @@ export const MarkdownPreview = (props: MarkdownPreviewProps) => {
     <Markdown
       {...other}
       rehypePlugins={[rehypeSlug]}
-      remarkPlugins={[remarkGfm]}
+      remarkPlugins={[remarkGfm, plantuml]}
       components={{
         h1: H1,
         h2: H2,
