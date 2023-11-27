@@ -3,15 +3,22 @@ import SyntaxHighlighter from "react-syntax-highlighter";
 import { vs } from "react-syntax-highlighter/dist/esm/styles/hljs";
 
 import { MarkdownToolbar } from "../..";
+import { cn } from "@/shared/lib";
 
-interface MarkdownEditProps {
+interface MarkdownEditProps extends React.HTMLAttributes<HTMLDivElement> {
   value: string;
-  onChange: (value: string) => void;
-  disabled?: boolean;
+  onValueChange: (value: string) => void;
+  textAreaDisabled?: boolean;
 }
 
 export const MarkdownEdit = (props: MarkdownEditProps) => {
-  const { value: markdownValue, onChange, disabled } = props;
+  const {
+    value: markdownValue,
+    onValueChange,
+    textAreaDisabled,
+    className,
+    ...other
+  } = props;
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const onKeyDown = (e: any) => {
@@ -30,7 +37,7 @@ export const MarkdownEdit = (props: MarkdownEditProps) => {
         selectionEnd + 2 - (selectionEnd - selectionStart);
       textareaRef.current!.selectionEnd =
         selectionEnd + 2 - (selectionEnd - selectionStart);
-      onChange(textareaRef.current!.value);
+      onValueChange(textareaRef.current!.value);
     }
     if (e.key === "Tab" && e.shiftKey) {
       e.preventDefault();
@@ -55,7 +62,7 @@ export const MarkdownEdit = (props: MarkdownEditProps) => {
             .join("") +
           beforeStart.substring(0, indexOfTab).split("").reverse().join("") +
           value.substring(selectionEnd);
-        onChange(textareaRef.current!.value);
+        onValueChange(textareaRef.current!.value);
 
         textareaRef.current!.selectionStart = selectionStart - 2;
         textareaRef.current!.selectionEnd = selectionEnd - 2;
@@ -97,11 +104,11 @@ export const MarkdownEdit = (props: MarkdownEditProps) => {
 
     textareaRef.current!.focus();
 
-    onChange(textareaRef.current!.value);
+    onValueChange(textareaRef.current!.value);
   };
 
   return (
-    <div className="h-full flex flex-col">
+    <div className={cn("h-full flex flex-col", className)} {...other}>
       <MarkdownToolbar addMarkdown={addMarkdown} />
       <div className="border rounded-md border-gray-300 p-2 focus-within:border-primary-600 focus-within:border-2 overflow-auto h-full">
         <div className="relative !text-sm">
@@ -151,8 +158,8 @@ export const MarkdownEdit = (props: MarkdownEditProps) => {
             ref={textareaRef}
             onKeyDown={onKeyDown}
             value={markdownValue}
-            onChange={(e) => onChange(e.target.value)}
-            disabled={disabled}
+            onChange={(e) => onValueChange(e.target.value)}
+            disabled={textAreaDisabled}
           />
         </div>
       </div>

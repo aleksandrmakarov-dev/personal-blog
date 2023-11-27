@@ -2,6 +2,7 @@ import { Tab, Tabs } from "@mui/material";
 import React, { useState } from "react";
 import { MarkdownPreview } from "../markdown-preview/MarkdownPreview";
 import { MarkdownEdit } from "../markdown-edit/MarkdownEdit";
+import { cn } from "@/shared/lib";
 
 interface MarkdownEditorProps {
   value: string;
@@ -23,12 +24,16 @@ export const MarkdownEditor: React.FC<MarkdownEditorProps> = (props) => {
         <Tab value={1} label="Preview changes" disabled={disabled} />
       </Tabs>
       <div className="h-[30rem]">
-        {index === 0 && (
-          <MarkdownEdit disabled={disabled} value={value} onChange={onChange} />
-        )}
-        {index === 1 && (
-          <MarkdownPreview className="h-full overflow-auto p-2" value={value} />
-        )}
+        <MarkdownEdit
+          className={cn("h-full", { hidden: index !== 0 })}
+          textAreaDisabled={disabled}
+          value={value}
+          onValueChange={onChange}
+        />
+        <MarkdownPreview
+          className={cn("h-full overflow-auto p-2", { hidden: index !== 1 })}
+          value={value}
+        />
       </div>
     </>
   );
