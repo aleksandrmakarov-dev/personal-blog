@@ -51,6 +51,7 @@ export default function AuthProvider(props: PropsWithChildren<{}>) {
     } catch (error) {
       // Handle error if needed
       console.error(error);
+      clearUser();
     } finally {
       setIsLoading(false);
     }
@@ -76,6 +77,7 @@ export default function AuthProvider(props: PropsWithChildren<{}>) {
 
   const clearUser = () => {
     setCurrentUser(undefined);
+    clearInterval(intervalRef.current);
   };
 
   return (
