@@ -3,8 +3,10 @@ import { UserAccountDTO } from "@/services/user/userService";
 import {
   PropsWithChildren,
   createContext,
+  useCallback,
   useContext,
   useEffect,
+  useRef,
   useState,
 } from "react";
 
@@ -33,29 +35,43 @@ export const useAuth = () => {
 export default function AuthProvider(props: PropsWithChildren<{}>) {
   const { children } = props;
 
+  const timeInterval = 1000 * 60 * 10;
+
   const [currentUser, setCurrentUser] = useState<UserAccountDTO>();
   const [isLoading, setIsLoading] = useState(true);
 
   const { mutateAsync, isError } = useRefreshToken();
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const data = await mutateAsync({});
-        setCurrentUser(data);
-      } catch (error) {
-        // Handle error if needed
-        console.error(error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
+  const intervalRef = useRef<ReturnType<typeof setInterval>>();
 
-    fetchUserData();
+  const refreshUser = useCallback(async () => {
+    try {
+      const data = await mutateAsync({});
+      setCurrentUser(data);
+    } catch (error) {
+      // Handle error if needed
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    refreshUser();
+
+    return () => {
+      clearInterval(intervalRef.current);
+    };
   }, []);
 
   const setUser = (user: UserAccountDTO) => {
     setCurrentUser(user);
+
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+    }
+
+    intervalRef.current = setInterval(() => refreshUser(), timeInterval);
   };
 
   const clearUser = () => {
