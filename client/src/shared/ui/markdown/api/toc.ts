@@ -1,7 +1,7 @@
 import { Plugin } from "unified";
 import { visit } from "unist-util-visit";
 import { toString } from "mdast-util-to-string";
-import { slug } from "github-slugger";
+import GithubSlugger from "github-slugger";
 
 // reference:
 // https://claritydev.net/blog/nextjs-blog-remark-interactive-table-of-contents
@@ -14,25 +14,32 @@ export interface TocNode {
 }
 
 export const tocPlugin: Plugin = () => (root, file) => {
-  file.data.toc = getHeadings(root);
+  const slugger = new GithubSlugger();
+
+  file.data.toc = getHeadings(root, slugger);
 };
 
-const getHeadings = (root: any) => {
+const getHeadings = (root: any, slugger: GithubSlugger) => {
   const output: TocNode[] = [];
   const indexMap = {};
   visit(root, "heading", (node) => {
-    transformNode(node, output, indexMap);
+    transformNode(node, output, indexMap, slugger);
   });
 
   return output;
 };
 
-function transformNode(node: any, output: TocNode[], indexMap: any) {
+function transformNode(
+  node: any,
+  output: TocNode[],
+  indexMap: any,
+  slugger: GithubSlugger
+) {
   const transformedNode: TocNode = {
     value: toString(node),
     depth: node.depth,
     data: {
-      id: slug(toString(node)),
+      id: slugger.slug(toString(node)),
     },
     children: [],
   };
