@@ -1,8 +1,6 @@
 export const Img = (props: any) => {
   const { node, ...other } = props;
 
-  console.log("Img", props);
-
   return (
     <a target="_blank" href={props.src}>
       <span className="block">
