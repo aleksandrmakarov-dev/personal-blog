@@ -102,8 +102,12 @@ export function MarkdownToolbar(props: MarkdownToolbarProps) {
   return (
     <div className="mb-2 bg-gray-50 rounded-sm p-1.5 flex gap-1 border border-gray-300">
       <Headers addMarkdown={addMarkdown} />
-      {toolbarItems.map((item) => (
-        <ReusableItem addMarkdown={addMarkdown} {...item} />
+      {toolbarItems.map((item, i) => (
+        <ReusableItem
+          key={`toolbar-item-${i}`}
+          addMarkdown={addMarkdown}
+          {...item}
+        />
       ))}
       <ImageItem addMarkdown={addMarkdown} />
     </div>

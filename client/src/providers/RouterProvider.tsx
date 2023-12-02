@@ -32,12 +32,17 @@ const router = createBrowserRouter(
         errorElement={<ErrorPage />}
       >
         <Route index element={<HomePage />} />
+        <Route path={Routing.tags.root}>
+          <Route path=":tagSlug">
+            <Route index element={<PostsPage />} />
+          </Route>
+        </Route>
         <Route path={Routing.posts.root}>
           <Route index element={<PostsPage />} />
           <Route element={<PrivateRoute roles={["admin"]} />}>
             <Route path="new" element={<PostEditorPage />} />
           </Route>
-          <Route path=":slug">
+          <Route path=":postSlug">
             <Route index element={<PostPage />} />
             <Route element={<PrivateRoute roles={["admin"]} />}>
               <Route path="edit" element={<PostEditorPage edit />} />

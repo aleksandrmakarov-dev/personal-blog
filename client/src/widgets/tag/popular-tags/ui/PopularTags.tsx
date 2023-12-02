@@ -1,7 +1,8 @@
 import { useTags } from "@/entities/tag";
+import { Routing } from "@/shared/lib";
 import { Chip } from "@mui/material";
 
-export function PopularTopics() {
+export function PopularTags() {
   const { data, isLoading, isError } = useTags();
 
   if (isLoading) return <p>Loading...</p>;
@@ -15,8 +16,16 @@ export function PopularTopics() {
         {data && data.length > 0 ? (
           data
             .slice(0, 8)
-            .map(({ id, name }) => (
-              <Chip key={id} label={name} size="small" variant="filled" />
+            .map((tag) => (
+              <Chip
+                key={tag.id}
+                label={tag.name}
+                component="a"
+                sx={{ fontSize: "1rem" }}
+                variant="filled"
+                href={Routing.tags.slug(tag.slug)}
+                clickable
+              />
             ))
         ) : (
           <p>No tags found</p>

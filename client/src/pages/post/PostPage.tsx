@@ -15,9 +15,9 @@ import { Link, useParams } from "react-router-dom";
 import EditRoundedIcon from "@mui/icons-material/EditRounded";
 
 export default function PostPage() {
-  const { slug } = useParams();
+  const { postSlug } = useParams();
 
-  const { data, isLoading, isError, error } = usePost(slug!);
+  const { data, isLoading, isError, error } = usePost(postSlug!);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -31,7 +31,7 @@ export default function PostPage() {
     data;
 
   return (
-    <div className="grid grid-cols-[6fr_2fr] gap-x-10 items-start">
+    <div className="grid grid-cols-[7fr_3fr] gap-x-10 items-start">
       <div>
         <Header
           value={title}
@@ -62,7 +62,7 @@ export default function PostPage() {
         <PostTagList className="mt-5" tags={tags} />
       </div>
       <div className="sticky left-0 top-4">
-        <MarkdownToc value={body} />
+        <MarkdownToc value={body} maxDepth={3} />
       </div>
       <div className="mt-5 grid grid-cols-3">
         <PostLink post={data.parent} next={false} />

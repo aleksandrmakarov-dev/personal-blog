@@ -15,7 +15,7 @@ export function PostLink(props: PostLinkProps) {
   if (!post) return <div />;
 
   return (
-    <Link to={Routing.posts.details(post.slug)}>
+    <Link to={Routing.posts.slug(post.slug)}>
       <div
         className={cn(
           "p-5 rounded-sm flex items-center gap-5 text-foreground-secondary hover:cursor-pointer hover:underline",

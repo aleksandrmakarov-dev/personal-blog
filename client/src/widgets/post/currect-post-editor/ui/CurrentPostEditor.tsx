@@ -53,7 +53,7 @@ export function CurrentPostEditor() {
           To see the updated post{" "}
           <NavLink
             className="underline font-semibold"
-            to={Routing.posts.details(updateData.slug)}
+            to={Routing.posts.slug(updateData.slug)}
           >
             Click here
           </NavLink>

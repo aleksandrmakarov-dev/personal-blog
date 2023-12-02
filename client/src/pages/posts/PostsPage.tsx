@@ -2,7 +2,8 @@ import { Divider, Tab, Tabs } from "@mui/material";
 import PublicRoundedIcon from "@mui/icons-material/PublicRounded";
 import PersonRoundedIcon from "@mui/icons-material/PersonRounded";
 import { useState } from "react";
-import { PostsFilter, GlobalPostFeed, PopularTopics } from "@/widgets/post";
+import { PostsFilter, GlobalPostFeed } from "@/widgets/post";
+import { PopularTags } from "@/widgets/tag";
 
 export default function PostsPage() {
   const [tabIndex, setTabIndex] = useState<number>(0);
@@ -37,7 +38,7 @@ export default function PostsPage() {
         <GlobalPostFeed />
       </div>
       <div className="border-l border-gray-200 px-5 flex flex-col gap-y-5 sticky top-3 left-0 h-screen">
-        <PopularTopics />
+        <PopularTags />
         <Divider />
       </div>
     </div>

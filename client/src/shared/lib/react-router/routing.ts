@@ -3,9 +3,13 @@ export const Routing = {
   posts: {
     root: "/posts",
     index: "/posts",
-    details: (slug: string) => `/posts/${slug}`,
+    slug: (slug: string) => `/posts/${slug}`,
     edit: (slug: string) => `/posts/${slug}/edit`,
     new: "/posts/new",
+  },
+  tags: {
+    root: "/tags",
+    slug: (slug: string) => `/tags/${slug}`,
   },
   aboutMe: "/about-me",
   users: {

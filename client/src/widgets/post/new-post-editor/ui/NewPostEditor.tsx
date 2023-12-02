@@ -19,7 +19,7 @@ export function NewPostEditor() {
       },
       {
         onSuccess: (data) => {
-          navigate(Routing.posts.details(data.slug));
+          navigate(Routing.posts.slug(data.slug));
         },
       }
     );
@@ -34,7 +34,7 @@ export function NewPostEditor() {
           To see the created post{" "}
           <NavLink
             className="underline font-semibold"
-            to={Routing.posts.details(data.slug)}
+            to={Routing.posts.slug(data.slug)}
           >
             Click here
           </NavLink>

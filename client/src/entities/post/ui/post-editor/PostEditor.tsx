@@ -48,7 +48,10 @@ export function PostEditor(props: PostEditorProps) {
   });
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="flex flex-col gap-2 w-full"
+    >
       <PostEditorBody control={control} isLoading={isLoading} />
       <div className="flex items-center justify-end gap-x-2">
         <Button onClick={() => navigate(-1)}>Cancel</Button>

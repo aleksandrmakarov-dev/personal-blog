@@ -4,14 +4,14 @@ import Navbar from "../navbar/Navbar";
 
 export function MainLayout() {
   return (
-    <div className="min-h-screen flex flex-col">
+    <main className="min-h-screen flex flex-col">
       <Navbar />
-      <main className="flex justify-center py-8 lg:px-0 flex-1">
-        <div className="max-w-screen-lg w-full">
+      <div className="flex justify-center flex-1">
+        <div className="max-w-screen-xl w-full py-8 px-4">
           <Outlet />
         </div>
-      </main>
+      </div>
       <Footer />
-    </div>
+    </main>
   );
 }

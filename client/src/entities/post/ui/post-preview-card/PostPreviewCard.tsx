@@ -27,7 +27,7 @@ export function PostPreviewCard({ post }: PostPreviewCardProps) {
     <article className="border-b border-gray-200">
       <div className="py-5 ">
         <div className="flex">
-          <div className="w-24 h-24 rounded-md overflow-clip mr-6 shrink-0">
+          <div className="w-36 h-36 rounded-md overflow-clip mr-6 shrink-0">
             {image ? (
               <img
                 className="object-cover object-center w-full h-full"
@@ -68,22 +68,20 @@ export function PostPreviewCard({ post }: PostPreviewCardProps) {
                   <span className="text-foreground-secondary">•</span>
                 </>
               )}
-              <p className="text-xs uppercase text-foreground-secondary">
+              <p className="text-sm uppercase text-foreground-secondary">
                 <span>{formatDate(created)}</span>{" "}
                 {updated && <span>(Updated {formatDate(updated)})</span>}
               </p>
             </div>
-            <h3 className="text-lg font-semibold mb-1">
+            <h2 className="text-xl font-semibold mb-1">
               <Link
                 className="hover:underline text-foreground-primary hover:text-primary-600"
-                to={Routing.posts.details(slug)}
+                to={Routing.posts.slug(slug)}
               >
                 {title}
               </Link>
-            </h3>
-            <p className="text-sm mb-2 text-foreground-primary">
-              {description}
-            </p>
+            </h2>
+            <p className="mb-2 text-foreground-primary">{description}</p>
             <div className="flex items-center gap-1">
               <div className="flex gap-1 w-full">
                 {tags.map((tag: TagDTO) => (

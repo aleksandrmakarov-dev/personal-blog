@@ -36,7 +36,7 @@ export default function Navbar() {
     });
 
   return (
-    <nav className="border-b border-gray-200 bg-white">
+    <nav className="border-b border-gray-100 shadow-gray-100 shadow-md bg-white">
       <div className="mx-auto max-w-screen-2xl">
         <div className="py-2.5 px-10">
           <div className="flex items-center justify-between">
