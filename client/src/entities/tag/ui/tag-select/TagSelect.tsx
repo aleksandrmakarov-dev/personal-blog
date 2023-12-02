@@ -20,8 +20,6 @@ interface TagSelectProps {
   error?: GenericErrorModelDTO;
   limit?: number;
 
-  actions?: React.ReactNode;
-
   onSelectTag: (tags: TagSelectOption[]) => void;
   value?: TagSelectOption[];
   onBlur: (e: any) => void;
@@ -38,7 +36,6 @@ export function TagSelect(props: TagSelectProps) {
     value,
     name,
     disabled,
-    actions,
   } = props;
 
   return (
