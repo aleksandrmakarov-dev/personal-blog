@@ -3,9 +3,11 @@ import PublicRoundedIcon from "@mui/icons-material/PublicRounded";
 import PersonRoundedIcon from "@mui/icons-material/PersonRounded";
 import { useState } from "react";
 import { PostsFilter, GlobalPostFeed } from "@/widgets/post";
-import { PopularTags } from "@/widgets/tag";
+import { CurrentTagCard, PopularTags } from "@/widgets/tag";
+import { useParams } from "react-router-dom";
 
 export default function PostsPage() {
+  const { tagSlug } = useParams();
   const [tabIndex, setTabIndex] = useState<number>(0);
 
   const onTabIndexChange = (
@@ -17,6 +19,9 @@ export default function PostsPage() {
 
   return (
     <div className="grid grid-cols-[7fr_3fr] gap-x-14 items-start">
+      {tagSlug && (
+        <CurrentTagCard className="col-span-2 mb-10" slug={tagSlug} />
+      )}
       <div className="flex flex-col">
         <Tabs value={tabIndex} onChange={onTabIndexChange}>
           <Tab

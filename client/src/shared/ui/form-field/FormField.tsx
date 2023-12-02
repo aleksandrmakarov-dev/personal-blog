@@ -27,7 +27,7 @@ const FormField: React.FC<FormFieldProps> = (props) => {
       <div className="flex items-center justify-between mb-1">
         {label && (
           <InputLabel
-            className="mb-0.5 !text-foreground-secondary"
+            className="mb-1 !text-foreground-secondary"
             sx={{ fontSize: labelFontSize }}
           >
             {label} {required && <span className="text-red-500">*</span>}

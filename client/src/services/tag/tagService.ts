@@ -21,7 +21,13 @@ async function createTag(tag: CreateTagDTO): Promise<TagDTO> {
   return response.data;
 }
 
+async function getTagBySlug(slug: string): Promise<TagDTO> {
+  const response = await axios.get<TagDTO>(`/api/tags/slug/${slug}`);
+  return response.data;
+}
+
 export default {
   getTags,
   createTag,
+  getTagBySlug,
 };

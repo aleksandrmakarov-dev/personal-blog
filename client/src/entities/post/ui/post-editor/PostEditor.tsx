@@ -53,8 +53,15 @@ export function PostEditor(props: PostEditorProps) {
       className="flex flex-col gap-2 w-full"
     >
       <PostEditorBody control={control} isLoading={isLoading} />
-      <div className="flex items-center justify-end gap-x-2">
-        <Button onClick={() => navigate(-1)}>Cancel</Button>
+      <div className="flex items-center gap-x-2">
+        <LoadingButton
+          loading={isLoading}
+          type="submit"
+          variant="contained"
+          disableElevation
+        >
+          {edit ? "Save changes" : "Create"}
+        </LoadingButton>
         {edit && post && (
           <DeleteCurrentPostDialog
             id={post.id}
@@ -65,14 +72,7 @@ export function PostEditor(props: PostEditorProps) {
             }
           />
         )}
-        <LoadingButton
-          loading={isLoading}
-          type="submit"
-          variant="contained"
-          disableElevation
-        >
-          {edit ? "Save changes" : "Create"}
-        </LoadingButton>
+        <Button onClick={() => navigate(-1)}>Cancel</Button>
       </div>
     </form>
   );

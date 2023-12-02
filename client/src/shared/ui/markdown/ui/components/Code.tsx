@@ -8,7 +8,7 @@ export const Code = (props: any) => {
 
   return match ? (
     <div className="rounded-sm bg-gray-50 overflow-clip">
-      <div className="flex items-center justify-between mb-2 bg-gray-200 px-4 py-1">
+      <div className="flex items-center justify-between mb-2 bg-gray-200 px-2 py-1">
         <span className="text-sm text-foreground-secondary font-semibold">
           {match[1]}
         </span>

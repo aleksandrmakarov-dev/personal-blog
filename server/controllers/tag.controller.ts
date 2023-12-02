@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import TagModel from "../models/tag.model";
 import { Created, Ok } from "../lib/utils/express.utils";
 import { CreateTagBodySchema } from "../lib/schemas/tag/create-tag.validation";
+import { GetTagParamsSchema } from "../lib/schemas/tag/get-tag.schema";
 
 async function create(req: Request, res: Response) {
   const reqBody = CreateTagBodySchema.parse(req.body);
@@ -19,4 +20,10 @@ async function getList(_req: Request, res: Response) {
   return Ok(res, foundTags);
 }
 
-export default { create, getList };
+async function getBySlug(req: Request, res: Response) {
+  const { identifier } = GetTagParamsSchema.parse(req.params);
+  const foundTag = await TagModel.findOne({ slug: identifier });
+  return Ok(res, foundTag);
+}
+
+export default { create, getList, getBySlug };

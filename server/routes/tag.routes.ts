@@ -8,5 +8,6 @@ const onlyAdmin = roleProtectMiddleware(["admin"]);
 
 router.get("/", tagController.getList);
 router.post("/", onlyAdmin, tagController.create);
+router.get("/slug/:identifier", tagController.getBySlug);
 
 export default router;

@@ -110,7 +110,7 @@ export const MarkdownToc = (props: MarkdownTocProps) => {
 
   return (
     <div className="flex flex-col">
-      <div className="text-foreground-primary text-lg font-semibold mb-2">
+      <div className="text-foreground-primary text-xl font-semibold mb-2">
         Table of Contents
       </div>
       <div className="text-foreground-secondary">

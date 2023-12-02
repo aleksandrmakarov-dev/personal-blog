@@ -21,13 +21,6 @@ export function PostTagSelect(props: PostTagSelectProps) {
       isError={isError}
       limit={3}
       {...props}
-      actions={
-        <>
-          <NewTagEditorDialog
-            trigger={<Button startIcon={<AddIcon />}>New tag</Button>}
-          />
-        </>
-      }
     />
   );
 }

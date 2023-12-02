@@ -21,7 +21,7 @@ export function PopularTags() {
                 key={tag.id}
                 label={tag.name}
                 component="a"
-                sx={{ fontSize: "1rem" }}
+                sx={{ fontSize: "0.875rem" }}
                 variant="filled"
                 href={Routing.tags.slug(tag.slug)}
                 clickable

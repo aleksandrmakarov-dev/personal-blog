@@ -71,12 +71,9 @@ export function TagSelect(props: TagSelectProps) {
         )}
         renderInput={(params) => <TextField {...params} name={name} />}
       />
-      <div className="flex items-start justify-between">
-        {actions && <div className="flex items-center gap-0.5">{actions}</div>}
-        <FormHelperText sx={{ textAlign: "end" }}>
-          <b>{value?.length}</b> of <b>{limit}</b> tags selected
-        </FormHelperText>
-      </div>
+      <FormHelperText sx={{ textAlign: "end" }}>
+        <b>{value?.length}</b> of <b>{limit}</b> tags selected
+      </FormHelperText>
     </div>
   );
 }

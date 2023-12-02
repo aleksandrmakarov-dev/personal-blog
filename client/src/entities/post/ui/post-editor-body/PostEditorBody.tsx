@@ -7,6 +7,8 @@ import { PostParentSelect } from "../..";
 import { MarkdownEditor } from "@/shared/ui/markdown";
 import { FileDTO } from "@/services/file/fileService";
 import { FileUploadDialog } from "@/widgets/file";
+import { NewTagEditorDialog } from "@/widgets/tag";
+import { Add } from "@mui/icons-material";
 
 export const postEditorSchema = z.object({
   parent: z
@@ -88,7 +90,7 @@ export function PostEditorBody(props: PostEditorBodyProps) {
               />
               <FileUploadDialog
                 title="Upload image"
-                trigger={<Button>Upload</Button>}
+                trigger={<Button>Choose</Button>}
                 onCallback={(file: FileDTO) => {
                   field.onChange(file.url);
                 }}
@@ -115,7 +117,16 @@ export function PostEditorBody(props: PostEditorBodyProps) {
           field: { onChange: onSelectTag, ref, ...other },
           fieldState: { error },
         }) => (
-          <FormField label="Tags" required error={error}>
+          <FormField
+            label="Tags"
+            required
+            error={error}
+            helper={
+              <NewTagEditorDialog
+                trigger={<Button startIcon={<Add />}>New tag</Button>}
+              />
+            }
+          >
             <PostTagSelect onSelectTag={onSelectTag} {...other} />
           </FormField>
         )}
