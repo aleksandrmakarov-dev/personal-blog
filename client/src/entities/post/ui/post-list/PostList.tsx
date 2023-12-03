@@ -1,4 +1,4 @@
-import { PostPreviewDTO } from "@/services/post/postService";
+import { PostCardDTO } from "@/services/post/postService";
 import { GenericErrorModelDTO } from "@/shared/lib/types";
 import { Alert, AlertTitle } from "@mui/material";
 
@@ -7,8 +7,8 @@ interface PostListProps {
   isError: boolean;
   error?: GenericErrorModelDTO;
   isSuccess: boolean;
-  posts?: PostPreviewDTO[];
-  renderPost: (post: PostPreviewDTO) => React.ReactNode;
+  posts?: PostCardDTO[];
+  renderPost: (post: PostCardDTO) => React.ReactNode;
 }
 
 export function PostList(props: PostListProps) {

@@ -3,7 +3,7 @@ import { CircularProgress, IconButton } from "@mui/material";
 import { useFavoritePost } from "..";
 import { useQueryClient } from "@tanstack/react-query";
 import { postKeys } from "@/entities/post";
-import { PostDTO, PostPreviewDTO } from "@/services/post/postService";
+import { PostDTO, PostCardDTO } from "@/services/post/postService";
 import { PagedResponse } from "@/shared/lib/types";
 import { useAuth } from "@/providers/AuthProvider";
 import { Routing } from "@/shared/lib";
@@ -33,7 +33,7 @@ export function FavoritePost(props: FavoritePostProps) {
           await queryClient.cancelQueries({ queryKey: postsQueryKey });
           await queryClient.cancelQueries({ queryKey: postQueryKey });
 
-          queryClient.setQueriesData<PagedResponse<PostPreviewDTO>>(
+          queryClient.setQueriesData<PagedResponse<PostCardDTO>>(
             { queryKey: postsQueryKey },
             (prev) => {
               if (!prev) return prev;

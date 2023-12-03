@@ -3,7 +3,7 @@ import { CircularProgress, IconButton } from "@mui/material";
 import { useQueryClient } from "@tanstack/react-query";
 import { useUnfavoritePost } from "../api/unfavoritePost";
 import { postKeys } from "@/entities/post";
-import { PostPreviewDTO, PostDTO } from "@/services/post/postService";
+import { PostCardDTO, PostDTO } from "@/services/post/postService";
 import { PagedResponse } from "@/shared/lib/types";
 
 interface UnfavoritePostProps {
@@ -29,7 +29,7 @@ export function UnfavoritePost(props: UnfavoritePostProps) {
           await queryClient.cancelQueries({ queryKey: postsQueryKey });
           await queryClient.cancelQueries({ queryKey: postQueryKey });
 
-          queryClient.setQueriesData<PagedResponse<PostPreviewDTO>>(
+          queryClient.setQueriesData<PagedResponse<PostCardDTO>>(
             { queryKey: postsQueryKey },
             (prev) => {
               if (!prev) return prev;
