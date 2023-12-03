@@ -1,4 +1,3 @@
-import { IPost } from "../../models/post.model";
 import { TagDTO, mapToTagDTO } from "./tag.types";
 import { UserProfileDTO } from "./user.types";
 
