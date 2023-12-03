@@ -9,6 +9,7 @@ import { AxiosError } from "axios";
 export type QueryFilter = {
   orderBy?: string;
   query?: string;
+  tag?: string;
 };
 
 export type GlobalFeedQuery = {

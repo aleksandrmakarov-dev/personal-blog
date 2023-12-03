@@ -88,10 +88,13 @@ export function PostPreviewCard({ post }: PostPreviewCardProps) {
                   <Chip
                     sx={{ fontSize: "0.875rem" }}
                     key={tag.id}
+                    component="a"
                     label={tag.name}
                     variant="filled"
                     size="small"
                     color="default"
+                    href={Routing.tags.slug(tag.slug)}
+                    clickable
                   />
                 ))}
               </div>

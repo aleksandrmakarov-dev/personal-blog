@@ -13,4 +13,5 @@ export const GetPostListParamsSchema = z.object({
   limit: z.coerce.number().min(5).optional(),
   query: z.string().optional(),
   orderBy: z.string().optional(),
+  tag: z.string().optional(),
 });

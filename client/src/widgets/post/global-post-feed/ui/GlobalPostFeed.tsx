@@ -2,14 +2,16 @@ import { PostList, PostPreviewCard } from "@/entities/post";
 import { useGlobalFeed } from "@/entities/post/api/postApi";
 import { getSearchParamsObject } from "@/shared/lib/utils";
 import RouterPagination from "@/shared/ui/router-pagination/RouterPagination";
-import { useSearchParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 
 export function GlobalPostFeed() {
   const [searchParams] = useSearchParams();
+  const { tagSlug } = useParams();
 
-  const { data, isLoading, isError, error, isSuccess } = useGlobalFeed(
-    getSearchParamsObject(searchParams)
-  );
+  const { data, isLoading, isError, error, isSuccess } = useGlobalFeed({
+    ...getSearchParamsObject(searchParams),
+    tag: tagSlug,
+  });
 
   return (
     <>

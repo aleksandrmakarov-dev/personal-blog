@@ -18,7 +18,7 @@ import {
   UnfavortiePostParamsSchema,
 } from "../lib/schemas/post/favorite-post.schema";
 import { UserProfileDTO } from "../lib/types/user.types";
-import { ITag } from "../models/tag.model";
+import TagModel, { ITag } from "../models/tag.model";
 import utils from "../lib/utils/utils";
 
 async function create(req: Request, res: Response) {
@@ -85,14 +85,29 @@ async function getList(req: Request, res: Response) {
     orderBy,
     paged: pagedStr,
     populate: populateStr,
+    tag: tagSlug,
   } = GetPostListParamsSchema.parse(req.query);
 
   const paged = pagedStr === "true";
   const populate = populateStr === "true";
 
-  const searchOptions = query
-    ? { title: { $regex: query, $options: "i" } }
-    : {};
+  let tag = undefined;
+  if (tagSlug) {
+    tag = await TagModel.findOne({ slug: tagSlug });
+    if (!tag) {
+      throw new NotFoundError(`Tag with slug ${tagSlug} not found`);
+    }
+  }
+
+  const searchOptions = Object.assign(
+    {},
+    query && { title: { $regex: query, $options: "i" } },
+    tag && {
+      tags: {
+        $in: [tag._id],
+      },
+    }
+  );
 
   let sortOptions: any = { created: -1 };
 
