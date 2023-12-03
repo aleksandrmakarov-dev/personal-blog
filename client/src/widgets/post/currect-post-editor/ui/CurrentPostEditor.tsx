@@ -6,14 +6,14 @@ import { Alert, AlertTitle } from "@mui/material";
 import { NavLink, useParams } from "react-router-dom";
 
 export function CurrentPostEditor() {
-  const { slug } = useParams();
+  const { postSlug } = useParams();
 
   const {
     data: post,
     isLoading: isPostLoading,
     isError: isPostError,
     error: postError,
-  } = usePost(slug!);
+  } = usePost(postSlug!);
 
   const {
     mutate,
