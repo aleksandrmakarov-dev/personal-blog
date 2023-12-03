@@ -1,9 +1,13 @@
-export interface PagedResponse<T> {
-  items: T[];
-  totalItems: number;
+export interface Meta {
   page: number;
   limit: number;
-  totalPages: number;
+  pagesCount: number;
+  itemsCount: number;
+}
+
+export interface PagedResponse<T> {
+  items: T[];
+  meta: Meta;
 }
 
 export interface GenericErrorModelDTO {

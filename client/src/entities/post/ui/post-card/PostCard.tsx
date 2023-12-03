@@ -4,14 +4,14 @@ import PanoramaIcon from "@mui/icons-material/Panorama";
 import { Routing, formatDate } from "@/shared/lib";
 import { stringAvatar, stringToColor } from "@/shared/lib/utils";
 import { TagDTO } from "@/services/tag/tagService";
-import { PostPreviewDTO } from "@/services/post/postService";
+import { PostCardDTO } from "@/services/post/postService";
 import { FavoritePost, UnfavoritePost } from "@/features/post";
 
 interface PostPreviewCardProps {
-  post: PostPreviewDTO;
+  post: PostCardDTO;
 }
 
-export function PostPreviewCard({ post }: PostPreviewCardProps) {
+export function PostCard({ post }: PostPreviewCardProps) {
   const {
     title,
     image,
@@ -23,6 +23,7 @@ export function PostPreviewCard({ post }: PostPreviewCardProps) {
     slug,
     isFavorite,
   } = post;
+
   return (
     <article className="border-b border-gray-200">
       <div className="py-5 ">

@@ -1,6 +1,7 @@
 import mongoose, { Document, Model, Schema, Types, model } from "mongoose";
 
 interface IAccount {
+  _id: mongoose.Types.ObjectId;
   user: mongoose.Types.ObjectId;
   provider: string;
   refreshToken: string;

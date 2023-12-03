@@ -1,26 +1,11 @@
-import { GenericResponseModelDTO } from "@/shared/lib/types";
+import { GenericResponseModelDTO, PagedResponse } from "@/shared/lib/types";
 import axios from "axios";
 import { UserProfileDTO } from "../user/userService";
 import { TagDTO } from "../tag/tagService";
 
-export interface PostItemDTO {
-  id: string;
-  slug: string;
-  title: string;
-  description: string;
-  image: string | null;
-  created: Date;
-  updated: Date | null;
-  author: string;
-  isFavorite: boolean;
-  readingTime: number;
-  tags: string[];
-}
-
 export interface PostDTO {
   id: string;
   slug: string;
-  parent?: PostPreviewDTO;
   title: string;
   body: string;
   description: string;
@@ -31,30 +16,30 @@ export interface PostDTO {
   isFavorite: boolean;
   readingTime: number;
   tags: TagDTO[];
-  child?: PostPreviewDTO;
 }
 
-export interface PostPreviewDTO extends Omit<PostDTO, "body" | "parent"> {}
+export interface PostCardDTO extends Omit<PostDTO, "body"> {}
 
-type GetArticlesParams = {
+type GetPostsParams = {
   page?: number;
   limit?: number;
-  paged?: boolean;
-  populate?: boolean;
   orderBy?: string;
   query?: string;
 };
 
 const baseUrl = "/api/posts";
 
-async function getPosts<T>(params: GetArticlesParams) {
-  const response = await axios.get<T>(baseUrl, { params });
+async function getPosts(
+  params: GetPostsParams
+): Promise<PagedResponse<PostCardDTO>> {
+  const response = await axios.get<PagedResponse<PostCardDTO>>(baseUrl, {
+    params,
+  });
 
   return response.data;
 }
 
 export interface CreatePostDTO {
-  parent: string | null;
   title: string;
   body: string;
   description: string;
@@ -73,7 +58,6 @@ async function getPostBySlug(slug: string): Promise<PostDTO> {
 }
 
 export interface UpdatePostDTO {
-  parent: string | null;
   title: string;
   body: string;
   description: string;

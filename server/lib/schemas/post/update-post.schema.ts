@@ -9,7 +9,6 @@ export const UpdatePostBodySchema = z.object({
     .array(z.string())
     .min(1)
     .max(3, { message: "Tags must be between 1 and 3" }),
-  parent: z.string().nullable(),
 });
 
 export type UpdatePostBody = z.infer<typeof UpdatePostBodySchema>;

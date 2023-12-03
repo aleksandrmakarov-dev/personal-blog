@@ -1,4 +1,4 @@
-import { Model, Schema, model } from "mongoose";
+import mongoose, { Model, Schema, model } from "mongoose";
 const mongooseSlugUpdater = require("mongoose-slug-updater");
 
 export interface ITag {
@@ -7,20 +7,32 @@ export interface ITag {
   slug: string;
   created: Date;
   updated: Date;
+  posts: mongoose.Types.ObjectId[];
 }
 
 // user instance methods
-interface ITagMethods {}
+export interface ITagMethods {}
 
 // user static methods
 interface ITagModel extends Model<ITag, {}, ITagMethods> {}
 
-const TagSchema = new Schema<ITag, ITagModel, ITagMethods>({
-  name: { type: String, required: true },
-  slug: { type: String, slug: "name", slugPaddingSize: 4, unique: true },
-  created: { type: Date, default: Date.now() },
-  updated: { type: Date },
-});
+const TagSchema = new Schema<ITag, ITagModel, ITagMethods>(
+  {
+    name: { type: String, required: true },
+    slug: { type: String, slug: "name", slugPaddingSize: 4, unique: true },
+    created: { type: Date, default: Date.now() },
+    updated: { type: Date },
+    posts: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Post",
+      },
+    ],
+  },
+  {
+    toObject: { virtuals: true },
+  }
+);
 
 TagSchema.plugin(mongooseSlugUpdater);
 

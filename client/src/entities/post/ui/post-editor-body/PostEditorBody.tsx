@@ -3,7 +3,6 @@ import { PostTagSelect } from "@/widgets/post";
 import { Button, TextField } from "@mui/material";
 import { Control, Controller } from "react-hook-form";
 import { z } from "zod";
-import { PostParentSelect } from "../..";
 import { MarkdownEditor } from "@/shared/ui/markdown";
 import { FileDTO } from "@/services/file/fileService";
 import { FileUploadDialog } from "@/widgets/file";
@@ -11,12 +10,6 @@ import { NewTagEditorDialog } from "@/widgets/tag";
 import { Add } from "@mui/icons-material";
 
 export const postEditorSchema = z.object({
-  parent: z
-    .object({
-      id: z.string().min(1),
-      title: z.string().min(1),
-    })
-    .nullable(),
   title: z.string().min(1).max(150),
   description: z.string().min(1).max(250),
   body: z.string().min(1),
@@ -42,19 +35,6 @@ export function PostEditorBody(props: PostEditorBodyProps) {
   const { control, isLoading } = props;
   return (
     <>
-      <Controller
-        control={control}
-        disabled={isLoading}
-        name="parent"
-        render={({
-          field: { onChange: onSelectParent, ref, ...other },
-          fieldState: { error },
-        }) => (
-          <FormField label="Parent" error={error}>
-            <PostParentSelect onSelectParent={onSelectParent} {...other} />
-          </FormField>
-        )}
-      />
       <Controller
         control={control}
         disabled={isLoading}

@@ -1,13 +1,27 @@
+import { PagedResponse } from "@/shared/lib/types";
 import axios from "axios";
 
 export interface TagDTO {
   id: string;
   name: string;
   slug: string;
+  postsCount: number;
+  isFollowing: boolean;
 }
 
-async function getTags(): Promise<TagDTO[]> {
-  const response = await axios.get<TagDTO[]>("/api/tags");
+interface GetTagsParams {
+  page: number;
+  limit?: number;
+  orderBy?: string;
+  query?: string;
+}
+
+const baseUrl = "/api/tags";
+
+async function getTags(params: GetTagsParams): Promise<PagedResponse<TagDTO>> {
+  const response = await axios.get<PagedResponse<TagDTO>>(baseUrl, {
+    params,
+  });
 
   return response.data;
 }
@@ -17,12 +31,12 @@ export interface CreateTagDTO {
 }
 
 async function createTag(tag: CreateTagDTO): Promise<TagDTO> {
-  const response = await axios.post<TagDTO>("/api/tags", tag);
+  const response = await axios.post<TagDTO>(baseUrl, tag);
   return response.data;
 }
 
 async function getTagBySlug(slug: string): Promise<TagDTO> {
-  const response = await axios.get<TagDTO>(`/api/tags/slug/${slug}`);
+  const response = await axios.get<TagDTO>(`${baseUrl}/slug/${slug}`);
   return response.data;
 }
 

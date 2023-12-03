@@ -1,15 +1,13 @@
 export * from "./api/postApi";
 
 export { PostList } from "./ui/post-list/PostList";
-export { PostPreviewCard } from "./ui/post-preview-card/PostPreviewCard";
+export { PostCard } from "./ui/post-card/PostCard";
 export { PostEditor } from "./ui/post-editor/PostEditor";
 export { PostImage } from "./ui/post-image/PostImage";
 export { PostAuthor } from "./ui/post-author/PostAuthor";
 export { PostEditorBody } from "./ui/post-editor-body/PostEditorBody";
 export { PostFilterBody } from "./ui/post-filter-body/PostFilterBody";
-export { PostParentSelect } from "./ui/post-parent-select/PostParentSelect";
 export { PostTagList } from "./ui/post-tag-list/PostTagList";
-export { PostLink } from "./ui/post-link/PostLink";
 
 export { postEditorSchema } from "./ui/post-editor-body/PostEditorBody";
 export type { PostEditorSchemaType } from "./ui/post-editor-body/PostEditorBody";

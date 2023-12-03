@@ -2,20 +2,20 @@ import { Pagination, PaginationItem } from "@mui/material";
 import { Link, useLocation } from "react-router-dom";
 
 interface RouterPaginationProps extends React.HTMLAttributes<HTMLDivElement> {
-  totalPages: number;
   page: number;
-  totalItems: number;
   limit: number;
+  pagesCount: number;
+  itemsCount: number;
 }
 
 const RouterPagination = (props: RouterPaginationProps) => {
-  const { page, totalItems, totalPages, limit, ...other } = props;
+  const { page, limit, pagesCount, itemsCount, ...other } = props;
   const location = useLocation();
 
   const currentSearchParams = new URLSearchParams(location.search);
   const from = (page - 1) * limit;
   const possibleTo = from + limit;
-  const to = possibleTo > totalItems ? totalItems : possibleTo;
+  const to = possibleTo > itemsCount ? itemsCount : possibleTo;
 
   return (
     <div {...other}>
@@ -30,13 +30,13 @@ const RouterPagination = (props: RouterPaginationProps) => {
             <span className="font-semibold text-foreground-primary">{to} </span>
             of{" "}
             <span className="font-semibold text-foreground-primary">
-              {totalItems}{" "}
+              {itemsCount}{" "}
             </span>
             results
           </p>
         </div>
         <Pagination
-          count={totalPages}
+          count={pagesCount}
           page={page}
           shape="rounded"
           renderItem={(item) => {

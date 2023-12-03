@@ -18,8 +18,15 @@ import {
   UnfavortiePostParamsSchema,
 } from "../lib/schemas/post/favorite-post.schema";
 import { UserProfileDTO } from "../lib/types/user.types";
-import TagModel, { ITag } from "../models/tag.model";
+import TagModel from "../models/tag.model";
 import utils from "../lib/utils/utils";
+import {
+  PostCardDTO,
+  PostDTO,
+  mapToPostCardDTO,
+  mapToPostDTO,
+} from "../lib/types/post.types";
+import { PagedResponse } from "../lib/types";
 
 async function create(req: Request, res: Response) {
   const reqBody = CreatePostBodySchema.parse(req.body);
@@ -40,56 +47,46 @@ async function create(req: Request, res: Response) {
     ...reqBody,
   });
 
-  if (reqBody.parent) {
-    const parentPost = await PostModel.findById(reqBody.parent);
-    if (!parentPost) {
-      throw new NotFoundError(
-        `Parent post with id ${reqBody.parent} not found`
-      );
-    }
-    await parentPost?.setChild(createdPost._id.toString());
-  }
+  await TagModel.updateMany(
+    { _id: { $in: createdPost.tags } },
+    { $push: { posts: createdPost._id } }
+  );
 
   return Created(res, createdPost);
 }
 
 async function getBySlug(req: Request, res: Response) {
   const reqParams = GetPostParamsSchema.parse(req.params);
-  const foundPost = await PostModel.findBySlug(reqParams.identifier)
-    .populate("author", { id: 1, slug: 1, name: 1, image: 1 })
-    .populate("tags")
-    .populate("parent", {
+  const foundPost = await PostModel.findOne({ slug: reqParams.identifier })
+    .populate<{ author: UserProfileDTO }>("author", {
       id: 1,
       slug: 1,
-      title: 1,
+      name: 1,
+      image: 1,
     })
-    .populate("child", {
-      id: 1,
-      slug: 1,
-      title: 1,
+    .populate<{ tags: any[] }>({
+      path: "tags",
+      options: { sort: { name: 1 } },
     });
 
   if (!foundPost) {
     throw new NotFoundError(`Post with slug ${reqParams.identifier} not found`);
   }
 
-  return Ok(res, foundPost);
+  const userId = req.user?.id;
+  const mappedPost: PostDTO = mapToPostDTO(foundPost, userId);
+
+  return Ok(res, mappedPost);
 }
 
-// Add pagination
 async function getList(req: Request, res: Response) {
   const {
     page = 1,
-    limit = 10,
+    limit,
     query,
     orderBy,
-    paged: pagedStr,
-    populate: populateStr,
     tag: tagSlug,
   } = GetPostListParamsSchema.parse(req.query);
-
-  const paged = pagedStr === "true";
-  const populate = populateStr === "true";
 
   let tag = undefined;
   if (tagSlug) {
@@ -117,64 +114,45 @@ async function getList(req: Request, res: Response) {
     sortOptions = { likes: -1 };
   }
 
-  let postQuery = PostModel.find(searchOptions, { body: 0 }).sort(sortOptions);
+  let postsQuery = PostModel.find(searchOptions, { body: 0 }).sort(sortOptions);
 
-  if (paged) {
-    postQuery = postQuery.skip((page - 1) * limit).limit(limit);
+  if (limit) {
+    postsQuery = postsQuery.skip((page - 1) * limit).limit(limit);
   }
 
-  let foundPosts = [];
+  const foundPosts = await postsQuery
+    .populate<{ author: UserProfileDTO }>("author", {
+      id: 1,
+      slug: 1,
+      name: 1,
+      image: 1,
+    })
+    .populate<{ tags: any[] }>({
+      path: "tags",
+      options: { sort: { name: 1 } },
+    })
+    .exec();
 
-  if (populate) {
-    foundPosts = await postQuery
-      .populate<{ author: UserProfileDTO }>("author", {
-        id: 1,
-        slug: 1,
-        name: 1,
-        image: 1,
-      })
-      .populate<{ tags: ITag[] }>("tags")
-      .exec();
+  const userId = req.user?.id;
 
-    const userId = req.user?.id;
+  const mappedPosts: PostCardDTO[] = foundPosts.map((post) =>
+    mapToPostCardDTO(post, userId)
+  );
 
-    foundPosts = foundPosts.map((post) => ({
-      id: post.id,
-      slug: post.slug,
-      title: post.title,
-      description: post.description,
-      image: post.image,
-      created: post.created,
-      updated: post.updated,
-      tags: post.tags.map((tag) => ({
-        id: tag.id.toString(),
-        name: tag.name,
-        slug: tag.slug,
-      })),
-      author: post.author,
-      isFavorite: userId ? post.isFavorite(userId) : false,
-    }));
-  } else {
-    foundPosts = await postQuery.exec();
-  }
+  const itemsCount = await PostModel.countDocuments(searchOptions);
+  const pagesCount = Math.ceil(itemsCount / (limit || itemsCount));
 
-  let result = {};
-
-  if (paged) {
-    const countPosts = await PostModel.countDocuments(searchOptions);
-    const countPages = Math.ceil(countPosts / limit);
-    result = {
-      items: foundPosts,
+  const pagedResponse: PagedResponse<PostCardDTO> = {
+    items: mappedPosts,
+    meta: {
       page: page,
-      limit: limit,
-      totalItems: countPosts,
-      totalPages: countPages,
-    };
-  } else {
-    result = foundPosts;
-  }
+      limit: limit || itemsCount,
+      pagesCount: pagesCount,
+      itemsCount: itemsCount,
+    },
+  };
 
-  return Ok(res, result);
+  return Ok(res, pagedResponse);
 }
 
 async function updateById(req: Request, res: Response) {
@@ -182,25 +160,30 @@ async function updateById(req: Request, res: Response) {
   const reqBody = UpdatePostBodySchema.parse(req.body);
 
   const postToUpdate = await PostModel.findOne({ _id: reqParams.identifier });
+
   if (!postToUpdate) {
     throw new NotFoundError(`Post with id ${reqParams.identifier} not found`);
   }
+
+  const previousTags = postToUpdate.tags;
+
   postToUpdate.set({
     ...reqBody,
     updated: Date.now(),
     readingTime: utils.readingTime(reqBody.body),
   });
-  await postToUpdate.save();
 
-  if (reqBody.parent) {
-    const parentPost = await PostModel.findById(reqBody.parent);
-    await parentPost?.setChild(postToUpdate._id.toString());
-  }
+  const updatedPost = await postToUpdate.save();
 
-  if (postToUpdate.child && !reqBody.parent) {
-    const parentPost = await PostModel.findById(reqBody.parent);
-    await parentPost?.clearChild();
-  }
+  await TagModel.updateMany(
+    { _id: { $in: previousTags } },
+    { $pull: { posts: postToUpdate._id } }
+  );
+
+  await TagModel.updateMany(
+    { _id: { $in: updatedPost.tags } },
+    { $push: { posts: postToUpdate._id } }
+  );
 
   return Ok(res, postToUpdate);
 }
@@ -213,17 +196,10 @@ async function deleteById(req: Request, res: Response) {
   }
   await postToDelete.deleteOne();
 
-  const parentPost = await PostModel.findById(postToDelete.parent);
-  const childPost = await PostModel.findById(postToDelete.child);
-
-  if (parentPost && childPost) {
-    await childPost?.setParent(parentPost._id.toString());
-    await parentPost?.setChild(childPost._id.toString());
-  } else if (parentPost) {
-    await parentPost?.clearChild();
-  } else if (childPost) {
-    await childPost?.clearParent();
-  }
+  await TagModel.updateMany(
+    { _id: { $in: postToDelete.tags } },
+    { $pull: { posts: postToDelete._id } }
+  );
 
   return NoContent(res);
 }

@@ -9,11 +9,14 @@ interface PostTagSelectProps {
 }
 
 export function PostTagSelect(props: PostTagSelectProps) {
-  const { data, isLoading, isError } = useTags();
+  const { data, isLoading, isError } = useTags({
+    page: 1,
+    orderBy: "name",
+  });
 
   return (
     <TagSelect
-      options={data || []}
+      options={data?.items || []}
       isLoading={isLoading}
       isError={isError}
       limit={3}

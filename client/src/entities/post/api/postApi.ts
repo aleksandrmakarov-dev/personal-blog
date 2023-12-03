@@ -1,7 +1,4 @@
-import postService, {
-  PostDTO,
-  PostPreviewDTO,
-} from "@/services/post/postService";
+import postService, { PostDTO, PostCardDTO } from "@/services/post/postService";
 import { PagedResponse, GenericErrorModelDTO } from "@/shared/lib/types";
 import { UseQueryOptions, useQuery } from "@tanstack/react-query";
 import { AxiosError } from "axios";
@@ -61,29 +58,25 @@ type UsePostsQuery<T> = UseQueryOptions<
   unknown[]
 >;
 
-type UsePostsOptions<T> = Omit<UsePostsQuery<T>, "queryKey" | "queryFn">;
+type UsePostsOptions = Omit<
+  UsePostsQuery<PagedResponse<PostCardDTO>>,
+  "queryKey" | "queryFn"
+>;
 
-export const usePosts = <T>(
-  params: QueryFilter,
-  options?: UsePostsOptions<T>
-) => {
+export const usePosts = (params: QueryFilter, options?: UsePostsOptions) => {
   return useQuery({
     queryKey: postKeys.posts.query(params),
     queryFn: async () => {
-      return await postService.getPosts<T>({
-        paged: false,
-        populate: false,
-        ...params,
-      });
+      return await postService.getPosts(params);
     },
     ...options,
   });
 };
 
 type UseGlobalFeedQuery = UseQueryOptions<
-  PagedResponse<PostPreviewDTO>,
+  PagedResponse<PostCardDTO>,
   AxiosError<GenericErrorModelDTO>,
-  PagedResponse<PostPreviewDTO>,
+  PagedResponse<PostCardDTO>,
   unknown[]
 >;
 
@@ -96,11 +89,7 @@ export const useGlobalFeed = (
   return useQuery({
     queryKey: postKeys.posts.globalFeed.query(params),
     queryFn: async () => {
-      return await postService.getPosts<PagedResponse<PostPreviewDTO>>({
-        paged: true,
-        populate: true,
-        ...params,
-      });
+      return await postService.getPosts(params);
     },
     ...options,
   });

@@ -7,8 +7,6 @@ export const GetPostParamsSchema = z.object({
 export type GetPostParams = z.infer<typeof GetPostParamsSchema>;
 
 export const GetPostListParamsSchema = z.object({
-  populate: z.string().optional(),
-  paged: z.string().optional(),
   page: z.coerce.number().min(1).optional(),
   limit: z.coerce.number().min(5).optional(),
   query: z.string().optional(),

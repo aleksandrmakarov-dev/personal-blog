@@ -9,12 +9,12 @@ export function CurrentTagCard(props: CurrentTagCardProps) {
 
   const { data, isLoading, isError } = useTagBySlug(slug);
 
-  console.log(data);
-
   if (isLoading) return <div>Loading...</div>;
 
   if (isError || !data) return <div>Error</div>;
 
-  return <TagCard {...other} title={data.name} slug={data.slug} />;
+  console.log(data);
+
+  return <TagCard {...other} tag={data} />;
 }
 ``;

@@ -1,5 +1,5 @@
 import tagService, { TagDTO } from "@/services/tag/tagService";
-import { GenericErrorModelDTO } from "@/shared/lib/types";
+import { GenericErrorModelDTO, PagedResponse } from "@/shared/lib/types";
 import { UseQueryOptions, useQuery } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 
@@ -17,19 +17,26 @@ export const tagKeys = {
 };
 
 type UseTagsQuery = UseQueryOptions<
-  TagDTO[],
+  PagedResponse<TagDTO>,
   GenericErrorModelDTO,
-  TagDTO[],
+  PagedResponse<TagDTO>,
   unknown[]
 >;
 
 type UseTagsOptions = Omit<UseTagsQuery, "queryKey" | "queryFn">;
 
-export const useTags = (options?: UseTagsOptions) => {
+interface GetTagsQuery {
+  page: number;
+  limit?: number;
+  orderBy?: string;
+  query?: string;
+}
+
+export const useTags = (params: GetTagsQuery, options?: UseTagsOptions) => {
   return useQuery({
     queryKey: tagKeys.tags.query(),
     queryFn: async () => {
-      return await tagService.getTags();
+      return await tagService.getTags(params);
     },
     ...options,
   });

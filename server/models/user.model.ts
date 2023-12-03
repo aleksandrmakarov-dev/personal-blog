@@ -3,6 +3,7 @@ const mongooseSlugUpdater = require("mongoose-slug-updater");
 
 // user schema
 export interface IUser {
+  id: string;
   name: string;
   bio?: string;
   email: string;

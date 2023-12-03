@@ -7,14 +7,14 @@ export const Code = (props: any) => {
   const match = /language-(\w+)/.exec(className || "");
 
   return match ? (
-    <div className="rounded-sm bg-gray-50 overflow-clip">
-      <div className="flex items-center justify-between mb-2 bg-gray-200 px-2 py-1">
+    <div className="rounded-md bg-gray-50 overflow-clip">
+      <div className="flex items-center justify-between bg-gray-200 px-2 py-1">
         <span className="text-sm text-foreground-secondary font-semibold">
           {match[1]}
         </span>
         <CopyButton value={String(children)} />
       </div>
-      <div className="py-2 px-4">
+      <div className="p-4 border-gray-200 border">
         <SyntaxHighlighter
           {...rest}
           children={String(children).replace(/\n$/, "")}

@@ -1,4 +1,4 @@
-import { PostList, PostPreviewCard } from "@/entities/post";
+import { PostList, PostCard } from "@/entities/post";
 import { useGlobalFeed } from "@/entities/post/api/postApi";
 import { getSearchParamsObject } from "@/shared/lib/utils";
 import RouterPagination from "@/shared/ui/router-pagination/RouterPagination";
@@ -10,6 +10,7 @@ export function GlobalPostFeed() {
 
   const { data, isLoading, isError, error, isSuccess } = useGlobalFeed({
     ...getSearchParamsObject(searchParams),
+    limit: 10,
     tag: tagSlug,
   });
 
@@ -21,16 +22,10 @@ export function GlobalPostFeed() {
         error={error?.response?.data}
         isSuccess={isSuccess && data !== undefined}
         posts={data?.items}
-        renderPost={(post) => <PostPreviewCard key={post.id} post={post} />}
+        renderPost={(post) => <PostCard key={post.id} post={post} />}
       />
-      {data && data.totalPages > 1 && (
-        <RouterPagination
-          className="mt-2.5"
-          totalItems={data.totalItems}
-          totalPages={data.totalPages}
-          limit={data.limit}
-          page={data.page}
-        />
+      {data && data.meta && data.meta.pagesCount > 1 && (
+        <RouterPagination className="mt-2.5" {...data.meta} />
       )}
     </>
   );

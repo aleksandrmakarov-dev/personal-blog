@@ -1,7 +1,8 @@
 const mongooseSlugUpdater = require("mongoose-slug-updater");
 import mongoose, { Model, Schema, model } from "mongoose";
 
-interface IPost {
+export interface IPost {
+  id: string;
   title: string;
   description: string;
   body: string;
@@ -10,28 +11,20 @@ interface IPost {
   image: string;
   slug: string;
   readingTime: number;
-  parent?: mongoose.Types.ObjectId;
   author: mongoose.Types.ObjectId;
-  child: mongoose.Types.ObjectId;
   tags: mongoose.Types.ObjectId[];
   favorites: mongoose.Types.ObjectId[];
 }
 
 // post instance methods
-interface IPostMethods {
+export interface IPostMethods {
   addFavorite: (userId: string) => Promise<void>;
   removeFavorite: (userId: string) => Promise<void>;
   isFavorite: (userId: string) => boolean;
-  setChild: (childId: string) => Promise<void>;
-  clearChild: () => Promise<void>;
-  setParent: (parentId: string) => Promise<void>;
-  clearParent: () => Promise<void>;
 }
 
 // post static methods
-interface IPostModel extends Model<IPost, {}, IPostMethods> {
-  findBySlug: (slug: string) => any;
-}
+interface IPostModel extends Model<IPost, {}, IPostMethods> {}
 
 const PostSchema = new Schema<IPost, IPostModel, IPostMethods>({
   title: { type: String, trim: true, required: true },
@@ -42,10 +35,6 @@ const PostSchema = new Schema<IPost, IPostModel, IPostMethods>({
   image: { type: String },
   readingTime: { type: Number, default: 0 },
   slug: { type: String, slug: "title", slugPaddingSize: 4, unique: true },
-  parent: {
-    type: Schema.Types.ObjectId,
-    ref: "Post",
-  },
   author: {
     type: Schema.Types.ObjectId,
     ref: "User",
@@ -62,30 +51,6 @@ const PostSchema = new Schema<IPost, IPostModel, IPostMethods>({
       ref: "User",
     },
   ],
-  child: {
-    type: Schema.Types.ObjectId,
-    ref: "Post",
-  },
-});
-
-// methods
-
-PostSchema.method("setChild", async function (childId: string) {
-  const id = new mongoose.Types.ObjectId(childId);
-  await this.updateOne({ $set: { child: id } });
-});
-
-PostSchema.method("clearChild", async function () {
-  await this.updateOne({ $set: { child: null } });
-});
-
-PostSchema.method("setParent", async function (parentId: string) {
-  const id = new mongoose.Types.ObjectId(parentId);
-  await this.updateOne({ $set: { parent: id } });
-});
-
-PostSchema.method("clearParent", async function () {
-  await this.updateOne({ $set: { parent: null } });
 });
 
 PostSchema.method("addFavorite", async function (userId: string) {
@@ -107,10 +72,6 @@ PostSchema.method("isFavorite", function (userId: string) {
 });
 
 // statics
-
-PostSchema.static("findBySlug", function (slug: string) {
-  return this.findOne({ slug: slug });
-});
 
 PostSchema.plugin(mongooseSlugUpdater);
 

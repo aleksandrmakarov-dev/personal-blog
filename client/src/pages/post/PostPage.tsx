@@ -1,10 +1,4 @@
-import {
-  PostAuthor,
-  PostImage,
-  PostLink,
-  PostTagList,
-  usePost,
-} from "@/entities/post";
+import { PostAuthor, PostImage, PostTagList, usePost } from "@/entities/post";
 import { Routing } from "@/shared/lib";
 import Header from "@/shared/ui/header/Header";
 import { MarkdownPreview, MarkdownToc } from "@/shared/ui/markdown";
@@ -63,11 +57,6 @@ export default function PostPage() {
       </div>
       <div className="sticky left-0 top-4">
         <MarkdownToc value={body} maxDepth={3} />
-      </div>
-      <div className="mt-5 grid grid-cols-3">
-        <PostLink post={data.parent} next={false} />
-        <div />
-        <PostLink post={data.child} next={true} />
       </div>
     </div>
   );
