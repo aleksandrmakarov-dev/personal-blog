@@ -27,7 +27,7 @@ type GetPostsParams = {
   query?: string;
 };
 
-const baseUrl = "/api/posts";
+const baseUrl = `${import.meta.env.VITE_API_URL}/api/posts`;
 
 async function getPosts(
   params: GetPostsParams

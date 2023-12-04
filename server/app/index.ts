@@ -10,7 +10,7 @@ import tagRoutes from "../routes/tag.routes";
 import errorHandleMiddleware from "../middleware/error-handle.middleware";
 import userRoutes from "../routes/user.routes";
 import fileRoutes from "../routes/file.routes";
-import { cloudinaryConfigure } from "../config/app.config";
+import appConfig, { cloudinaryConfigure } from "../config/app.config";
 import dotenv from "dotenv";
 import path from "path";
 
@@ -25,17 +25,19 @@ connectToDb();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev"));
-app.use(cors());
+app.use(cors({ credentials: true, origin: appConfig.default.allowedOrigins }));
 app.use(cookieParser());
 
 app.use("/api/posts", postRoutes);
 app.use("/api/tags", tagRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/files", fileRoutes);
-app.use("/", (_req, res) => res.send("Server is working!"));
+//app.use("/", (_req, res) => res.send("Server is working!"));
 
-// app.use(express.static(path.join(__dirname, "public")));
-// app.get("*", (_req, res) => res.sendFile(path.join(__dirname, "index.html")));
+app.use(express.static(path.join(__dirname, "../../client/dist")));
+app.get("*", (_req, res) =>
+  res.sendFile(path.join(__dirname, "../../client/dist/index.html"))
+);
 
 app.use(errorHandleMiddleware);
 

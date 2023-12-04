@@ -37,6 +37,9 @@ if (!process.env.MONGODB_URI) {
 if (!process.env.TOKEN_SECRET) {
     throw new Error("Missing TOKEN_SECRET");
 }
+if (!process.env.ALLOWED_ORIGINS) {
+    throw new Error("Missing ALLOWED_ORIGINS");
+}
 const config = {
     refreshToken: {
         cookie: {
@@ -62,6 +65,7 @@ const config = {
         admin: {
             emails: [process.env.DEFAULT_ADMIN_EMAIL],
         },
+        allowedOrigins: process.env.ALLOWED_ORIGINS.split(","),
     },
     database: {
         uri: process.env.MONGODB_URI,
