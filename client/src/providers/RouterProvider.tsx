@@ -1,4 +1,5 @@
 import {
+  Navigate,
   Route,
   RouterProvider,
   createBrowserRouter,
@@ -38,7 +39,9 @@ const router = createBrowserRouter(
           </Route>
         </Route>
         <Route path={Routing.posts.root}>
-          <Route index element={<PostsPage />} />
+          <Route index element={<Navigate to="global" />} />
+          <Route path="global" element={<PostsPage />} />
+          <Route path="personal" element={<PostsPage userFeed />} />
           <Route element={<PrivateRoute roles={["admin"]} />}>
             <Route path="new" element={<PostEditorPage />} />
           </Route>

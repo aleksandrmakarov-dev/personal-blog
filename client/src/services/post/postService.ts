@@ -78,15 +78,13 @@ async function deletePostById(id: string): Promise<GenericResponseModelDTO> {
   return response.data;
 }
 
-async function favoritePostById(id: string): Promise<PostDTO> {
-  const response = await axios.put<PostDTO>(`${baseUrl}/id/${id}/favorite`);
+async function favoritePostById(id: string): Promise<null> {
+  const response = await axios.put<null>(`${baseUrl}/favorite/id/${id}`);
   return response.data;
 }
 
-async function unfavoritePostById(id: string): Promise<PostDTO> {
-  const response = await axios.delete<PostDTO>(
-    `${baseUrl}/id/${id}/unfavorite`
-  );
+async function unfavoritePostById(id: string): Promise<null> {
+  const response = await axios.delete<null>(`${baseUrl}/favorite/id/${id}`);
   return response.data;
 }
 

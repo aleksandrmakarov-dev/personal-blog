@@ -14,7 +14,7 @@ router.post("/", onlyAdmin, postController.create);
 router.get("/slug/:identifier", postController.getBySlug);
 router.put("/id/:identifier", onlyAdmin, postController.updateById);
 router.delete("/id/:identifier", onlyAdmin, postController.deleteById);
-router.put("/id/:identifier/favorite", anyUser, postController.favorite);
-router.delete("/id/:identifier/unfavorite", anyUser, postController.unfavorite);
+router.put("/favorite/id/:identifier", anyUser, postController.favorite);
+router.delete("/favorite/id/:identifier", anyUser, postController.unfavorite);
 
 export default router;

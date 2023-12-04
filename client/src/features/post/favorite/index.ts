@@ -1,2 +1,2 @@
-export * from "./favorite-post";
-export * from "./unfavorite-post";
+export { FavoritePost } from "./ui/FavoritePost";
+export { useFavoritePost } from "./api/favoritePost";

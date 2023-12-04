@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import TagModel from "../models/tag.model";
-import { Created, Ok } from "../lib/utils/express.utils";
+import { Created, NoContent, Ok } from "../lib/utils/express.utils";
 import { CreateTagBodySchema } from "../lib/schemas/tag/create-tag.validation";
 import {
   GetTagListParamsSchema,
@@ -9,6 +9,7 @@ import {
 import { PagedResponse } from "../lib/types";
 import { TagDTO, mapToTagDTO } from "../lib/types/tag.types";
 import { NotFoundError } from "../lib/api.errors";
+import UserModel from "../models/user.model";
 
 async function create(req: Request, res: Response) {
   const reqBody = CreateTagBodySchema.parse(req.body);
@@ -69,9 +70,9 @@ async function getList(req: Request, res: Response) {
 
   const foundTags = await tagsQuery.exec();
 
-  //const userId = req.user?.id;
+  const userId = req.user?.id;
 
-  const mappedTags: TagDTO[] = foundTags.map(mapToTagDTO);
+  const mappedTags: TagDTO[] = foundTags.map((tag) => mapToTagDTO(tag, userId));
 
   const itemsCount = await TagModel.countDocuments(searchOptions);
   const pagesCount = Math.ceil(itemsCount / (limit || itemsCount));
@@ -91,6 +92,7 @@ async function getList(req: Request, res: Response) {
 
 async function getBySlug(req: Request, res: Response) {
   const { identifier } = GetTagParamsSchema.parse(req.params);
+  const userId = req.user?.id;
 
   const foundTag = await TagModel.findOne({ slug: identifier });
 
@@ -98,9 +100,53 @@ async function getBySlug(req: Request, res: Response) {
     throw new NotFoundError(`Tag with slug ${identifier} not found`);
   }
 
-  const mappedTag: TagDTO = mapToTagDTO(foundTag);
+  const mappedTag: TagDTO = mapToTagDTO(foundTag, userId);
 
   return Ok(res, mappedTag);
 }
 
-export default { create, getList, getBySlug };
+async function follow(req: Request, res: Response) {
+  const { identifier } = GetTagParamsSchema.parse(req.params);
+
+  const userId = req.user!.id;
+
+  const user = await UserModel.findById(userId);
+
+  if (!user) {
+    throw new NotFoundError(`User with id ${userId} not found`);
+  }
+
+  const foundTag = await TagModel.findById(identifier);
+
+  if (!foundTag) {
+    throw new NotFoundError(`Tag with id ${identifier} not found`);
+  }
+
+  await foundTag.addUserToFollowings(user._id);
+  await user.addFollowingTag(foundTag._id);
+
+  return NoContent(res);
+}
+
+async function unfollow(req: Request, res: Response) {
+  const { identifier } = GetTagParamsSchema.parse(req.params);
+  const userId = req.user!.id;
+
+  const user = await UserModel.findById(userId);
+  if (!user) {
+    throw new NotFoundError(`User with id ${userId} not found`);
+  }
+
+  const foundTag = await TagModel.findById(identifier);
+
+  if (!foundTag) {
+    throw new NotFoundError(`Tag with slug ${identifier} not found`);
+  }
+
+  await foundTag.removeUserFromFollowings(user._id);
+  await user.removeFollowingTag(foundTag._id);
+
+  return NoContent(res);
+}
+
+export default { create, getList, getBySlug, follow, unfollow };

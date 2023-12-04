@@ -1,6 +1,7 @@
 import { TagEditorDialog, TagEditorSchemaType, tagKeys } from "@/entities/tag";
 import { useCreateTag } from "@/features/tag";
 import { TagDTO } from "@/services/tag/tagService";
+import { PagedResponse } from "@/shared/lib/types";
 import { useQueryClient } from "@tanstack/react-query";
 
 interface NewTagEditorDialogProps {
@@ -22,12 +23,22 @@ export function NewTagEditorDialog(props: NewTagEditorDialogProps) {
       onSuccess: (data) => {
         queryClient.cancelQueries({ queryKey: tagKeys.tags.query() });
 
-        queryClient.setQueryData<TagDTO[]>(tagKeys.tags.query(), (prev) => {
-          if (!prev) return prev;
-          return [...prev, data];
-        });
+        queryClient.setQueryData<PagedResponse<TagDTO>>(
+          tagKeys.tags.query(),
+          (prev) => {
+            if (prev) {
+              return {
+                ...prev,
+                items: [...prev.items, data],
+              };
+            }
+          }
+        );
         reset();
         close();
+      },
+      onError: (error) => {
+        console.log(error);
       },
     });
   };
@@ -37,7 +48,7 @@ export function NewTagEditorDialog(props: NewTagEditorDialogProps) {
       trigger={trigger}
       title="Create tag"
       isError={isError}
-      error={error?.response?.data}
+      error={error?.response?.data.message}
       isLoading={isPending}
       isSuccess={isSuccess}
       onSubmit={onSubmit}

@@ -5,6 +5,7 @@ export interface TagDTO {
   id: string;
   slug: string;
   name: string;
+  followersCount: number;
   postsCount: number;
   isFollowing: boolean;
 }
@@ -17,13 +18,17 @@ export const mapToTagDTO = (
       },
       never
     > &
-    ITagMethods
+    ITagMethods,
+  userId?: string
 ): TagDTO => {
   return {
-    id: tag.id,
+    id: tag._id.toString(),
     name: tag.name,
     slug: tag.slug,
     postsCount: tag.posts?.length || 0,
-    isFollowing: false,
+    followersCount: tag.followings?.length || 0,
+    isFollowing: userId
+      ? tag.followings?.includes(new mongoose.Types.ObjectId(userId))
+      : false,
   };
 };

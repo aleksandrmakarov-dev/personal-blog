@@ -4,3 +4,4 @@ export { PostTagSelect } from "./post-tag-select";
 export { PostsFilter } from "./posts-filter";
 export { CurrentPostEditor } from "./currect-post-editor";
 export { DeleteCurrentPostDialog } from "./delete-current-post-dialog";
+export { UserPostFeed } from "./user-post-feed";

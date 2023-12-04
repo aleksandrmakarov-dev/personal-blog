@@ -18,8 +18,8 @@ export interface IPost {
 
 // post instance methods
 export interface IPostMethods {
-  addFavorite: (userId: string) => Promise<void>;
-  removeFavorite: (userId: string) => Promise<void>;
+  addToPostFavorites: (userId: mongoose.Types.ObjectId) => Promise<void>;
+  removeFromPostFavorites: (userId: mongoose.Types.ObjectId) => Promise<void>;
   isFavorite: (userId: string) => boolean;
 }
 
@@ -53,22 +53,26 @@ const PostSchema = new Schema<IPost, IPostModel, IPostMethods>({
   ],
 });
 
-PostSchema.method("addFavorite", async function (userId: string) {
-  const id = new mongoose.Types.ObjectId(userId);
-  if (!this.favorites.includes(id)) {
-    await this.updateOne({ $push: { favorites: id } });
+PostSchema.method(
+  "addToPostFavorites",
+  async function (userId: mongoose.Types.ObjectId) {
+    if (!this.favorites?.includes(userId)) {
+      await this.updateOne({ $push: { favorites: userId } });
+    }
   }
-});
+);
 
-PostSchema.method("removeFavorite", async function (userId: string) {
-  const id = new mongoose.Types.ObjectId(userId);
-  if (this.favorites.includes(id)) {
-    await this.updateOne({ $pull: { favorites: id } });
+PostSchema.method(
+  "removeFromPostFavorites",
+  async function (userId: mongoose.Types.ObjectId) {
+    if (this.favorites?.includes(userId)) {
+      await this.updateOne({ $pull: { favorites: userId } });
+    }
   }
-});
+);
 
 PostSchema.method("isFavorite", function (userId: string) {
-  return this.favorites.includes(new mongoose.Types.ObjectId(userId));
+  return this.favorites?.includes(new mongoose.Types.ObjectId(userId));
 });
 
 // statics

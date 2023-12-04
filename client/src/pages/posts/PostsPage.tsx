@@ -1,21 +1,19 @@
 import { Divider, Tab, Tabs } from "@mui/material";
 import PublicRoundedIcon from "@mui/icons-material/PublicRounded";
 import PersonRoundedIcon from "@mui/icons-material/PersonRounded";
-import { useState } from "react";
-import { PostsFilter, GlobalPostFeed } from "@/widgets/post";
+import { PostsFilter, GlobalPostFeed, UserPostFeed } from "@/widgets/post";
 import { CurrentTagCard, PopularTags } from "@/widgets/tag";
 import { useParams } from "react-router-dom";
+import { Routing } from "@/shared/lib";
 
-export default function PostsPage() {
+interface PostsPageProps {
+  userFeed?: boolean;
+}
+
+export default function PostsPage(props: PostsPageProps) {
+  const { userFeed } = props;
+
   const { tagSlug } = useParams();
-  const [tabIndex, setTabIndex] = useState<number>(0);
-
-  const onTabIndexChange = (
-    _event: React.ChangeEvent<{}>,
-    newValue: number
-  ) => {
-    setTabIndex(newValue);
-  };
 
   return (
     <div className="grid grid-cols-[7fr_3fr] gap-x-14 items-start">
@@ -23,24 +21,25 @@ export default function PostsPage() {
         <CurrentTagCard className="col-span-2 mb-10" slug={tagSlug} />
       )}
       <div className="flex flex-col">
-        <Tabs value={tabIndex} onChange={onTabIndexChange}>
+        <Tabs value={userFeed ? 1 : 0}>
           <Tab
             sx={{ minHeight: 48 }}
             icon={<PublicRoundedIcon fontSize="small" />}
             iconPosition="start"
             label="Global"
+            href={Routing.posts.index}
           />
           <Tab
             sx={{ minHeight: 48 }}
             icon={<PersonRoundedIcon fontSize="small" />}
             iconPosition="start"
-            label="Following"
-            disabled={true}
+            label="Personal"
+            href={Routing.posts.personal}
           />
         </Tabs>
         <Divider />
         <PostsFilter />
-        <GlobalPostFeed />
+        {userFeed ? <UserPostFeed /> : <GlobalPostFeed />}
       </div>
       <div className="border-l border-gray-200 px-5 flex flex-col gap-y-5 sticky top-3 left-0 h-screen">
         <PopularTags />

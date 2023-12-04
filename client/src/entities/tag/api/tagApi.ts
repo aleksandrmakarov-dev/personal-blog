@@ -13,12 +13,14 @@ export const tagKeys = {
     create: () => [...tagKeys.tags.root, "create"],
     update: () => [...tagKeys.tags.root, "update"],
     delete: () => [...tagKeys.tags.root, "delete"],
+    follow: () => [...tagKeys.tags.root, "follow"],
+    unfollow: () => [...tagKeys.tags.root, "unfollow"],
   },
 };
 
 type UseTagsQuery = UseQueryOptions<
   PagedResponse<TagDTO>,
-  GenericErrorModelDTO,
+  AxiosError<GenericErrorModelDTO>,
   PagedResponse<TagDTO>,
   unknown[]
 >;

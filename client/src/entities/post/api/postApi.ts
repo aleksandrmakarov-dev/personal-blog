@@ -6,12 +6,12 @@ import { AxiosError } from "axios";
 export type QueryFilter = {
   orderBy?: string;
   query?: string;
-  tag?: string;
 };
 
 export type GlobalFeedQuery = {
   page: number;
   limit: number;
+  tag?: string;
 } & QueryFilter;
 
 export type UserFeedQuery = {
@@ -90,6 +90,33 @@ export const useGlobalFeed = (
     queryKey: postKeys.posts.globalFeed.query(params),
     queryFn: async () => {
       return await postService.getPosts(params);
+    },
+    ...options,
+  });
+};
+
+type UseUserFeedQuery = UseQueryOptions<
+  PagedResponse<PostCardDTO>,
+  AxiosError<GenericErrorModelDTO>,
+  PagedResponse<PostCardDTO>,
+  unknown[]
+>;
+
+type UseUserFeedOptions = Omit<UseUserFeedQuery, "queryKey" | "queryFn">;
+
+export const useUserFeed = (
+  params: UserFeedQuery,
+  options?: UseUserFeedOptions
+) => {
+  const userParams = {
+    ...params,
+    feed: "user",
+  };
+
+  return useQuery({
+    queryKey: postKeys.posts.userFeed.query(userParams),
+    queryFn: async () => {
+      return await postService.getPosts(userParams);
     },
     ...options,
   });

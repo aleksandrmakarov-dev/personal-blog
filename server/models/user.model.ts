@@ -15,7 +15,8 @@ export interface IUser {
   slug: string;
   role: string;
   posts: mongoose.Types.ObjectId[];
-  likedPosts: mongoose.Types.ObjectId[];
+  favoritePosts: mongoose.Types.ObjectId[];
+  followingTags: mongoose.Types.ObjectId[];
   accounts: mongoose.Types.ObjectId[];
 }
 
@@ -30,6 +31,12 @@ interface IUserAccount {
 // user instance methods
 interface IUserMethods {
   toUserAccount: () => IUserAccount;
+  addFavoritePost: (postId: mongoose.Types.ObjectId) => Promise<void>;
+  removeFavoritePost: (postId: mongoose.Types.ObjectId) => Promise<void>;
+  addFollowingTag: (tagId: mongoose.Types.ObjectId) => Promise<void>;
+  removeFollowingTag: (tagId: mongoose.Types.ObjectId) => Promise<void>;
+  addPost: (postId: mongoose.Types.ObjectId) => Promise<void>;
+  removePost: (postId: mongoose.Types.ObjectId) => Promise<void>;
 }
 
 // user static methods
@@ -64,10 +71,16 @@ const UserSchema = new Schema<IUser, IUserModel, IUserMethods>({
       ref: "Post",
     },
   ],
-  likedPosts: [
+  favoritePosts: [
     {
       type: Schema.Types.ObjectId,
       ref: "Post",
+    },
+  ],
+  followingTags: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Tag",
     },
   ],
   accounts: [
@@ -91,6 +104,57 @@ UserSchema.method("toUserAccount", function () {
 
   return userAccout;
 });
+
+UserSchema.method(
+  "addFavoritePost",
+  async function (postId: mongoose.Types.ObjectId) {
+    if (!this.favoritePosts?.includes(postId)) {
+      await this.updateOne({ $push: { favoritePosts: postId } });
+    }
+  }
+);
+
+UserSchema.method(
+  "removeFavoritePost",
+  async function (postId: mongoose.Types.ObjectId) {
+    if (this.favoritePosts?.includes(postId)) {
+      await this.updateOne({ $pull: { favoritePosts: postId } });
+    }
+  }
+);
+
+UserSchema.method(
+  "addFollowingTag",
+  async function (tagId: mongoose.Types.ObjectId) {
+    if (!this.followingTags?.includes(tagId)) {
+      await this.updateOne({ $push: { followingTags: tagId } });
+    }
+  }
+);
+
+UserSchema.method(
+  "removeFollowingTag",
+  async function (tagId: mongoose.Types.ObjectId) {
+    if (this.followingTags?.includes(tagId)) {
+      await this.updateOne({ $pull: { followingTags: tagId } });
+    }
+  }
+);
+
+UserSchema.method("addPost", async function (postId: mongoose.Types.ObjectId) {
+  if (!this.posts?.includes(postId)) {
+    await this.updateOne({ $push: { posts: postId } });
+  }
+});
+
+UserSchema.method(
+  "removePost",
+  async function (postId: mongoose.Types.ObjectId) {
+    if (this.posts?.includes(postId)) {
+      await this.updateOne({ $pull: { posts: postId } });
+    }
+  }
+);
 
 // statics
 UserSchema.static("findByEmail", async function (email: string) {

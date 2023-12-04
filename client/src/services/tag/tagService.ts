@@ -6,6 +6,7 @@ export interface TagDTO {
   name: string;
   slug: string;
   postsCount: number;
+  followersCount: number;
   isFollowing: boolean;
 }
 
@@ -40,8 +41,20 @@ async function getTagBySlug(slug: string): Promise<TagDTO> {
   return response.data;
 }
 
+async function followById(id: string): Promise<null> {
+  const response = await axios.put<null>(`${baseUrl}/follow/id/${id}`);
+  return response.data;
+}
+
+async function unfollowById(id: string): Promise<null> {
+  const response = await axios.delete<null>(`${baseUrl}/follow/id/${id}`);
+  return response.data;
+}
+
 export default {
   getTags,
   createTag,
   getTagBySlug,
+  followById,
+  unfollowById,
 };

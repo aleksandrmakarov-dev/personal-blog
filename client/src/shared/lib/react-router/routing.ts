@@ -2,7 +2,8 @@ export const Routing = {
   root: "/",
   posts: {
     root: "/posts",
-    index: "/posts",
+    index: "/posts/global",
+    personal: "/posts/personal",
     slug: (slug: string) => `/posts/${slug}`,
     edit: (slug: string) => `/posts/${slug}/edit`,
     new: "/posts/new",

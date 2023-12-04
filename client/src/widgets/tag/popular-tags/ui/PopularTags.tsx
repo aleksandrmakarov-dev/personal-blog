@@ -1,9 +1,9 @@
 import { useTags } from "@/entities/tag";
 import { Routing } from "@/shared/lib";
-import { Chip } from "@mui/material";
+import { Alert, AlertTitle, Chip } from "@mui/material";
 
 export function PopularTags() {
-  const { data, isLoading, isError } = useTags({
+  const { data, isLoading, isError, error } = useTags({
     page: 1,
     limit: 8,
     orderBy: "popular",
@@ -11,7 +11,13 @@ export function PopularTags() {
 
   if (isLoading) return <p>Loading...</p>;
 
-  if (isError) return <p>Error</p>;
+  if (isError)
+    return (
+      <Alert severity="error">
+        <AlertTitle>Error loading popular tags</AlertTitle>
+        {error.response?.data.message}
+      </Alert>
+    );
 
   return (
     <div>
