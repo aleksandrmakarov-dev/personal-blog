@@ -27,7 +27,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev"));
 app.use(
   cors({
-    origin: appConfig.default.allowedOrigins,
+    origin: true,
     credentials: true,
     preflightContinue: true,
   })
