@@ -12,7 +12,6 @@ import userRoutes from "../routes/user.routes";
 import fileRoutes from "../routes/file.routes";
 import { cloudinaryConfigure } from "../config/app.config";
 import dotenv from "dotenv";
-import path from "path";
 
 dotenv.config();
 
@@ -33,10 +32,10 @@ app.use("/api/tags", tagRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/files", fileRoutes);
 
-app.use(express.static(path.join(__dirname, "../../../client/dist")));
-app.get("*", (_req, res) =>
-  res.sendFile(path.join(__dirname, "../../../client/dist/index.html"))
-);
+// app.use(express.static(path.join(__dirname, "../../../client/dist")));
+// app.get("*", (_req, res) =>
+//   res.sendFile(path.join(__dirname, "../../../client/dist/index.html"))
+// );
 
 app.use(errorHandleMiddleware);
 

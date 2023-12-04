@@ -16,7 +16,6 @@ const user_routes_1 = __importDefault(require("../routes/user.routes"));
 const file_routes_1 = __importDefault(require("../routes/file.routes"));
 const app_config_1 = require("../config/app.config");
 const dotenv_1 = __importDefault(require("dotenv"));
-const path_1 = __importDefault(require("path"));
 dotenv_1.default.config();
 (0, app_config_1.cloudinaryConfigure)();
 const app = (0, express_1.default)();
@@ -30,8 +29,6 @@ app.use("/api/posts", post_routes_1.default);
 app.use("/api/tags", tag_routes_1.default);
 app.use("/api/users", user_routes_1.default);
 app.use("/api/files", file_routes_1.default);
-app.use(express_1.default.static(path_1.default.join(__dirname, "../../../client/dist")));
-app.get("*", (_req, res) => res.sendFile(path_1.default.join(__dirname, "../../../client/dist/index.html")));
 app.use(error_handle_middleware_1.default);
 exports.default = app;
 //# sourceMappingURL=index.js.map
