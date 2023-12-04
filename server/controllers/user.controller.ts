@@ -163,8 +163,14 @@ async function refreshToken(req: Request, res: Response) {
 }
 
 async function signOut(_req: Request, res: Response) {
-  res.clearCookie(appConfig.refreshToken.cookie.name);
-  res.clearCookie(appConfig.accessToken.cookie.name);
+  res.clearCookie(appConfig.refreshToken.cookie.name, {
+    sameSite: "none",
+    secure: true,
+  });
+  res.clearCookie(appConfig.accessToken.cookie.name, {
+    sameSite: "none",
+    secure: true,
+  });
 
   return Message(res, "Signed out", "Signed out successfully", 200);
 }
