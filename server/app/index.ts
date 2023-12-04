@@ -34,9 +34,9 @@ app.use("/api/users", userRoutes);
 app.use("/api/files", fileRoutes);
 //app.use("/", (_req, res) => res.send("Hello World!"));
 
-app.use(express.static(path.join(__dirname, "/public")));
+app.use(express.static(path.join(__dirname, "./public")));
 app.get("*", (_req, res) =>
-  res.sendFile(path.join(__dirname, "/public", "index.html"))
+  res.sendFile(path.join(__dirname, "./public", "index.html"))
 );
 
 app.use(errorHandleMiddleware);
