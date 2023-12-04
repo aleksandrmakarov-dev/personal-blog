@@ -29,7 +29,11 @@ export function UnfollowTag(props: UnfollowTagProps) {
 
           queryClient.setQueryData<TagDTO>(queryKey, (prev) => {
             if (!prev) return prev;
-            return { ...prev, isFollowing: false };
+            return {
+              ...prev,
+              isFollowing: false,
+              followersCount: prev.followersCount - 1,
+            };
           });
         },
         onError: (error) => {

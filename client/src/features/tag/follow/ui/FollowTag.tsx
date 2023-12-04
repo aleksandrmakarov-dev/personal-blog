@@ -29,7 +29,11 @@ export function FollowTag(props: FollowTagProps) {
 
           queryClient.setQueryData<TagDTO>(queryKey, (prev) => {
             if (!prev) return prev;
-            return { ...prev, isFollowing: true };
+            return {
+              ...prev,
+              isFollowing: true,
+              followersCount: prev.followersCount + 1,
+            };
           });
         },
         onError: (error) => {
