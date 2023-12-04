@@ -10,3 +10,5 @@ mongoose.connection.once("open", () => {
     console.log(`Located at: http://localhost:${port}`);
   });
 });
+
+module.exports = app;
