@@ -17,6 +17,7 @@ async function upload(req: Request, res: Response) {
   const uploadStream = await cloudinary.v2.uploader.upload_stream(
     {
       folder: appConfig.upload.path.cloud,
+      type: "upload",
     },
     (error, uploadedFile) => {
       if (error) {
@@ -37,13 +38,6 @@ async function upload(req: Request, res: Response) {
       return Ok(res, fileDTO);
     }
   );
-  // const uploadedFile = await cloudinary.v2.uploader.upload(
-  //   appConfig.upload.path.local(file.filename),
-  //   {
-  //     folder: appConfig.upload.path.cloud,
-  //     type: "upload",
-  //   }
-  // );
 
   fileStream.pipe(uploadStream);
 }

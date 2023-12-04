@@ -16,6 +16,7 @@ async function upload(req, res) {
     const fileStream = streamifier_1.default.createReadStream(file.buffer);
     const uploadStream = await cloudinary_1.default.v2.uploader.upload_stream({
         folder: app_config_1.default.upload.path.cloud,
+        type: "upload",
     }, (error, uploadedFile) => {
         if (error) {
             throw new api_errors_1.FileUploadError(error.message);

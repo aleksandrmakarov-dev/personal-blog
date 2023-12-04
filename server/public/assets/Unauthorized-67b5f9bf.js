@@ -1,0 +1,1 @@
+import{j as e}from"./index-108ef3d0.js";import{E as o}from"./ErrorBase-a4c50041.js";function s(){return e.jsx(o,{header:"Hold up!",title:"401 - Unathorized",subtitle:"You don't have enough permissions"})}export{s as default};

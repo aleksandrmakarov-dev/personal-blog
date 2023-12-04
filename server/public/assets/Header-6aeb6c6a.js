@@ -1,0 +1,1 @@
+import{j as t}from"./index-108ef3d0.js";const s=e=>t.jsxs("div",{className:"flex items-start gap-2 w-full justify-between",children:[t.jsx("h1",{className:"text-4xl font-bold text-foreground-primary mb-8",children:e.value}),e.action]}),a=s;export{a as H};
