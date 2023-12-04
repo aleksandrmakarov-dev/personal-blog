@@ -30,9 +30,8 @@ app.use("/api/posts", post_routes_1.default);
 app.use("/api/tags", tag_routes_1.default);
 app.use("/api/users", user_routes_1.default);
 app.use("/api/files", file_routes_1.default);
-app.use("/", (_req, res) => res.send("Hello World!"));
-app.use(express_1.default.static(path_1.default.join(__dirname, "/public")));
-app.get("*", (_req, res) => res.sendFile(path_1.default.join(__dirname, "index.html")));
+app.use(express_1.default.static(path_1.default.join(__dirname, "../../public")));
+app.get("*", (_req, res) => res.sendFile(path_1.default.join(__dirname, "../../public", "index.html")));
 app.use(error_handle_middleware_1.default);
 exports.default = app;
 //# sourceMappingURL=index.js.map
