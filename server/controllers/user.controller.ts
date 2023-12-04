@@ -100,13 +100,13 @@ async function signInWithPassword(req: Request, res: Response) {
 
   res.cookie(appConfig.refreshToken.cookie.name, refreshToken, {
     httpOnly: true,
-    sameSite: "strict",
+    sameSite: "none",
     expires: refreshTokenExpires,
   });
 
   res.cookie(appConfig.accessToken.cookie.name, accessToken, {
     httpOnly: true,
-    sameSite: "strict",
+    sameSite: "none",
     expires: appConfig.accessToken.expires(),
   });
 
