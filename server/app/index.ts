@@ -9,7 +9,7 @@ import postRoutes from "../routes/post.routes";
 import tagRoutes from "../routes/tag.routes";
 import errorHandleMiddleware from "../middleware/error-handle.middleware";
 import userRoutes from "../routes/user.routes";
-//import fileRoutes from "../routes/file.routes";
+import fileRoutes from "../routes/file.routes";
 import { cloudinaryConfigure } from "../config/app.config";
 import dotenv from "dotenv";
 
@@ -30,7 +30,7 @@ app.use(cookieParser());
 app.use("/api/posts", postRoutes);
 app.use("/api/tags", tagRoutes);
 app.use("/api/users", userRoutes);
-//app.use("/api/files", fileRoutes);
+app.use("/api/files", fileRoutes);
 app.use("/", (_req, res) => res.send("Hello World!"));
 
 // app.use(express.static(path.join(__dirname, "../../../client/dist")));
