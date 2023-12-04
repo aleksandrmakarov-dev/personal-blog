@@ -32,18 +32,10 @@ app.use("/api/posts", postRoutes);
 app.use("/api/tags", tagRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/files", fileRoutes);
-app.use("/", (_req, res) => {
-  const getDirectories = source =>
-  readdirSync(source, { withFileTypes: true })
-    .filter(dirent => dirent.isDirectory())
-    .map(dirent => dirent.name);
-  return res.status(200).json(JSON.stringify(getDirectories));
-});
+app.use("/", (_req, res) => res.send("Server is working!"));
 
-app.use(express.static(path.join(__dirname, "/public")));
-app.get("*", (_req, res) =>
-  res.sendFile(path.join(__dirname, "/public", "index.html"))
-);
+// app.use(express.static(path.join(__dirname, "public")));
+// app.get("*", (_req, res) => res.sendFile(path.join(__dirname, "index.html")));
 
 app.use(errorHandleMiddleware);
 
