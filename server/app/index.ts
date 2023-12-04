@@ -25,7 +25,13 @@ connectToDb();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev"));
-app.use(cors({ credentials: true, origin: appConfig.default.allowedOrigins }));
+app.use(
+  cors({
+    origin: appConfig.default.allowedOrigins,
+    credentials: true,
+    preflightContinue: true,
+  })
+);
 app.use(cookieParser());
 
 app.use("/api/posts", postRoutes);
