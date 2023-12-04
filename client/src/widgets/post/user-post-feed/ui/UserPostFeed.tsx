@@ -22,9 +22,12 @@ export function UserPostFeed() {
         posts={data?.items}
         renderPost={(post) => <PostCard key={post.id} post={post} />}
       />
-      {data && data.meta && data.meta.pagesCount > 1 && (
-        <RouterPagination className="mt-2.5" {...data.meta} />
-      )}
+      {data &&
+        data.meta &&
+        data.meta.pagesCount > 1 &&
+        data.meta.itemsCount > 0 && (
+          <RouterPagination className="mt-2.5" {...data.meta} />
+        )}
     </>
   );
 }

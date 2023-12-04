@@ -1,7 +1,7 @@
 import { GenericResponseModelDTO } from "@/shared/lib/types";
 import axios from "axios";
 
-const baseUrl = "/api/users";
+const baseUrl = `${import.meta.env.VITE_API_URL}/api/users`;
 
 export interface UserProfileDTO {
   id: string;

@@ -17,7 +17,7 @@ interface GetTagsParams {
   query?: string;
 }
 
-const baseUrl = "/api/tags";
+const baseUrl = `${import.meta.env.VITE_API_URL}/api/tags`;
 
 async function getTags(params: GetTagsParams): Promise<PagedResponse<TagDTO>> {
   const response = await axios.get<PagedResponse<TagDTO>>(baseUrl, {

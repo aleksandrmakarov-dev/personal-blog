@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseUrl = "/api/files";
+const baseUrl = `${import.meta.env.VITE_API_URL}/api/files`;
 
 export interface FileDTO {
   name: string;
