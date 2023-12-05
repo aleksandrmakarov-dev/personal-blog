@@ -98,19 +98,17 @@ async function signInWithPassword(req: Request, res: Response) {
     role: foundUser.role,
   });
 
-  res.cookie(appConfig.refreshToken.cookie.name, refreshToken, {
-    httpOnly: true,
-    sameSite: "none",
-    secure: true,
-    expires: refreshTokenExpires,
-  });
+  res.cookie(
+    appConfig.refreshToken.cookie.name,
+    refreshToken,
+    appConfig.default.cookieOptions(appConfig.refreshToken.expires())
+  );
 
-  res.cookie(appConfig.accessToken.cookie.name, accessToken, {
-    httpOnly: true,
-    sameSite: "none",
-    secure: true,
-    expires: appConfig.accessToken.expires(),
-  });
+  res.cookie(
+    appConfig.accessToken.cookie.name,
+    accessToken,
+    appConfig.default.cookieOptions(appConfig.accessToken.expires())
+  );
 
   const userAccount = foundUser.toUserAccount();
   return Ok(res, userAccount);
@@ -151,12 +149,11 @@ async function refreshToken(req: Request, res: Response) {
     role: foundUser.role,
   });
 
-  res.cookie(appConfig.accessToken.cookie.name, accessToken, {
-    httpOnly: true,
-    sameSite: "none",
-    secure: true,
-    expires: new Date(Date.now() + 15 * 60 * 1000),
-  });
+  res.cookie(
+    appConfig.accessToken.cookie.name,
+    accessToken,
+    appConfig.default.cookieOptions(appConfig.accessToken.expires())
+  );
 
   const userAccount = foundUser.toUserAccount();
 
@@ -164,14 +161,14 @@ async function refreshToken(req: Request, res: Response) {
 }
 
 async function signOut(_req: Request, res: Response) {
-  res.clearCookie(appConfig.refreshToken.cookie.name, {
-    sameSite: "none",
-    secure: true,
-  });
-  res.clearCookie(appConfig.accessToken.cookie.name, {
-    sameSite: "none",
-    secure: true,
-  });
+  res.clearCookie(
+    appConfig.refreshToken.cookie.name,
+    appConfig.default.cookieOptions(new Date())
+  );
+  res.clearCookie(
+    appConfig.accessToken.cookie.name,
+    appConfig.default.cookieOptions(new Date())
+  );
 
   return Message(res, "Signed out", "Signed out successfully", 200);
 }

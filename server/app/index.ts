@@ -10,9 +10,8 @@ import tagRoutes from "../routes/tag.routes";
 import errorHandleMiddleware from "../middleware/error-handle.middleware";
 import userRoutes from "../routes/user.routes";
 import fileRoutes from "../routes/file.routes";
-import appConfig, { cloudinaryConfigure } from "../config/app.config";
+import { cloudinaryConfigure } from "../config/app.config";
 import dotenv from "dotenv";
-import path from "path";
 
 dotenv.config();
 
