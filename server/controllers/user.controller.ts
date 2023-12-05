@@ -153,7 +153,8 @@ async function refreshToken(req: Request, res: Response) {
 
   res.cookie(appConfig.accessToken.cookie.name, accessToken, {
     httpOnly: true,
-    sameSite: "strict",
+    sameSite: "none",
+    secure: true,
     expires: new Date(Date.now() + 15 * 60 * 1000),
   });
 
