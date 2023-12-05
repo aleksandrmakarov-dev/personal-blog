@@ -20,7 +20,7 @@ function generateToken() {
 }
 function generateAccessToken(payload) {
     return jsonwebtoken_1.default.sign(payload, app_config_1.default.accessToken.secretKey, {
-        expiresIn: app_config_1.default.accessToken.expirationTime,
+        expiresIn: app_config_1.default.accessToken.ttl,
     });
 }
 function verifyAccessToken(token) {

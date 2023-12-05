@@ -63,16 +63,8 @@ async function signInWithPassword(req, res) {
         id: foundUser._id.toString(),
         role: foundUser.role,
     });
-    res.cookie(app_config_1.default.refreshToken.cookie.name, refreshToken, {
-        httpOnly: true,
-        sameSite: "strict",
-        expires: refreshTokenExpires,
-    });
-    res.cookie(app_config_1.default.accessToken.cookie.name, accessToken, {
-        httpOnly: true,
-        sameSite: "strict",
-        expires: app_config_1.default.accessToken.expires(),
-    });
+    res.cookie(app_config_1.default.refreshToken.cookie.name, refreshToken, app_config_1.default.default.cookieOptions(app_config_1.default.refreshToken.expires()));
+    res.cookie(app_config_1.default.accessToken.cookie.name, accessToken, app_config_1.default.default.cookieOptions(app_config_1.default.accessToken.expires()));
     const userAccount = foundUser.toUserAccount();
     return (0, express_utils_1.Ok)(res, userAccount);
 }
@@ -102,17 +94,13 @@ async function refreshToken(req, res) {
         id: foundUser._id.toString(),
         role: foundUser.role,
     });
-    res.cookie(app_config_1.default.accessToken.cookie.name, accessToken, {
-        httpOnly: true,
-        sameSite: "strict",
-        expires: new Date(Date.now() + 15 * 60 * 1000),
-    });
+    res.cookie(app_config_1.default.accessToken.cookie.name, accessToken, app_config_1.default.default.cookieOptions(app_config_1.default.accessToken.expires()));
     const userAccount = foundUser.toUserAccount();
     return (0, express_utils_1.Ok)(res, userAccount);
 }
 async function signOut(_req, res) {
-    res.clearCookie(app_config_1.default.refreshToken.cookie.name);
-    res.clearCookie(app_config_1.default.accessToken.cookie.name);
+    res.clearCookie(app_config_1.default.refreshToken.cookie.name, app_config_1.default.default.cookieOptions(new Date()));
+    res.clearCookie(app_config_1.default.accessToken.cookie.name, app_config_1.default.default.cookieOptions(new Date()));
     return (0, express_utils_1.Message)(res, "Signed out", "Signed out successfully", 200);
 }
 exports.default = {

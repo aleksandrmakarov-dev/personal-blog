@@ -2,6 +2,7 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
+var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.cloudinaryConfigure = void 0;
 const cloudinary_1 = __importDefault(require("cloudinary"));
@@ -28,7 +29,7 @@ if (!process.env.CLOUDINARY_CLOUD_NAME) {
 if (!process.env.LOCAL_ROOT) {
     throw new Error("Missing LOCAL_ROOT");
 }
-if (!process.env.DEFAULT_ADMIN_EMAIL) {
+if (!process.env.DEFAULT_ADMIN_EMAILS) {
     throw new Error("Missing DEFAULT_ADMIN_EMAIL");
 }
 if (!process.env.MONGODB_URI) {
@@ -40,19 +41,26 @@ if (!process.env.TOKEN_SECRET) {
 if (!process.env.ALLOWED_ORIGINS) {
     throw new Error("Missing ALLOWED_ORIGINS");
 }
+if (!process.env.REFRESH_TOKEN_TTL) {
+    throw new Error("Missing REFRESH_TOKEN_TTL");
+}
+if (!process.env.ACCESS_TOKEN_TTL) {
+    throw new Error("Missing ACCESS_TOKEN_TTL");
+}
 const config = {
     refreshToken: {
         cookie: {
             name: process.env.COOKIE_NAME_REFRESH_TOKEN,
         },
-        expires: () => new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+        ttl: Number(process.env.REFRESH_TOKEN_TTL) * 60 * 1000,
+        expires: () => new Date(Date.now() + config.refreshToken.ttl),
     },
     accessToken: {
         cookie: {
             name: process.env.COOKIE_NAME_ACCESS_TOKEN,
         },
-        expires: () => new Date(Date.now() + 15 * 60 * 1000),
-        expirationTime: 15 * 60 * 1000,
+        ttl: Number(process.env.ACCESS_TOKEN_TTL) * 60 * 1000,
+        expires: () => new Date(Date.now() + config.accessToken.ttl),
         secretKey: process.env.TOKEN_SECRET,
     },
     upload: {
@@ -63,9 +71,15 @@ const config = {
     },
     default: {
         admin: {
-            emails: [process.env.DEFAULT_ADMIN_EMAIL],
+            emails: (_a = process.env.DEFAULT_ADMIN_EMAILS) === null || _a === void 0 ? void 0 : _a.split(","),
         },
         allowedOrigins: process.env.ALLOWED_ORIGINS.split(","),
+        cookieOptions: (expires) => ({
+            httpOnly: true,
+            sameSite: "none",
+            secure: true,
+            expires: expires,
+        }),
     },
     database: {
         uri: process.env.MONGODB_URI,

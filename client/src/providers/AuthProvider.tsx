@@ -35,7 +35,8 @@ export const useAuth = () => {
 export default function AuthProvider(props: PropsWithChildren<{}>) {
   const { children } = props;
 
-  const timeInterval = 1000 * 60 * 10;
+  const timeInterval =
+    Number(import.meta.env.VITE_ACCESS_TOKEN_TTL) * 60 * 1000;
 
   const [currentUser, setCurrentUser] = useState<UserAccountDTO>();
   const [isLoading, setIsLoading] = useState(true);
@@ -48,9 +49,9 @@ export default function AuthProvider(props: PropsWithChildren<{}>) {
     try {
       const data = await mutateAsync({});
       setCurrentUser(data);
+      console.log("refreshed user", data);
     } catch (error) {
-      // Handle error if needed
-      console.error(error);
+      console.error("failed to refresh token:", error);
       clearUser();
     } finally {
       setIsLoading(false);

@@ -47,19 +47,28 @@ if (!process.env.ALLOWED_ORIGINS) {
   throw new Error("Missing ALLOWED_ORIGINS");
 }
 
+if (!process.env.REFRESH_TOKEN_TTL) {
+  throw new Error("Missing REFRESH_TOKEN_TTL");
+}
+
+if (!process.env.ACCESS_TOKEN_TTL) {
+  throw new Error("Missing ACCESS_TOKEN_TTL");
+}
+
 const config = {
   refreshToken: {
     cookie: {
       name: process.env.COOKIE_NAME_REFRESH_TOKEN,
     },
-    expires: () => new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days
+    ttl: Number(process.env.REFRESH_TOKEN_TTL) * 60 * 1000,
+    expires: () => new Date(Date.now() + config.refreshToken.ttl),
   },
   accessToken: {
     cookie: {
       name: process.env.COOKIE_NAME_ACCESS_TOKEN,
     },
-    expires: () => new Date(Date.now() + 15 * 60 * 1000), // 15 minutes
-    expirationTime: 15 * 60 * 1000, // 15 minutes
+    ttl: Number(process.env.ACCESS_TOKEN_TTL) * 60 * 1000,
+    expires: () => new Date(Date.now() + config.accessToken.ttl),
     secretKey: process.env.TOKEN_SECRET,
   },
   upload: {

@@ -23,7 +23,7 @@ function generateToken() {
 
 function generateAccessToken(payload: JWTPayload) {
   return jsonwebtoken.sign(payload, appConfig.accessToken.secretKey, {
-    expiresIn: appConfig.accessToken.expirationTime,
+    expiresIn: appConfig.accessToken.ttl,
   });
 }
 
