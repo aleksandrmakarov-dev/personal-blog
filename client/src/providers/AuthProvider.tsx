@@ -49,7 +49,6 @@ export default function AuthProvider(props: PropsWithChildren<{}>) {
     try {
       const data = await mutateAsync({});
       setCurrentUser(data);
-      console.log("refreshed user", data);
     } catch (error) {
       console.error("failed to refresh token:", error);
       clearUser();
