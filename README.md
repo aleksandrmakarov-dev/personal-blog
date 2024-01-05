@@ -1,5 +1,5 @@
 # Personal website with a blog
-Welcome to the repository for [Your Blog's Name]—a dynamic and engaging personal blog implemented with React, Express.js, and powered by MongoDB. This blog is more than just a digital space; it's a curated intersection of technology, creativity, and personal narratives. Dive into the codebase, explore the features, and embark on a journey where storytelling meets cutting-edge web development.
+Welcome to the repository - a dynamic and engaging personal blog implemented with React, Express.js, and powered by MongoDB. This blog is more than just a digital space; it's a curated intersection of technology, creativity, and personal narratives. Dive into the codebase, explore the features, and embark on a journey where storytelling meets cutting-edge web development.
 
 ## Tech Stack:
 
